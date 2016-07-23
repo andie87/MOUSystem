@@ -26,6 +26,7 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
+  <link rel="stylesheet" href="<?php echo base_url('asset/bootstrap/css/kki.css')?>">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -356,6 +357,16 @@
         <li <?php if($menuaktif == "eksekutor"): ?>class="active" <?php endif;?>>
           <a href="<?php echo site_url('eksekutor');?>">
             <i class="fa fa-legal"></i> <span>Eksekutor</span>            
+          </a>
+        </li>
+		<li <?php if($menuaktif == "role"): ?>class="active" <?php endif;?>>
+          <a href="<?php echo site_url('role');?>">
+            <i class="fa fa-files-o"></i> <span>Role</span>
+          </a>
+        </li>
+        <li <?php if($menuaktif == "user"): ?>class="active" <?php endif;?>>
+          <a href="<?php echo site_url('user');?>">
+            <i class="fa fa-files-o"></i> <span>User</span>
           </a>
         </li>
         <li>
