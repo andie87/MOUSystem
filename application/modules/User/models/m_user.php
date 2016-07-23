@@ -38,9 +38,11 @@ class M_user extends CI_Model{
 		return 1;
 	}
 	
-	public function update_data($data){
+	public function update_data($data, $id_user){
 		
-		if ( ! $this->db->replace($this->table, $data)) {
+		$this->db->where('id_user', $id_user);
+		
+		if ( ! $this->db->update($this->table, $data)) {
         	return $this->db->error();
 		}
 		return 1;

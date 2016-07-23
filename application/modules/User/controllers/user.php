@@ -99,12 +99,14 @@ class User extends CI_Controller{
 		$arr = array( 'nama_user' => $nama_user, 
 						'user_login' => $user_login, 
 						'no_kontak' => $no_kontak, 
-						'email' => $email, 
-						'id_user' => $id_user );
+						'email' => $email );
+		
+		if(strlen($password) > 0){
+			$arr['password'] = sha1($password);
+		}
 		
 		
-		
-		$result = $this->m_user->update_data($arr);
+		$result = $this->m_user->update_data($arr, $id_user);
 
 		if($result == 1){
 			$this->session->set_flashdata('message', 'User berhasil diperbarui...');
