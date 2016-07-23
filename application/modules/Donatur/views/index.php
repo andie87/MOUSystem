@@ -50,7 +50,7 @@
                         <td><?php echo $donatur->nama_pic; ?></td>
                         <td>
                             <a href="<?php echo site_url('donatur/edit/'.$donatur->id_donatur);?>"><i class="fa fa-edit fa-lg"></i></a>
-                            <a href="#"><i class="fa fa-trash-o fa-lg"></i></a>    
+                            <a href="#" data-toggle="modal" data-nama="<?php echo $donatur->nama_donatur;?>" data-hapus="<?php echo $donatur->id_donatur;?>" data-target="#deleteModal"><i class="fa fa-trash-o fa-lg"></i></a>    
                         </td>
                     </tr>
                     <?php $i++; }?>
@@ -66,5 +66,28 @@
       <!-- /.row -->
     </section>
     <!-- /.content -->
-  </div>
+</div>
   <!-- /.content-wrapper -->
+
+<div class="modal fade modal-warning" id="deleteModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Perhatian!</h4>
+      </div>
+      <div class="modal-body">
+        <?php echo form_open('donatur/prosesDelete', array('method'=>'post'));?>
+        <p class="data-pesan">Anda yakin ingin menghapus</p>
+        <input type="hidden" name="id" class="data-id">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" data-dismiss="modal">Tidak</button>
+        <button type="submit" class="btn btn-danger">Yakin!</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
