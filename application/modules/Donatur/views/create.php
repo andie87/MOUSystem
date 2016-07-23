@@ -14,9 +14,17 @@
 
 	<div class="padding-md">
 	<div class="panel panel-default">
-		<div class="panel-heading">
-			<!-- Form tambah donatur -->
+		<?php 
+			if(validation_errors()!=null){
+		?>
+		<div class="panel-heading">				
+			<div class="alert alert-warning" role="alert">
+	          <button type="button" class="close" data-dismiss="alert">x</button>
+	          <h4>Peringatan</h4>
+	          <?php echo validation_errors();?>
+	        </div>
 		</div>
+		<?php } ?>
 		<div class="panel-body">
 			<?php echo form_open('donatur/prosesCreate', array('class'=>'form-horizontal','method'=>'post'));?>
 				<div class="form-group">

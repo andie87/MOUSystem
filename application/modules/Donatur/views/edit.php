@@ -14,11 +14,21 @@
 
 	<div class="padding-md">
 		<div class="panel panel-default">
-			<div class="panel-heading">
-				<!-- Form Edit Donatur -->
+			<?php 
+				if(validation_errors()!=null){
+			?>
+			<div class="panel-heading">				
+				<div class="alert alert-warning" role="alert">
+		          <button type="button" class="close" data-dismiss="alert">x</button>
+		          <h4>Peringatan</h4>
+		          <?php echo validation_errors();?>
+		        </div>
 			</div>
+			<?php } ?>
+			
 			<div class="panel-body">
-				<?php 
+				
+				<?php	
 					foreach ($donatur as $data) {
 						$id = $data->id_donatur;
 						$nama = $data->nama_donatur;

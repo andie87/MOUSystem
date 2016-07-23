@@ -26,5 +26,15 @@ class M_donatur extends CI_Model{
 		$query = $this->db->get($this->table);
 		return $query->result();
 	}
+
+	public function update_data($data, $id){
+		$this->db->where('id_donatur', $id);
+		$this->db->update($this->table,$data);
+	}
+
+	public function hapus_data($id){
+		$this->db->where('id_donatur', $id);
+		$this->db->delete($this->table);
+	}
 }
 ?>
