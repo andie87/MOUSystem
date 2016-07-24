@@ -2,8 +2,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Eksekutor Management
-        <small>edit eksekutor</small>
+      	Edit Eksekutor
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -26,46 +25,46 @@
 			</div>
 			<?php } ?>
 
+			<?php if(isset($message)){ ?> 
+		    	<div class="alert alert-danger">
+		    		<label><strong><?php echo $message; ?></strong></label>
+		    	</div>
+	    	<?php } ?>
+
 			<div class="panel-body">
 				
 				<?php	
-					foreach ($eksekutor as $data) {
-						$id = $data->id_eksekutor;
-						$nama = $data->nama_eksekutor;
-						$alamat = $data->alamat;
-						$kontak = $data->no_kontak;
-						$email = $data->email;
-						$pic = $data->nama_pic;
-					echo form_open('eksekutor/prosesEdit/'.$id, array('class'=>'form-horizontal','method'=>'post'));
+					echo form_open('eksekutor/prosesEdit/', array('class'=>'form-horizontal','method'=>'post'));
 				?>
 					<div class="form-group">
 						<label class="col-sm-2 control-label">Nama Eksekutor</label>
 						<div class="col-lg-5">
-							<input type="text" name="nama" class="form-control input-sm" value="<?php echo $nama;?>" placeholder="Nama Eksekutor">
+							<input type="hidden" name="id_eksekutor" value="<?php echo $eksekutor['id_eksekutor']; ?>">
+							<input type="text" name="nama" class="form-control input-sm" value="<?php echo $eksekutor['nama_eksekutor']; ?>" placeholder="Nama Eksekutor">
 						</div><!-- /.col -->
 					</div><!-- /form-group -->
 					<div class="form-group">
 						<label  class="col-md-2 control-label">Alamat</label>
 						<div class="col-lg-5">
-							<textarea class="form-control" name="alamat" rows="3"><?php echo $alamat;?></textarea>
+							<textarea class="form-control" name="alamat" rows="3"><?php echo $eksekutor['alamat']; ?></textarea>
 						</div><!-- /.col -->
 					</div><!-- /form-group -->
 					<div class="form-group">
 						<label  class="col-md-2 control-label">No Kontak</label>
 						<div class="col-lg-5">
-							<input type="text" name="kontak" class="form-control input-sm" value="<?php echo $kontak;?>" placeholder="Kontak">
+							<input type="text" name="kontak" class="form-control input-sm" value="<?php echo $eksekutor['no_kontak']; ?>" placeholder="Kontak">
 						</div><!-- /.col -->
 					</div><!-- /form-group -->
 					<div class="form-group">
 						<label  class="col-md-2 control-label">Email</label>
 						<div class="col-lg-5">
-							<input type="email" name="email" class="form-control input-sm" value="<?php echo $email;?>" placeholder="Email">
+							<input type="email" name="email" class="form-control input-sm" value="<?php echo $eksekutor['email']; ?>" placeholder="Email">
 						</div><!-- /.col -->
 					</div><!-- /form-group -->
 					<div class="form-group">
 						<label class="col-md-2 control-label">Nama PIC</label>
 						<div class="col-lg-5">
-							<input type="text" name="pic" class="form-control input-sm" value="<?php echo $pic;?>" placeholder="Nama PIC">
+							<input type="text" name="pic" class="form-control input-sm" value="<?php echo $eksekutor['nama_pic']; ?>" placeholder="Nama PIC">
 						</div><!-- /.col -->
 					</div><!-- /form-group -->
 					<div class="form-group">
@@ -73,7 +72,6 @@
 							<button type="submit" class="btn btn-success btn-sm">Simpan</button>
 						</div><!-- /.col -->
 					</div><!-- /form-group -->	
-				<?php } ?>		
 			</div>
 		</div>
 	</div>

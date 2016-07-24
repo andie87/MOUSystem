@@ -18,23 +18,34 @@ class M_eksekutor extends CI_Model{
 	}
 
 	public function input_data($data){
-		$this->db->insert($this->table,$data);
+		if ( ! $this->db->insert($this->table, $data)) {
+        	return $this->db->error();
+		}
+		return 1;
 	}
 
 	public function get_eksekutor_byID($id){
 		$this->db->where('id_eksekutor', $id);
 		$query = $this->db->get($this->table);
-		return $query->result();
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return null;
 	}
 
 	public function update_data($data, $id){
 		$this->db->where('id_eksekutor', $id);
-		$this->db->update($this->table,$data);
+		if ( ! $this->db->update($this->table, $data)) {
+        	return $this->db->error();
+		}
+		return 1;
 	}
 
-	public function hapus_data($id){
-		$this->db->where('id_eksekutor', $id);
-		$this->db->delete($this->table);
+	public function hapus_data($data){
+		if ( ! $this->db->delete($this->table, $data)) {
+        	return $this->db->error();
+		}
+		return 1;
 	}
 }
 ?>
