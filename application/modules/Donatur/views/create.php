@@ -2,8 +2,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Donatur Management
-        <small>tambah donatur</small>
+      	Tambah Donatur Baru
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -25,6 +24,12 @@
 	        </div>
 		</div>
 		<?php } ?>
+
+		<?php if(isset($message_failed)){ ?> 
+          <div class="alert alert-danger">
+            <label><strong><?php echo $message_failed; ?></strong></label>
+          </div>
+        <?php } ?>
 		<div class="panel-body">
 			<?php echo form_open('donatur/prosesCreate', array('class'=>'form-horizontal','method'=>'post'));?>
 				<div class="form-group">

@@ -2,12 +2,11 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        eksekutor Management
-        <small>tambah eksekutor</small>
+        Tambah Eksekutor Baru
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">eksekutor</a></li>
+        <li><a href="#">Eksekutor</a></li>
         <li class="active"><a href="#">Tambah eksekutor</a></li>
       </ol>
     </section>
@@ -25,6 +24,17 @@
 	        </div>
 		</div>
 		<?php } ?>
+		<?php if(isset($message)){ ?> 
+          <div class="callout callout-success">
+            <label><strong><?php echo $message; ?></strong></label>
+          </div>
+        <?php } ?>
+        
+        <?php if(isset($message_failed)){ ?> 
+          <div class="alert alert-danger">
+            <label><strong><?php echo $message_failed; ?></strong></label>
+          </div>
+        <?php } ?>
 		<div class="panel-body">
 			<?php echo form_open('eksekutor/prosesCreate', array('class'=>'form-horizontal','method'=>'post'));?>
 				<div class="form-group">

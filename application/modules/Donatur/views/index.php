@@ -16,6 +16,17 @@
       <div class="row">
         <div class="col-xs-12">
           <div class="box">
+            <?php if(isset($message)){ ?> 
+              <div class="callout callout-success">
+                <label><strong><?php echo $message; ?></strong></label>
+              </div>
+            <?php } ?>
+            
+            <?php if(isset($message_failed)){ ?> 
+              <div class="alert alert-danger">
+                <label><strong><?php echo $message_failed; ?></strong></label>
+              </div>
+            <?php } ?>
             <div class="box-header">
               <a class="btn btn-sm btn-success" href="<?php echo site_url('donatur/create'); ?>"><i class="fa fa-plus fa-lg"></i> Tambah Donatur</a>
               <span class="label label-info pull-right"><?php echo $donaturs->num_rows();?>  Donatur</span>
@@ -48,9 +59,12 @@
                         <td><?php echo $donatur->no_kontak; ?></td>
                         <td><?php echo $donatur->email; ?></td>
                         <td><?php echo $donatur->nama_pic; ?></td>
-                        <td>
-                            <a href="<?php echo site_url('donatur/edit/'.$donatur->id_donatur);?>"><i class="fa fa-edit fa-lg"></i></a>
-                            <a href="#" data-toggle="modal" data-nama="<?php echo $donatur->nama_donatur;?>" data-hapus="<?php echo $donatur->id_donatur;?>" data-target="#deleteModal"><i class="fa fa-trash-o fa-lg"></i></a>    
+                        <td class="width20 center-col">
+                          <a href="<?php echo site_url('donatur/edit/'.$donatur->id_donatur);?>"><i class="fa fa-pencil fa-lg"></i>edit</a>
+                          &nbsp;&nbsp;&nbsp;&nbsp; 
+                          <a href="<?php echo site_url('donatur/manage/'.$donatur->id_donatur);?>"><i class="fa fa-edit fa-lg"></i>manage</a>
+                          &nbsp;&nbsp;&nbsp;&nbsp;
+                          <a href="#" data-toggle="modal" data-nama="<?php echo $donatur->nama_donatur;?>" data-hapus="<?php echo $donatur->id_donatur;?>" data-target="#deleteModal"><i class="fa fa-trash-o fa-lg"></i>Delete</a>  
                         </td>
                     </tr>
                     <?php $i++; }?>
@@ -78,7 +92,7 @@
         <h4 class="modal-title">Perhatian!</h4>
       </div>
       <div class="modal-body">
-        <?php echo form_open('donatur/prosesDelete', array('method'=>'post'));?>
+        <?php echo form_open('donatur/delete', array('method'=>'post'));?>
         <p class="data-pesan">Anda yakin ingin menghapus</p>
         <input type="hidden" name="id" class="data-id">
       </div>

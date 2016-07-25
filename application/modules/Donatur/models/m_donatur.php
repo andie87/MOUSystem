@@ -18,23 +18,34 @@ class M_donatur extends CI_Model{
 	}
 
 	public function input_data($data){
-		$this->db->insert($this->table,$data);
+		if ( ! $this->db->insert($this->table, $data)) {
+        	return $this->db->error();
+		}
+		return 1;
 	}
 
 	public function get_donatur_byID($id){
 		$this->db->where('id_donatur', $id);
 		$query = $this->db->get($this->table);
-		return $query->result();
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return null;
 	}
 
 	public function update_data($data, $id){
 		$this->db->where('id_donatur', $id);
-		$this->db->update($this->table,$data);
+		if ( ! $this->db->update($this->table, $data)) {
+        	return $this->db->error();
+		}
+		return 1;
 	}
 
-	public function hapus_data($id){
-		$this->db->where('id_donatur', $id);
-		$this->db->delete($this->table);
+	public function hapus_data($data){
+		if ( ! $this->db->delete($this->table, $data)) {
+        	return $this->db->error();
+		}
+		return 1;
 	}
 }
 ?>
