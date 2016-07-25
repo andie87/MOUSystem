@@ -7,7 +7,6 @@ class User extends CI_Controller{
 
 	function __constract(){
 		parent::__constract();
-		$this->authenticate_user();
 	}
 
 	public function index(){
@@ -19,8 +18,6 @@ class User extends CI_Controller{
 		if(count($this->session->flashdata('message_failed')) > 0){
 			$data['message_failed'] = $this->session->flashdata('message_failed');
 		}
-		$msg = $this->session->flashdata('message');
-		$msg_failed = $this->session->flashdata('message_failed');
 		$data['users'] = $this->m_user->getAll();
 		$this->load->view('shared/header', $data);
 		$this->load->view('index', $data);
@@ -145,18 +142,15 @@ class User extends CI_Controller{
 	
 	private function page_view($page){
 		
-		$data['page'] = $page;
-		$data['menuaktif'] = "user";
-		return $data;
-	
-	}
-	
-	//fuction pengecekan autentikasi user
-	private function authenticate_user(){
 		//no user session, redirect to login page
 		if($this->session->userdata('userlogin')==""){
 			redirect(site_url().'/login');
 		}
+		
+		$data['page'] = $page;
+		$data['menuaktif'] = "user";
+		return $data;
+	
 	}
 	
 }
