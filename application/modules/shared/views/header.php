@@ -19,6 +19,8 @@
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="<?php echo base_url('asset/dist/css/skins/_all-skins.min.css')?>">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="<?php echo base_url('asset/plugins/datatables/dataTables.bootstrap.css')?>">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -368,6 +370,15 @@
           <a href="<?php echo site_url('user');?>">
             <i class="fa fa-files-o"></i> <span>User</span>
           </a>
+        </li>
+        <li class="treeview <?php if($menuaktif == "wilayah"): ?>active <?php endif;?>">
+          <a href="#">
+            <i class="fa fa-map-marker"></i> <span>Wilayah</span>            
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="<?php echo site_url('provinsi');?>"><i class="fa fa-circle-o"></i> Provinsi</a></li>
+            <li><a href="<?php echo site_url('kota');?>"><i class="fa fa-circle-o"></i> Kota / Kabupaten</a></li>
+          </ul>
         </li>
         <li>
           <a href="pages/widgets.html">
