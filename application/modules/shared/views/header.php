@@ -349,6 +349,11 @@
             <li><a href="pages/layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
           </ul>
         </li>
+        <li <?php if($menuaktif == "moudonatur"): ?>class="active" <?php endif;?>>
+          <a href="<?php echo site_url('moudonatur');?>">
+            <i class="fa fa-files-o"></i> <span>MoU Donatur</span>
+          </a>
+        </li>
         <li <?php if($menuaktif == "donatur"): ?>class="active" <?php endif;?>>
           <a href="<?php echo site_url('donatur');?>">
             <i class="fa fa-university"></i> <span>Donatur</span>            
