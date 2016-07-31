@@ -222,18 +222,50 @@
 <!--<script src="<?php //echo base_url('asset/dist/js/pages/dashboard2.js')?>"></script>-->
 <!-- AdminLTE for demo purposes -->
 <!--<script src="<?php //echo base_url('asset/dist/js/demo.js')?>"></script>-->
+<!-- DataTables -->
+<script src="<?php echo base_url('asset/plugins/datatables/jquery.dataTables.min.js')?>"></script>
+<script src="<?php echo base_url('asset/plugins/datatables/dataTables.bootstrap.min.js')?>"></script>
+<script src="<?php echo base_url('asset/dist/js/bootstrap-datepicker.js')?>"></script>
+<script src="<?php echo base_url('asset/dist/js/kki.js')?>"></script>
+<script src="<?php echo base_url('asset/dist/js/jquery.price_format_min.js')?>"></script>
 
-<script type="text/javascript">
-  $('#deleteModal').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget) // Button that triggered the modal
-    var del = button.data('hapus') // Extract info from data-* attributes
-    var nama = button.data('nama')
-    // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-    // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-    var modal = $(this)
-    modal.find('.data-pesan').text('Anda yakin ingin menghapus ' + nama)
-    modal.find('.data-id').val(del)
-  })
+<script>
+$(function () {
+
+    //Date picker
+    $('#datepickerMOU').datepicker({
+      autoclose: true,
+      format: 'dd/MM/yyyy'
+    });
+
+  	//Date picker 2
+    $('#datepickerPembangunan').datepicker({
+      autoclose: true,
+      format: 'dd/MM/yyyy'
+    });
+
+    $('#nilai_dirham').priceFormat({
+        prefix: '',
+        centsLimit: 0,
+        thousandsSeparator: '.'
+    });
+
+    $('#nilai_rupiah').priceFormat({
+        prefix: '',
+        centsLimit: 0,
+        thousandsSeparator: '.'
+    });
+    
+});
+  
+
+function isNumberKey(evt){
+    var charCode = (evt.which) ? evt.which : event.keyCode
+    if (charCode > 31 && (charCode != 46 &&(charCode < 48 || charCode > 57)))
+        return false;
+    return true;
+}
+
 </script>
 </body>
 </html>

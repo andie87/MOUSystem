@@ -9,7 +9,6 @@ class Eksekutor extends CI_Controller{
 
 	function __constract(){
 		parent::__constract();
-		$this->authenticate_user();
 	}
 
 	public function index(){
@@ -174,18 +173,14 @@ class Eksekutor extends CI_Controller{
 	}
 
 	private function page_view($page){
-		
-		$data['page'] = $page;
-		$data['menuaktif'] = "eksekutor";
-		return $data;	
-	}
-	
-	//fuction pengecekan autentikasi user
-	private function authenticate_user(){
+
 		//no user session, redirect to login page
 		if($this->session->userdata('userlogin')==""){
 			redirect(site_url().'/login');
 		}
+		$data['page'] = $page;
+		$data['menuaktif'] = "eksekutor";
+		return $data;	
 	}
 }
 ?>

@@ -1,7 +1,15 @@
 /* CSS yang di-define sendiri */
 
+.width5 {
+  width: 5%;
+}
+
 .width10 {
   width: 10%;
+}
+
+.width15 {
+  width: 15%;
 }
 
 .width20 {
@@ -44,3 +52,30 @@
 	text-align: center;	
 }
 
+.center{
+	text-align: center;	
+}
+
+input {
+	font-size: 13pt;
+}
+
+.font13{
+	font-size: 13px;
+}
+
+.bg-red{
+	background-color: red;	
+}
+
+.bg-green{
+	background-color: #0ae481;	
+}
+
+.bg-yellow{
+	background-color: yellow;	
+}
+
+.font-black{
+	color: black;	
+}
