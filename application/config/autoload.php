@@ -88,7 +88,7 @@ $autoload['drivers'] = array();
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('url', 'file', 'form');
+$autoload['helper'] = array('url', 'file', 'form', 'date');
 
 
 /*
@@ -137,4 +137,6 @@ $autoload['language'] = array();
 |	$autoload['model'] = array('first_model' => 'first');
 */
 
-$autoload['model'] = array('login/M_login','donatur/m_donatur','eksekutor/m_eksekutor', 'role/m_role', 'user/m_user', 'provinsi/m_provinsi', 'kota/m_kota', 'jenisproyek/m_jenisproyek');
+//$autoload['model'] = array('login/M_login','donatur/m_donatur','eksekutor/m_eksekutor', 'role/m_role', 'user/m_user', 'provinsi/m_provinsi', 'kota/m_kota');
+$autoload['model'] = array('login/M_login','donatur/m_donatur','eksekutor/m_eksekutor', 'provinsi/m_provinsi', 'kota/m_kota',
+							'role/m_role', 'user/m_user', 'moudonatur/m_moudonatur','jenisproyek/m_jenisproyek');

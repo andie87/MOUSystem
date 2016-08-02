@@ -28,6 +28,7 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
+    <link rel="stylesheet" href="<?php echo base_url('asset/bootstrap/css/datepicker3.css')?>">
   <link rel="stylesheet" href="<?php echo base_url('asset/bootstrap/css/kki.css')?>">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -350,6 +351,11 @@
             <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>
             <li><a href="pages/layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
           </ul>
+        </li>
+        <li <?php if($menuaktif == "moudonatur"): ?>class="active" <?php endif;?>>
+          <a href="<?php echo site_url('moudonatur');?>">
+            <i class="fa fa-files-o"></i> <span>MoU Donatur</span>
+          </a>
         </li>
         <li <?php if($menuaktif == "donatur"): ?>class="active" <?php endif;?>>
           <a href="<?php echo site_url('donatur');?>">
