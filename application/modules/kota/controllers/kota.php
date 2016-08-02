@@ -44,6 +44,7 @@ class Kota extends CI_Controller{
 	public function create(){
 		
 		$data = $this->page_view("Tambah kota");
+		$data['provinces'] = $this->m_provinsi->getAll();
 		$this->load->view('shared/header', $data);
 		$this->load->view('create', $data);
 		$this->load->view('shared/footer');
@@ -61,22 +62,24 @@ class Kota extends CI_Controller{
 		
 		$data = $this->page_view("List kota");
 		$id = $this->input->post('id');
-		$arr = array( 'id_kota' => $id );
+		$arr = array( 'id_kota_kab' => $id );
 		$result = $this->m_kota->delete_data($arr);
 		if($result == 1){
 			$this->session->set_flashdata('message', 'kota berhasil dihapus...');
 		} else {
 			$this->session->set_flashdata('message_failed', 'kota gagal dihapus!');
 		}
-  		redirect(site_url().'/kota/list/'.$id);
+  		redirect(site_url().'/kota');
 		
 	}
 
 	public function prosesCreate(){
 		
 		$data = $this->page_view("List kota");
+		$id_provinsi = $this->input->post('id_provinsi');
 		$nama_kota = $this->input->post('nama_kota');
-		$arr = array( 'nama_kota' => $nama_kota);
+		$arr = array( 'id_provinsi' => $id_provinsi,
+			'nama_kota_kab' => $nama_kota);
 		$result = $this->m_kota->input_data($arr);
 
 		if($result == 1){
@@ -84,6 +87,7 @@ class Kota extends CI_Controller{
 	  		redirect(site_url().'/kota');
 		} else {
 			$data = $this->page_view("Tambah kota");
+			$data['provinces'] = $this->m_provinsi->getAll();
 			$data['message'] = "kota baru gagal ditambahkan, silakan input kembali...";
 			$this->load->view('shared/header', $data);
 			$this->load->view('create', $data);
@@ -95,9 +99,11 @@ class Kota extends CI_Controller{
 	public function prosesUpdate(){
 		
 		$data = $this->page_view("List kota");
-		$nama_kota = $this->input->post('nama_kota');
-		$id_kota = $this->input->post('id_kota');
-		$arr = array( 'nama_kota' => $nama_kota);
+		$id_provinsi = $this->input->post('id_provinsi');
+		$nama_kota = $this->input->post('nama_kota_kab');
+		$id_kota = $this->input->post('id_kota_kab');
+		$arr = array( 'id_provinsi' => $id_provinsi,
+			'nama_kota_kab' => $nama_kota);
 		
 		$result = $this->m_kota->update_data($arr, $id_kota);
 
@@ -115,7 +121,8 @@ class Kota extends CI_Controller{
 	private function master_edit($id, $page_title, $message=null){
 		
 		$data = $this->page_view($page_title);
-		$data['message'] = $message;
+		$data['message'] = $message;		
+		$data['provinces'] = $this->m_provinsi->getAll();
 		$kotas = $this->m_kota->getkotaById($id);
 		if($kotas == null){
 			//jika ID bernilai null, besar kemungkinan kota melakukan direct hit url ke server
@@ -126,8 +133,8 @@ class Kota extends CI_Controller{
 					$data['kota'] = $r;
 				}
 			} else {
-				$data['kota']['nama_kota'] = "";
-				$data['kota']['id_kota'] = "";
+				$data['kota']['nama_kota_kab'] = "";
+				$data['kota']['id_kota_kab'] = "";
 			}
 		}
 		$this->load->view('shared/header', $data);
