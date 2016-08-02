@@ -380,6 +380,22 @@
             <li><a href="<?php echo site_url('kota');?>"><i class="fa fa-circle-o"></i> Kota / Kabupaten</a></li>
           </ul>
         </li>
+        <li class="treeview <?php if($menuaktif == "proyek"): ?>active <?php endif;?>">
+          <a href="#">
+            <i class="fa fa-map-marker"></i> <span>Proyek</span>            
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="<?php echo site_url('jenisproyek');?>"><i class="fa fa-circle-o"></i> Jenis Proyek</a></li>
+          </ul>
+        </li>
+        <li class="treeview <?php if($menuaktif == "dokumen"): ?>active <?php endif;?>">
+          <a href="#">
+            <i class="fa fa-map-marker"></i> <span>Dokumen</span>            
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="<?php echo site_url('dokumen/DocMOUEks');?>"><i class="fa fa-circle-o"></i> Dokumen MOU Eksekutor</a></li>
+          </ul>
+        </li>
         <li>
           <a href="pages/widgets.html">
             <i class="fa fa-th"></i> <span>Widgets</span>
