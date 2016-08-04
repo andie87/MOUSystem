@@ -1,0 +1,77 @@
+-- phpMyAdmin SQL Dump
+-- version 4.1.14
+-- http://www.phpmyadmin.net
+--
+-- Host: 127.0.0.1
+-- Generation Time: 26 Jul 2016 pada 17.59
+-- Versi Server: 5.6.17
+-- PHP Version: 5.5.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `kki`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `provinsi`
+--
+
+CREATE TABLE IF NOT EXISTS `provinsi` (
+  `id_provinsi` int(11) NOT NULL AUTO_INCREMENT,
+  `nama_provinsi` varchar(100) NOT NULL,
+  PRIMARY KEY (`id_provinsi`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=96 ;
+
+--
+-- Dumping data untuk tabel `provinsi`
+--
+
+INSERT INTO `provinsi` (`id_provinsi`, `nama_provinsi`) VALUES
+(1, 'ACEH'),
+(2, 'SUMATERA UTARA'),
+(3, 'SUMATERA BARAT'),
+(4, 'RIAU'),
+(5, 'JAMBI'),
+(6, 'SUMATERA SELATAN'),
+(7, 'BENGKULU'),
+(8, 'LAMPUNG'),
+(9, 'KEPULAUAN BANGKA BELITUNG'),
+(10, 'KEPULAUAN RIAU'),
+(11, 'DKI JAKARTA'),
+(12, 'JAWA BARAT'),
+(13, 'JAWA TENGAH'),
+(14, 'DI YOGYAKARTA'),
+(15, 'JAWA TIMUR'),
+(16, 'BANTEN'),
+(17, 'BALI'),
+(18, 'NUSA TENGGARA BARAT'),
+(19, 'NUSA TENGGARA TIMUR'),
+(20, 'KALIMANTAN BARAT'),
+(21, 'KALIMANTAN TENGAH'),
+(22, 'KALIMANTAN SELATAN'),
+(23, 'KALIMANTAN TIMUR'),
+(24, 'KALIMANTAN UTARA'),
+(25, 'SULAWESI UTARA'),
+(26, 'SULAWESI TENGAH'),
+(27, 'SULAWESI SELATAN'),
+(28, 'SULAWESI TENGGARA'),
+(29, 'GORONTALO'),
+(30, 'SULAWESI BARAT'),
+(31, 'MALUKU'),
+(32, 'MALUKU UTARA'),
+(33, 'PAPUA BARAT'),
+(34, 'PAPUA');
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
