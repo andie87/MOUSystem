@@ -357,6 +357,11 @@
             <i class="fa fa-files-o"></i> <span>MoU Donatur</span>
           </a>
         </li>
+        <li <?php if($menuaktif == "moueksekutor"): ?>class="active" <?php endif;?>>
+          <a href="<?php echo site_url('moueksekutor');?>">
+            <i class="fa fa-files-o"></i> <span>MoU Eksekutor</span>
+          </a>
+        </li>
         <li <?php if($menuaktif == "donatur"): ?>class="active" <?php endif;?>>
           <a href="<?php echo site_url('donatur');?>">
             <i class="fa fa-university"></i> <span>Donatur</span>            
