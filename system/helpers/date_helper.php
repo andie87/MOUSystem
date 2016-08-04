@@ -804,9 +804,12 @@ function getMysqlFormatDate($tanggal){
 
 function getUserFormatDate($tanggal){
 	
-	$t = explode("/", str_replace("-", "/", $tanggal));
-	return  $t[2]."/".getMonthName( intval($t[1]) )."/".$t[0];
-	
+	if(!empty($tanggal)){
+		$t = explode("/", str_replace("-", "/", $tanggal));
+		return  $t[2]."/".getMonthName( intval($t[1]) )."/".$t[0];
+	}else{
+		return "-";
+	}
 }
 
 function getMonthNumber($m){
