@@ -14,13 +14,20 @@ class M_moueksekutor extends CI_Model{
 
 	//get all data role
 	public function getAll(){
-		return $this->db->get($this->table);
+		//return $this->db->get($this->table);
+		$this->db->select('mou_eksekutor.*, mou_donatur.nomor_proyek as moudonatur_nomor_proyek');
+		$this->db->from($this->table);
+		$this->db->join('mou_donatur', 'mou_donatur.id_mou_donatur = mou_eksekutor.id_mou_donatur');
+		return $this->db->get();
 	}
 	
 	public function getMoueksekutorById($id){
 		
 		$this->db->where('id_mou_eksekutor', $id);
-		$query = $this->db->get($this->table);
+		$this->db->select('mou_eksekutor.*, mou_donatur.nomor_proyek as moudonatur_nomor_proyek');
+		$this->db->from($this->table);
+		$this->db->join('mou_donatur', 'mou_donatur.id_mou_donatur = mou_eksekutor.id_mou_donatur');
+		$query = $this->db->get();
 		
 		if($query->num_rows() > 0){
 			return $query->result_array();
@@ -63,6 +70,10 @@ class M_moueksekutor extends CI_Model{
 	
 	public function get_eksekutor(){
 		return $this->db->get("eksekutor");	
+	}
+
+	public function get_moudonatur(){
+		return $this->db->get("mou_donatur");
 	}
 
 	public function get_provinsi(){

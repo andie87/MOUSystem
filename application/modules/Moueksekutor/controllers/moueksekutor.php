@@ -41,6 +41,7 @@ class Moueksekutor extends CI_Controller{
 		
 		$data = $this->page_view("MoU Baru");
 		$data['eksekutors'] = $this->m_moueksekutor->get_eksekutor();
+		$data['moudonatur'] = $this->m_moueksekutor->get_moudonatur();
 		$data['provins'] = $this->m_moueksekutor->get_provinsi();
 		$data['proyeks'] = $this->m_moueksekutor->get_jenis_proyek();
 		$this->load->view('shared/header', $data);
@@ -83,31 +84,58 @@ class Moueksekutor extends CI_Controller{
 		
 		$data = $this->page_view("List MoU Eksekutor");
 		
-		$eksekutor = $this->input->post('eksekutor');
-		$no_proyek = $this->input->post('no_proyek');
+		$id_eksekutor = $this->input->post('id_eksekutor');
+		$id_mou_donatur = $this->input->post('id_mou_donatur');
+		$tanggal_mou = getMysqlFormatDate($this->input->post('tanggal_mou')); 
+		$tanggal_mou_hijriah = $this->input->post('tanggal_mou_hijriah'); 
+		$tanggal_pengerjaan = getMysqlFormatDate($this->input->post('tanggal_pengerjaan')); 
+		$nama_eksekutor = $this->input->post('nama_eksekutor');
+		$alamat_eksekutor = $this->input->post('alamat_eksekutor');
+		$jabatan_eksekutor = $this->input->post('jabatan_eksekutor');
+		$kontak_eksekutor = $this->input->post('kontak_eksekutor');
 		$nama_proyek = $this->input->post('nama_proyek');
-		$alamat_proyek = $this->input->post('alamat_proyek');
+		$id_jenis_proyek = $this->input->post('id_jenis_proyek');
+		$deskripsi_proyek = $this->input->post('deskripsi_proyek');
+		$ukuran = $this->input->post('ukuran');
 		$provinsi = $this->input->post('provinsi');
 		$kota = $this->input->post('kota');
-		$jenis_proyek = $this->input->post('jenis_proyek');
-		$desc_proyek = $this->input->post('desc_proyek');
-		$dirham = str_replace(".", "", $this->input->post('dirham'));
-		$rupiah = str_replace(".", "", $this->input->post('rupiah'));
-		$tgl_pembangunan = getMysqlFormatDate($this->input->post('tgl_pembangunan')); 
-		$tgl_mou = getMysqlFormatDate($this->input->post('tgl_mou')); 
+		$alamat_lokasi = $this->input->post('alamat_lokasi');
+		$koordinat_lokasi = $this->input->post('koordinat_lokasi');
+		$nilai_proyek = str_replace(".", "", $this->input->post('nilai_proyek'));
+		$is_banner = $this->input->post('is_banner');
+		$is_prasasti = $this->input->post('is_prasasti');
+		$pic_lokasi = $this->input->post('pic_lokasi');
+		$kontak_pic_lokasi = $this->input->post('kontak_pic_lokasi');
+		$alamat_pic_lokasi = $this->input->post('alamat_pic_lokasi');
+		$nama_bangunan_di_lokasi = $this->input->post('nama_bangunan_di_lokasi');
+		$tanggal_selesai = getMysqlFormatDate($this->input->post('tanggal_selesai')); 
 		
-		$arr = array( 'id_eksekutor' => $eksekutor,
-						'tanggal_mou' => $tgl_mou,
-						'nomor_proyek' => $no_proyek,
+		
+		$arr = array( 'id_eksekutor' => $id_eksekutor,
+						'id_mou_donatur' => $id_mou_donatur,
+						'tanggal_mou' => $tanggal_mou, 
+						'tanggal_mou_hijriah' => $tanggal_mou_hijriah, 
+						'tanggal_pengerjaan' => $tanggal_pengerjaan, 
+						'nama_eksekutor' => $nama_eksekutor,
+						'alamat_eksekutor' => $alamat_eksekutor,
+						'jabatan_eksekutor' => $jabatan_eksekutor,
+						'kontak_eksekutor' => $kontak_eksekutor,
 						'nama_proyek' => $nama_proyek,
-						'alamat_proyek' => $alamat_proyek,
+						'id_jenis_proyek' => $id_jenis_proyek,
+						'deskripsi_proyek' => $deskripsi_proyek,
+						'ukuran' => $ukuran,
 						'id_provinsi' => $provinsi,
 						'id_kota_kab' => $kota,
-						'id_jenis_proyek' => $jenis_proyek,
-						'deskripsi_proyek' => $desc_proyek,
-						'harga_dirham' => $dirham,
-						'harga_rupiah' => $rupiah,
-						'tanggal_pembangunan' => $tgl_pembangunan,
+						'alamat_lokasi' => $alamat_lokasi,
+						'koordinat_lokasi' => $koordinat_lokasi,
+						'nilai_proyek' => $nilai_proyek,
+						'is_banner' => $is_banner,
+						'is_prasasti' => $is_prasasti,
+						'pic_lokasi' => $pic_lokasi,
+						'kontak_pic_lokasi' => $kontak_pic_lokasi,
+						'alamat_pic_lokasi' => $alamat_pic_lokasi,
+						'nama_bangunan_di_lokasi' => $nama_bangunan_di_lokasi,
+						'tanggal_selesai' => $tanggal_selesai
 		 			);
 		 			
 		$result = $this->m_moueksekutor->input_data($arr);
@@ -118,6 +146,10 @@ class Moueksekutor extends CI_Controller{
 		} else {
 			$data = $this->page_view("Tambah MoU Eksekutor");
 			$data['message'] = "MoU baru gagal ditambahkan, silakan input kembali...";
+			$data['eksekutors'] = $this->m_moueksekutor->get_eksekutor();
+			$data['moudonatur'] = $this->m_moueksekutor->get_moudonatur();
+			$data['provins'] = $this->m_moueksekutor->get_provinsi();
+			$data['proyeks'] = $this->m_moueksekutor->get_jenis_proyek();		
 			$this->load->view('shared/header', $data);
 			$this->load->view('create', $data);
 			$this->load->view('shared/footer');
@@ -128,35 +160,59 @@ class Moueksekutor extends CI_Controller{
 	public function prosesUpdate(){
 		
 		$data = $this->page_view("List MoU Eksekutor");
-		
-		$eksekutor = $this->input->post('eksekutor');
-		$no_proyek = $this->input->post('no_proyek');
+		$id_mou_eksekutor = $this->input->post('id_mou_eksekutor');
+		$id_eksekutor = $this->input->post('id_eksekutor');
+		$id_mou_donatur = $this->input->post('id_mou_donatur');
+		$tanggal_mou = getMysqlFormatDate($this->input->post('tanggal_mou')); 
+		$tanggal_mou_hijriah = $this->input->post('tanggal_mou_hijriah'); 
+		$tanggal_pengerjaan = getMysqlFormatDate($this->input->post('tanggal_pengerjaan')); 
+		$nama_eksekutor = $this->input->post('nama_eksekutor');
+		$alamat_eksekutor = $this->input->post('alamat_eksekutor');
+		$jabatan_eksekutor = $this->input->post('jabatan_eksekutor');
+		$kontak_eksekutor = $this->input->post('kontak_eksekutor');
 		$nama_proyek = $this->input->post('nama_proyek');
-		$alamat_proyek = $this->input->post('alamat_proyek');
+		$id_jenis_proyek = $this->input->post('id_jenis_proyek');
+		$deskripsi_proyek = $this->input->post('deskripsi_proyek');
+		$ukuran = $this->input->post('ukuran');
 		$provinsi = $this->input->post('provinsi');
 		$kota = $this->input->post('kota');
-		$jenis_proyek = $this->input->post('jenis_proyek');
-		$desc_proyek = $this->input->post('desc_proyek');
-		$dirham = str_replace(".", "", $this->input->post('dirham'));
-		$rupiah = str_replace(".", "", $this->input->post('rupiah'));
-		$tgl_pembangunan = getMysqlFormatDate($this->input->post('tgl_pembangunan')); 
-		$tgl_mou = getMysqlFormatDate($this->input->post('tgl_mou')); 
-		$progress = $this->input->post('progress');
-		$id_mou_eksekutor = $this->input->post('mou_eksekutor');
+		$alamat_lokasi = $this->input->post('alamat_lokasi');
+		$koordinat_lokasi = $this->input->post('koordinat_lokasi');
+		$nilai_proyek = str_replace(".", "", $this->input->post('nilai_proyek'));
+		$is_banner = $this->input->post('is_banner');
+		$is_prasasti = $this->input->post('is_prasasti');
+		$pic_lokasi = $this->input->post('pic_lokasi');
+		$kontak_pic_lokasi = $this->input->post('kontak_pic_lokasi');
+		$alamat_pic_lokasi = $this->input->post('alamat_pic_lokasi');
+		$nama_bangunan_di_lokasi = $this->input->post('nama_bangunan_di_lokasi');
+		$tanggal_selesai = getMysqlFormatDate($this->input->post('tanggal_selesai')); 
 		
-		$arr = array( 'id_eksekutor' => $eksekutor,
-						'tanggal_mou' => $tgl_mou,
-						'nomor_proyek' => $no_proyek,
+		
+		$arr = array( 'id_eksekutor' => $id_eksekutor,
+						'id_mou_donatur' => $id_mou_donatur,
+						'tanggal_mou' => $tanggal_mou, 
+						'tanggal_mou_hijriah' => $tanggal_mou_hijriah, 
+						'tanggal_pengerjaan' => $tanggal_pengerjaan, 
+						'nama_eksekutor' => $nama_eksekutor,
+						'alamat_eksekutor' => $alamat_eksekutor,
+						'jabatan_eksekutor' => $jabatan_eksekutor,
+						'kontak_eksekutor' => $kontak_eksekutor,
 						'nama_proyek' => $nama_proyek,
-						'alamat_proyek' => $alamat_proyek,
+						'id_jenis_proyek' => $id_jenis_proyek,
+						'deskripsi_proyek' => $deskripsi_proyek,
+						'ukuran' => $ukuran,
 						'id_provinsi' => $provinsi,
 						'id_kota_kab' => $kota,
-						'id_jenis_proyek' => $jenis_proyek,
-						'deskripsi_proyek' => $desc_proyek,
-						'harga_dirham' => $dirham,
-						'harga_rupiah' => $rupiah,
-						'tanggal_pembangunan' => $tgl_pembangunan,
-						'progress' => $progress,
+						'alamat_lokasi' => $alamat_lokasi,
+						'koordinat_lokasi' => $koordinat_lokasi,
+						'nilai_proyek' => $nilai_proyek,
+						'is_banner' => $is_banner,
+						'is_prasasti' => $is_prasasti,
+						'pic_lokasi' => $pic_lokasi,
+						'kontak_pic_lokasi' => $kontak_pic_lokasi,
+						'alamat_pic_lokasi' => $alamat_pic_lokasi,
+						'nama_bangunan_di_lokasi' => $nama_bangunan_di_lokasi,
+						'tanggal_selesai' => $tanggal_selesai
 		 			);
 		
 		$result = $this->m_moueksekutor->update_data($arr, $id_mou_eksekutor);
@@ -176,6 +232,7 @@ class Moueksekutor extends CI_Controller{
 		
 		$data = $this->page_view($page_title);
 		$data['eksekutors'] = $this->m_moueksekutor->get_eksekutor();
+		$data['moudonatur'] = $this->m_moueksekutor->get_moudonatur();
 		$data['provins'] = $this->m_moueksekutor->get_provinsi();
 		$data['proyeks'] = $this->m_moueksekutor->get_jenis_proyek();
 		$data['message'] = $message;
@@ -194,7 +251,7 @@ class Moueksekutor extends CI_Controller{
 			}
 		}
 		$data['moueksekutor']['tanggal_mou'] = getUserFormatDate($data['moueksekutor']['tanggal_mou']); 
-		$data['moueksekutor']['tanggal_pembangunan'] = getUserFormatDate($data['moueksekutor']['tanggal_pembangunan']); 
+		$data['moueksekutor']['tanggal_pengerjaan'] = getUserFormatDate($data['moueksekutor']['tanggal_pengerjaan']); 
 		$this->load->view('shared/header', $data);
 		$this->load->view('edit', $data);
 		$this->load->view('shared/footer');
@@ -205,6 +262,7 @@ class Moueksekutor extends CI_Controller{
 		
 		$data = $this->page_view($page_title);
 		$data['eksekutors'] = $this->m_moueksekutor->get_eksekutor();
+		$data['moudonatur'] = $this->m_moueksekutor->get_moudonatur();
 		$data['provins'] = $this->m_moueksekutor->get_provinsi();
 		$data['proyeks'] = $this->m_moueksekutor->get_jenis_proyek();
 		$data['message'] = $message;
@@ -223,7 +281,7 @@ class Moueksekutor extends CI_Controller{
 			}
 		}
 		$data['moueksekutor']['tanggal_mou'] = getUserFormatDate($data['moueksekutor']['tanggal_mou']); 
-		$data['moueksekutor']['tanggal_pembangunan'] = getUserFormatDate($data['moueksekutor']['tanggal_pembangunan']); 
+		$data['moueksekutor']['tanggal_pembangunan'] = getUserFormatDate($data['moueksekutor']['tanggal_pengerjaan']); 
 		$this->load->view('shared/header', $data);
 		$this->load->view('view', $data);
 		$this->load->view('shared/footer');

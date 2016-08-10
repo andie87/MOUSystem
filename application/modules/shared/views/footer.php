@@ -244,6 +244,16 @@ $(function () {
       format: 'dd/MM/yyyy'
     });
 
+    $('#datepickerPengerjaan').datepicker({
+      autoclose: true,
+      format: 'dd/MM/yyyy'
+    });
+
+    $('#datepickerSelesai').datepicker({
+      autoclose: true,
+      format: 'dd/MM/yyyy'
+    });
+
     $('#nilai_dirham').priceFormat({
         prefix: '',
         centsLimit: 0,

@@ -54,7 +54,7 @@
                     ?>
                     <tr>
                         <td class="width5 center-col"><?php echo $i; ?></td>
-                        <td><?php echo $md->nomor_proyek;?></td>
+                        <td><?php echo $md->moudonatur_nomor_proyek;?></td>
                         <td><?php echo $arr_eksekutor[$md->id_eksekutor]; ?></td>
                         <td><?php echo $arr_proyek[$md->id_jenis_proyek]; ?></td>
                         <td class="center"><?php echo getUserFormatDate($md->tanggal_mou); ?></td>
