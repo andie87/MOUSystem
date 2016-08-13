@@ -30,10 +30,26 @@ class M_moudonatur extends CI_Model{
 		return null;
 		
 	}
-
+	
 	public function input_data($data){
 		
 		if ( ! $this->db->insert($this->table, $data)) {
+        	return $this->db->error();
+		}
+		return 1;
+	}
+	
+	public function input_data_dokumen($data){
+		
+		if ( ! $this->db->insert("dokumen_mou_donatur", $data)) {
+        	return $this->db->error();
+		}
+		return 1;
+	}
+	
+	public function input_data_pembayaran($data){
+		
+		if ( ! $this->db->insert("pembayaran_donatur", $data)) {
         	return $this->db->error();
 		}
 		return 1;
@@ -53,6 +69,22 @@ class M_moudonatur extends CI_Model{
 	public function delete_data($data){
 		
 		if ( ! $this->db->delete($this->table, $data)) {
+        	return $this->db->error();
+		}
+		return 1;
+	}
+	
+	public function delete_dokumen($data){
+		
+		if ( ! $this->db->delete("dokumen_mou_donatur", $data)) {
+        	return $this->db->error();
+		}
+		return 1;
+	}
+	
+	public function delete_pembayaran($data){
+		
+		if ( ! $this->db->delete("pembayaran_donatur", $data)) {
         	return $this->db->error();
 		}
 		return 1;
@@ -78,6 +110,39 @@ class M_moudonatur extends CI_Model{
 	public function get_jenis_proyek_array(){
 		$query = $this->db->get("jenis_proyek");
 		return $query->result_array();	
+	}
+	
+	public function getDokumenByMouDonaturId($id){
+		$this->db->where('id_mou_donatur', $id);
+		return $this->db->get("dokumen_mou_donatur");
+	}
+	
+	public function getPembayaranByMouDonaturId($id){
+		$this->db->where('id_mou_donatur', $id);
+		return $this->db->get("pembayaran_donatur");
+	}
+	
+	public function getDokumenById($id){
+		$this->db->where('id_dokumen_mou_donatur', $id);
+		$query = $this->db->get("dokumen_mou_donatur");
+		return $query->result_array();	
+	}
+	
+	public function getPembayaranById($id){
+		$this->db->where('id_pembayaran_donatur', $id);
+		$query = $this->db->get("pembayaran_donatur");
+		return $query->result_array();	
+	}
+	
+	public function update_data_pembayaran($data, $id_pembayaran){
+		
+		$this->db->where('id_pembayaran_donatur', $id_pembayaran);
+		
+		if ( ! $this->db->update("pembayaran_donatur", $data)) {
+        	return $this->db->error();
+		}
+		return 1;
+		
 	}
 	
 }

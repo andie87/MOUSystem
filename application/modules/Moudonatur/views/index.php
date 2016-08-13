@@ -58,8 +58,8 @@
                         <td><?php echo $md->nama_proyek; ?></td>
                         <td><?php echo $arr_proyek[$md->id_jenis_proyek]; ?></td>
                         <td><?php echo $md->alamat_proyek; ?></td>
-                        <td class="center"><?php echo getUserFormatDate($md->tanggal_mou); ?></td>
-                        <td class="center"><?php echo getUserFormatDate($md->tanggal_pembangunan); ?></td>
+                        <td class="center"><?php echo $md->tanggal_mou=='0000-00-00' ? "" : getUserFormatDate($md->tanggal_mou); ?></td>
+                        <td class="center"><?php echo $md->tanggal_pembangunan=='0000-00-00' ? "" : getUserFormatDate($md->tanggal_pembangunan); ?></td>
                         <td class="center bg-green"><?php echo $md->progress; ?>% </td>
                         <td class="center-col">
                         	<a href="<?php echo site_url('moudonatur/edit'); ?>/<?php echo $md->id_mou_donatur; ?>">

@@ -131,7 +131,7 @@ function changeKotaKab(){
 				<div class="form-group">
 					<label class="col-sm-3 control-label"></label>
 					<div class="col-lg-5">
-						<button type="submit" class="btn btn-success btn-sm width30" >Tambah</button>
+						<button type="submit" class="btn btn-success btn-sm width30" >Simpan</button>
 					</div>
 				</div>
 		</div>
