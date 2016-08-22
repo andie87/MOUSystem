@@ -174,7 +174,7 @@ class Moueksekutor extends CI_Controller{
 		$id_jenis_proyek = $this->input->post('id_jenis_proyek');
 		$deskripsi_proyek = $this->input->post('deskripsi_proyek');
 		$ukuran = $this->input->post('ukuran');
-		$provinsi = $this->input->post('provinsi');
+		$provinsi = $this->input->post('id_provinsi');
 		$kota = $this->input->post('kota');
 		$alamat_lokasi = $this->input->post('alamat_lokasi');
 		$koordinat_lokasi = $this->input->post('koordinat_lokasi');
