@@ -10,7 +10,7 @@ class Moudonatur extends CI_Controller{
 	}
 
 	public function index(){
-
+		
 		$data = $this->page_view("List MoU dengan Donatur");
 		if(strlen($this->session->flashdata('message')) > 0){
 			$data['message'] = $this->session->flashdata('message');
@@ -18,7 +18,22 @@ class Moudonatur extends CI_Controller{
 		if(strlen($this->session->flashdata('message_failed')) > 0){
 			$data['message_failed'] = $this->session->flashdata('message_failed');
 		}
-		$data['moudonaturs'] = $this->m_moudonatur->getAll();
+		
+		if( $this->input->post('search') != null ){
+			$data['nama_proyek'] = $this->input->post('nama_proyek') == null ? null : $this->input->post('nama_proyek');
+			$data['alamat_proyek'] = $this->input->post('alamat_proyek') == null ? null : $this->input->post('alamat_proyek');
+			$data['progress'] = $this->input->post('progress') == null ? null : $this->input->post('progress');
+			$data['from_mou'] = $this->input->post('from_mou') == null ? null : $this->input->post('from_mou');
+			$data['to_mou'] = $this->input->post('to_mou') == null ? null : $this->input->post('to_mou');
+			$data['from_pembangunan'] = $this->input->post('from_pembangunan') == null ? null : $this->input->post('from_pembangunan');
+			$data['to_pembangunan'] = $this->input->post('to_pembangunan') == null ? null : $this->input->post('to_pembangunan');
+			$data['jenis_proyek'] = $this->input->post('jenis_proyek') == "All" ? null : $this->input->post('jenis_proyek');
+			$data['moudonaturs'] = $this->m_moudonatur->getAll($data);
+		} else {
+			$data['moudonaturs'] = $this->m_moudonatur->getAll();
+		}
+		
+		$data['proyeks'] = $this->m_moudonatur->get_jenis_proyek();
 		$data['jenis_proyek_array'] = $this->m_moudonatur->get_jenis_proyek_array();
 		$arr_proyek = array();
 		foreach($data['jenis_proyek_array'] as $r){
@@ -342,6 +357,7 @@ class Moudonatur extends CI_Controller{
 						'harga_dirham' => $dirham,
 						'harga_rupiah' => $rupiah,
 						'tanggal_pembangunan' => $tgl_pembangunan,
+						'progress' => 0
 		 			);
 		 			
 		$result = $this->m_moudonatur->input_data($arr);
@@ -430,8 +446,8 @@ class Moudonatur extends CI_Controller{
 				$data['moudonatur'] = null;
 			}
 		}
-		$data['moudonatur']['tanggal_mou'] = getUserFormatDate($data['moudonatur']['tanggal_mou']); 
-		$data['moudonatur']['tanggal_pembangunan'] = getUserFormatDate($data['moudonatur']['tanggal_pembangunan']); 
+		$data['moudonatur']['tanggal_mou'] = $data['moudonatur']['tanggal_mou']=="0000-00-00" ? "" : getUserFormatDate($data['moudonatur']['tanggal_mou']); 
+		$data['moudonatur']['tanggal_pembangunan'] = $data['moudonatur']['tanggal_pembangunan']=="0000-00-00" ? "" : getUserFormatDate($data['moudonatur']['tanggal_pembangunan']); 
 		$this->load->view('shared/header', $data);
 		$this->load->view('edit', $data);
 		$this->load->view('shared/footer');

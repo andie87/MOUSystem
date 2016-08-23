@@ -15,8 +15,35 @@ class M_moudonatur extends CI_Model{
 	}
 
 	//get all data role
-	public function getAll(){
+	public function getAll($param=null){
+		
+		if($param != null){
+			
+			$where = "1=1";
+			if($param['jenis_proyek'] != null){
+				$where .= " AND id_jenis_proyek = ".$param['jenis_proyek'];
+			}
+			if($param['nama_proyek'] != null){
+				$where .= " AND lower(nama_proyek) like '%".strtolower($param['nama_proyek'])."%'";
+			}
+			if($param['alamat_proyek'] != null){
+				$where .= " AND lower(alamat_proyek) like '%".strtolower($param['alamat_proyek'])."%'";
+			}
+			if($param['progress'] != null){
+				$where .= " AND progress = ".$param['progress'];
+			}
+			if($param['from_mou'] != null && $param['to_mou'] != null){
+				$where .= " AND tanggal_mou between '".getMysqlFormatDate($param['from_mou'])."' AND '".getMysqlFormatDate($param['to_mou'])."'";
+			}
+			if($param['from_pembangunan'] != null && $param['to_pembangunan'] != null){
+				$where .= " AND tanggal_pembangunan between '".getMysqlFormatDate($param['from_pembangunan'])."' AND '".getMysqlFormatDate($param['to_pembangunan'])."'";
+			}
+			
+			$this->db->where($where);
+		}
+		
 		return $this->db->get($this->table);
+		
 	}
 	
 	public function getMoudonaturById($id){
