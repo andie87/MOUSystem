@@ -13,6 +13,12 @@
 
 		<div class="padding-md">
 		<div class="panel panel-default">
+	
+		<div style="padding-top: 15px; padding-left: 15px;">
+	    	<a href="<?php echo site_url('moudonatur/index'); ?>" >
+				<button type="button" class="btn btn-warning btn-sm width15" ><strong>Back</strong></button>
+			</a>
+		</div>
 
 		<div class="panel-body">
 			<?php echo form_open('moudonatur/index', array('class'=>'form-horizontal','method'=>'post'));?>
@@ -31,6 +37,22 @@
 						?>
 		                </select>
 					</div>
+					
+					<a href="<?php echo site_url('moudonatur/dokumenView'); ?>/<?php echo $id; ?>" >
+						<button type="button" class="btn btn-primary btn-sm width30" >LIST DOKUMEN TERKAIT MOU</button>
+					</a>
+				
+				</div>
+				<div class="form-group" >
+					<label class="col-sm-3 control-label">Nomor Proyek</label>
+					<div class="col-lg-5">
+						<input disabled type="text" name="no_proyek" value="<?php echo $moudonatur['nomor_proyek']; ?>" class="form-control pull-right font-black" >
+					</div>
+					
+					<a href="<?php echo site_url('moudonatur/pembayaranView'); ?>/<?php echo $id; ?>" >
+						<button type="button" class="btn btn-primary btn-sm width30" >LIST PEMBAYARAN DONATUR</button>
+					</a>
+					
 				</div>
 				<div class="form-group" >
 					<label class="col-sm-3 control-label">Tanggal MoU</label>
@@ -40,12 +62,6 @@
 	                 		class="form-control pull-right font-black" id="datepickerMOU">
 	                </div>
                 </div>
-				<div class="form-group" >
-					<label class="col-sm-3 control-label">Nomor Proyek</label>
-					<div class="col-lg-5">
-						<input disabled type="text" name="no_proyek" value="<?php echo $moudonatur['nomor_proyek']; ?>" class="form-control pull-right font-black" >
-					</div>
-				</div>
 				<div class="form-group" >
 					<label class="col-sm-3 control-label">Nama Proyek</label>
 					<div class="col-lg-5">

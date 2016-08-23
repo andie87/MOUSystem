@@ -10,7 +10,7 @@ class Moudonatur extends CI_Controller{
 	}
 
 	public function index(){
-
+		
 		$data = $this->page_view("List MoU dengan Donatur");
 		if(strlen($this->session->flashdata('message')) > 0){
 			$data['message'] = $this->session->flashdata('message');
@@ -18,7 +18,22 @@ class Moudonatur extends CI_Controller{
 		if(strlen($this->session->flashdata('message_failed')) > 0){
 			$data['message_failed'] = $this->session->flashdata('message_failed');
 		}
-		$data['moudonaturs'] = $this->m_moudonatur->getAll();
+		
+		if( $this->input->post('search') != null ){
+			$data['nama_proyek'] = $this->input->post('nama_proyek') == null ? null : $this->input->post('nama_proyek');
+			$data['alamat_proyek'] = $this->input->post('alamat_proyek') == null ? null : $this->input->post('alamat_proyek');
+			$data['progress'] = $this->input->post('progress') == null ? null : $this->input->post('progress');
+			$data['from_mou'] = $this->input->post('from_mou') == null ? null : $this->input->post('from_mou');
+			$data['to_mou'] = $this->input->post('to_mou') == null ? null : $this->input->post('to_mou');
+			$data['from_pembangunan'] = $this->input->post('from_pembangunan') == null ? null : $this->input->post('from_pembangunan');
+			$data['to_pembangunan'] = $this->input->post('to_pembangunan') == null ? null : $this->input->post('to_pembangunan');
+			$data['jenis_proyek'] = $this->input->post('jenis_proyek') == "All" ? null : $this->input->post('jenis_proyek');
+			$data['moudonaturs'] = $this->m_moudonatur->getAll($data);
+		} else {
+			$data['moudonaturs'] = $this->m_moudonatur->getAll();
+		}
+		
+		$data['proyeks'] = $this->m_moudonatur->get_jenis_proyek();
 		$data['jenis_proyek_array'] = $this->m_moudonatur->get_jenis_proyek_array();
 		$arr_proyek = array();
 		foreach($data['jenis_proyek_array'] as $r){
@@ -57,6 +72,246 @@ class Moudonatur extends CI_Controller{
 		$this->master_view($id, $page_title);
 				
 	}
+	
+	public function dokumen(){
+		
+		$this->master_dokumen("dokumen");
+		
+	}
+	
+	public function dokumenView(){
+		
+		$this->master_dokumen("dokumenView");
+		
+	}
+	
+	private function master_dokumen($dokumen_view){
+		
+		$page_title = "Dokumen MoU";
+		$id = $this->uri->segment('3');
+		$data = $this->page_view($page_title);
+
+		if(strlen($id) > 0){
+			$id_mou_donatur_for_dokumen = array( 'id_mou_donatur_for_dokumen' => $id );
+			$this->session->set_userdata($id_mou_donatur_for_dokumen);	
+		}
+		
+		if(strlen($this->session->flashdata('message')) > 0){
+			$data['message'] = $this->session->flashdata('message');	
+		} else if(strlen($this->session->flashdata('messageOK')) > 0){
+			$data['messageOK'] = $this->session->flashdata('messageOK');
+		}
+		
+		$data['id_mou_donatur'] = $this->session->userdata("id_mou_donatur_for_dokumen");
+		$data['dokumens'] = $this->m_moudonatur->getDokumenByMouDonaturId($data['id_mou_donatur']);
+		$this->load->view('shared/header', $data);
+		$this->load->view($dokumen_view, $data);
+		$this->load->view('shared/footer');
+		
+	}
+	
+	public function uploadDokumen(){
+		
+		$page_title = "Dokumen MoU";
+		$id = $this->input->post('mou_donatur');;
+		$data = $this->page_view($page_title);
+		
+		$path = "./uploads/mou donatur/".$id."/";
+		if(!is_dir($path)) {
+	      mkdir($path,0755,TRUE);
+	    } 
+		$config['upload_path'] = $path;
+		$config['allowed_types'] = '*';
+		$this->load->library('upload', $config);
+			
+		if ( ! $this->upload->do_upload('file')) {
+			
+			$this->session->set_flashdata('message', "Upload gagal, silakan pilih file untuk upload...");
+        
+		} else {
+        
+			$upload_data = $this->upload->data(); 
+			$nama_file = $upload_data['file_name'];
+			$alamat_file = $config['upload_path'].$nama_file;
+			
+			$arr = array( 'id_mou_donatur' => $id,
+						'nama_file' => $nama_file,
+						'alamat_file' => $alamat_file
+		 			);
+		 			
+			$result = $this->m_moudonatur->input_data_dokumen($arr);
+	
+			if($result == 1){
+				$this->session->set_flashdata('messageOK', "Proses upload berhasil...");
+			} else {
+				$this->session->set_flashdata('message', "Proses upload gagal, silakan coba kembali...");
+			}
+        }
+		
+        $this->session->set_flashdata('id_mou_donatur', $id);
+		redirect(site_url().'/moudonatur/dokumen');
+		
+	}
+	
+	public function download(){
+		
+		$this->load->helper('download');
+		$id = $this->uri->segment('4');
+		$doc = $this->m_moudonatur->getDokumenById($id);
+		if(count($doc) > 0){
+			$data = file_get_contents($doc[0]['alamat_file']); // Read the file's contents
+			$name = basename($doc[0]['nama_file']);
+			force_download($name, $data);
+		} 
+		
+	}
+	
+	public function deleteDokumen(){
+		
+		$id = $id = $this->uri->segment('4');
+		$arr = array( 'id_dokumen_mou_donatur' => $id );
+		$doc = $this->m_moudonatur->getDokumenById($id);
+		$result = $this->m_moudonatur->delete_dokumen($arr);
+		$file = substr($doc[0]['alamat_file'], 2);
+		//hapus file
+		if (file_exists($file)) {
+	        unlink($file);
+	    } 
+		if($result == 1){
+			$this->session->set_flashdata('messageOK', 'Dokumen berhasil dihapus...');
+		} else {
+			$this->session->set_flashdata('message', 'Dokumen gagal dihapus!');
+		}
+		redirect(site_url().'/moudonatur/dokumen');
+		
+	}
+	
+	public function pembayaranView(){
+		
+		$this->master_pembayaran("pembayaranView");
+		
+	}
+	
+	public function pembayaran(){
+		
+		$this->master_pembayaran("pembayaran");
+	
+	}
+	
+	private function master_pembayaran($pembayaran_view){
+		
+		$page_title = "Pembayaran Donatur";
+		$id = $this->uri->segment('3');
+		$data = $this->page_view($page_title);
+
+		if(strlen($id) > 0){
+			$id_mou_donatur_for_pembayaran = array( 'id_mou_donatur_for_pembayaran' => $id );
+			$this->session->set_userdata($id_mou_donatur_for_pembayaran);	
+		}
+		
+		if(strlen($this->session->flashdata('message')) > 0){
+			$data['message'] = $this->session->flashdata('message');	
+		} else if(strlen($this->session->flashdata('messageOK')) > 0){
+			$data['messageOK'] = $this->session->flashdata('messageOK');
+		}
+		
+		$data['id_mou_donatur'] = $this->session->userdata("id_mou_donatur_for_pembayaran");
+		$data['pembayaran'] = $this->m_moudonatur->getPembayaranByMouDonaturId($data['id_mou_donatur']);
+		$this->load->view('shared/header', $data);
+		$this->load->view($pembayaran_view, $data);
+		$this->load->view('shared/footer');
+		
+	}
+	
+	public function createPembayaran(){
+		
+		$mou_donatur = $this->input->post('mou_donatur');
+		$nominal_pembayaran = str_replace(".", "", $this->input->post('nominal_pembayaran'));
+		$persen_pembayaran = $this->input->post('persen_pembayaran');
+		$pembayaran_ke = $this->input->post('pembayaran_ke');
+		$tgl_pembayaran = getMysqlFormatDate($this->input->post('tgl_pembayaran')); 
+		$tgl_deadline_pembayaran = getMysqlFormatDate($this->input->post('tgl_deadline_pembayaran')); 
+		
+		$arr = array( 'id_mou_donatur' => $mou_donatur,
+						'nominal_pembayaran' => $nominal_pembayaran,
+						'persen_pembayaran' => $persen_pembayaran,
+						'pembayaran_ke' => $pembayaran_ke,
+						'tanggal_pembayaran' => $tgl_pembayaran,
+						'tanggal_deadline_pembayaran' => $tgl_deadline_pembayaran
+		 			);
+		 			
+		$result = $this->m_moudonatur->input_data_pembayaran($arr);
+
+		if($result == 1){
+			$this->session->set_flashdata('messageOK', "Pembayaran Donatur berhasil disimpan");
+		} else {
+			$this->session->set_flashdata('message', "Pembayaran Donatur gagal disimpan");
+		}
+		
+        $this->session->set_flashdata('id_mou_donatur', $id);
+		redirect(site_url().'/moudonatur/pembayaran');
+		
+	}
+	
+	public function deletePembayaran(){
+		
+		$id = $id = $this->uri->segment('4');
+		$arr = array( 'id_pembayaran_donatur' => $id );
+		$result = $this->m_moudonatur->delete_pembayaran($arr);
+		if($result == 1){
+			$this->session->set_flashdata('messageOK', 'Pembayaran berhasil dihapus...');
+		} else {
+			$this->session->set_flashdata('message', 'Pembayaran gagal dihapus!');
+		}
+		redirect(site_url().'/moudonatur/pembayaran');
+		
+	}
+	
+	public function editPembayaran(){
+		
+		$page_title = "Pembayaran Donatur";
+		$id = $this->uri->segment('4');
+		$data = $this->page_view($page_title);
+		
+		$dok = $this->m_moudonatur->getPembayaranById($id);
+		$data['dok'] = $dok[0];
+		$data['id_mou_donatur'] = $this->session->userdata("id_mou_donatur_for_pembayaran");
+		$data['pembayaran'] = $this->m_moudonatur->getPembayaranByMouDonaturId($data['id_mou_donatur']);
+		$this->load->view('shared/header', $data);
+		$this->load->view('editPembayaran', $data);
+		$this->load->view('shared/footer');
+		
+	}
+	
+	public function updatePembayaran(){
+		
+		$id_pembayaran_donatur = $this->input->post('pembayaran_donatur');
+		$nominal_pembayaran = str_replace(".", "", $this->input->post('nominal_pembayaran'));
+		$persen_pembayaran = $this->input->post('persen_pembayaran');
+		$pembayaran_ke = $this->input->post('pembayaran_ke');
+		$tgl_pembayaran = getMysqlFormatDate($this->input->post('tgl_pembayaran')); 
+		$tgl_deadline_pembayaran = getMysqlFormatDate($this->input->post('tgl_deadline_pembayaran')); 
+		
+		$arr = array( 'nominal_pembayaran' => $nominal_pembayaran,
+						'persen_pembayaran' => $persen_pembayaran,
+						'pembayaran_ke' => $pembayaran_ke,
+						'tanggal_pembayaran' => $tgl_pembayaran,
+						'tanggal_deadline_pembayaran' => $tgl_deadline_pembayaran
+		 			);
+		 			
+		$result = $this->m_moudonatur->update_data_pembayaran($arr, $id_pembayaran_donatur);
+
+		if($result == 1){
+			$this->session->set_flashdata('messageOK', "Pembayaran Donatur berhasil di-update");
+		} else {
+			$this->session->set_flashdata('message', "Pembayaran Donatur gagal di-update");
+		}
+		
+        $this->session->set_flashdata('id_mou_donatur', $id);
+		redirect(site_url().'/moudonatur/pembayaran');
+		
+	}
+	
 	
 	public function delete(){
 		
@@ -102,6 +357,7 @@ class Moudonatur extends CI_Controller{
 						'harga_dirham' => $dirham,
 						'harga_rupiah' => $rupiah,
 						'tanggal_pembangunan' => $tgl_pembangunan,
+						'progress' => 0
 		 			);
 		 			
 		$result = $this->m_moudonatur->input_data($arr);
@@ -166,6 +422,8 @@ class Moudonatur extends CI_Controller{
 		
 	}
 	
+	
+	
 	private function master_edit($id, $page_title, $message=null){
 		
 		$data = $this->page_view($page_title);
@@ -173,6 +431,7 @@ class Moudonatur extends CI_Controller{
 		$data['provins'] = $this->m_moudonatur->get_provinsi();
 		$data['proyeks'] = $this->m_moudonatur->get_jenis_proyek();
 		$data['message'] = $message;
+		$data['id'] = $id;
 		$moudonaturs = $this->m_moudonatur->getMoudonaturById($id);
 		$data['kotas'] = $this->m_moudonatur->get_kotakab_by_prov($moudonaturs[0]['id_provinsi']);
 		if($moudonaturs == null){
@@ -187,8 +446,8 @@ class Moudonatur extends CI_Controller{
 				$data['moudonatur'] = null;
 			}
 		}
-		$data['moudonatur']['tanggal_mou'] = getUserFormatDate($data['moudonatur']['tanggal_mou']); 
-		$data['moudonatur']['tanggal_pembangunan'] = getUserFormatDate($data['moudonatur']['tanggal_pembangunan']); 
+		$data['moudonatur']['tanggal_mou'] = $data['moudonatur']['tanggal_mou']=="0000-00-00" ? "" : getUserFormatDate($data['moudonatur']['tanggal_mou']); 
+		$data['moudonatur']['tanggal_pembangunan'] = $data['moudonatur']['tanggal_pembangunan']=="0000-00-00" ? "" : getUserFormatDate($data['moudonatur']['tanggal_pembangunan']); 
 		$this->load->view('shared/header', $data);
 		$this->load->view('edit', $data);
 		$this->load->view('shared/footer');
@@ -202,6 +461,7 @@ class Moudonatur extends CI_Controller{
 		$data['provins'] = $this->m_moudonatur->get_provinsi();
 		$data['proyeks'] = $this->m_moudonatur->get_jenis_proyek();
 		$data['message'] = $message;
+		$data['id'] = $id;
 		$moudonaturs = $this->m_moudonatur->getMoudonaturById($id);
 		$data['kotas'] = $this->m_moudonatur->get_kotakab_by_prov($moudonaturs[0]['id_provinsi']);
 		if($moudonaturs == null){

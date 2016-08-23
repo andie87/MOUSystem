@@ -238,13 +238,32 @@ $(function () {
       format: 'dd/MM/yyyy'
     });
 
-  	//Date picker 2
+    $('#datepickerMOU1').datepicker({
+      autoclose: true,
+      format: 'dd/MM/yyyy'
+    });
+
+    $('#datepickerMOU2').datepicker({
+      autoclose: true,
+      format: 'dd/MM/yyyy'
+    });
+    
     $('#datepickerPembangunan').datepicker({
       autoclose: true,
       format: 'dd/MM/yyyy'
     });
 
-    $('#datepickerPengerjaan').datepicker({
+    $('#datepickerPembangunan').datepicker({
+      autoclose: true,
+      format: 'dd/MM/yyyy'
+    });
+
+    $('#datepickerPembangunan1').datepicker({
+      autoclose: true,
+      format: 'dd/MM/yyyy'
+    });
+
+    $('#datepickerPembangunan2').datepicker({
       autoclose: true,
       format: 'dd/MM/yyyy'
     });
