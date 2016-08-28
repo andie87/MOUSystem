@@ -65,6 +65,132 @@ class Moueksekutor extends CI_Controller{
 				
 	}
 	
+	public function pembayaranView(){
+		
+		$this->master_pembayaran("pembayaranView");
+		
+	}
+	
+	public function pembayaran(){
+		
+		$this->master_pembayaran("pembayaran");
+	
+	}
+	
+	private function master_pembayaran($pembayaran_view){
+		
+		$page_title = "Pembayaran Eksekutor";
+		$id = $this->uri->segment('3');
+		$data = $this->page_view($page_title);
+
+		if(strlen($id) > 0){
+			$id_mou_eksekutor_for_pembayaran = array( 'id_mou_eksekutor_for_pembayaran' => $id );
+			$this->session->set_userdata($id_mou_eksekutor_for_pembayaran);	
+		}
+		
+		if(strlen($this->session->flashdata('message')) > 0){
+			$data['message'] = $this->session->flashdata('message');	
+		} else if(strlen($this->session->flashdata('messageOK')) > 0){
+			$data['messageOK'] = $this->session->flashdata('messageOK');
+		}
+		
+		$data['id_mou_eksekutor'] = $this->session->userdata("id_mou_eksekutor_for_pembayaran");
+		$data['pembayaran'] = $this->m_moueksekutor->getPembayaranByMouEksekutorId($data['id_mou_eksekutor']);
+		$this->load->view('shared/header', $data);
+		$this->load->view($pembayaran_view, $data);
+		$this->load->view('shared/footer');
+		
+	}
+	
+	public function createPembayaran(){
+		
+		$mou_eksekutor = $this->input->post('mou_eksekutor');
+		$nominal_pembayaran = str_replace(".", "", $this->input->post('nominal_pembayaran'));
+		$persen_pembayaran = $this->input->post('persen_pembayaran');
+		$pembayaran_ke = $this->input->post('pembayaran_ke');
+		$tgl_pembayaran = getMysqlFormatDate($this->input->post('tgl_pembayaran')); 
+		$tgl_deadline_pembayaran = getMysqlFormatDate($this->input->post('tgl_deadline_pembayaran')); 
+		
+		$arr = array( 'id_mou_eksekutor' => $mou_eksekutor,
+						'nominal_pembayaran' => $nominal_pembayaran,
+						'persen_pembayaran' => $persen_pembayaran,
+						'pembayaran_ke' => $pembayaran_ke,
+						'tanggal_pembayaran' => $tgl_pembayaran,
+						'tanggal_deadline_pembayaran' => $tgl_deadline_pembayaran
+		 			);
+		 			
+		$result = $this->m_moueksekutor->input_data_pembayaran($arr);
+
+		if($result == 1){
+			$this->session->set_flashdata('messageOK', "Pembayaran Eksekutor berhasil disimpan");
+		} else {
+			$this->session->set_flashdata('message', "Pembayaran Eksekutor gagal disimpan");
+		}
+		
+        $this->session->set_flashdata('id_mou_eksekutor', $id);
+		redirect(site_url().'/moueksekutor/pembayaran');
+		
+	}
+	
+	public function deletePembayaran(){
+		
+		$id = $id = $this->uri->segment('4');
+		$arr = array( 'id_pembayaran_eksekutor' => $id );
+		$result = $this->m_moueksekutor->delete_pembayaran($arr);
+		if($result == 1){
+			$this->session->set_flashdata('messageOK', 'Pembayaran berhasil dihapus...');
+		} else {
+			$this->session->set_flashdata('message', 'Pembayaran gagal dihapus!');
+		}
+		redirect(site_url().'/moueksekutor/pembayaran');
+		
+	}
+	
+	public function editPembayaran(){
+		
+		$page_title = "Pembayaran Eksekutor";
+		$id = $this->uri->segment('4');
+		$data = $this->page_view($page_title);
+		
+		$dok = $this->m_moueksekutor->getPembayaranById($id);
+		$data['dok'] = $dok[0];
+		$data['id_mou_eksekutor'] = $this->session->userdata("id_mou_eksekutor_for_pembayaran");
+		$data['pembayaran'] = $this->m_moueksekutor->getPembayaranByMouEksekutorId($data['id_mou_eksekutor']);
+		$this->load->view('shared/header', $data);
+		$this->load->view('editPembayaran', $data);
+		$this->load->view('shared/footer');
+		
+	}
+	
+	public function updatePembayaran(){
+		
+		$id_pembayaran_eksekutor = $this->input->post('pembayaran_eksekutor');
+		$nominal_pembayaran = str_replace(".", "", $this->input->post('nominal_pembayaran'));
+		$persen_pembayaran = $this->input->post('persen_pembayaran');
+		$pembayaran_ke = $this->input->post('pembayaran_ke');
+		$tgl_pembayaran = getMysqlFormatDate($this->input->post('tgl_pembayaran')); 
+		$tgl_deadline_pembayaran = getMysqlFormatDate($this->input->post('tgl_deadline_pembayaran')); 
+		
+		$arr = array( 'nominal_pembayaran' => $nominal_pembayaran,
+						'persen_pembayaran' => $persen_pembayaran,
+						'pembayaran_ke' => $pembayaran_ke,
+						'tanggal_pembayaran' => $tgl_pembayaran,
+						'tanggal_deadline_pembayaran' => $tgl_deadline_pembayaran
+		 			);
+		 			
+		$result = $this->m_moueksekutor->update_data_pembayaran($arr, $id_pembayaran_eksekutor);
+
+		if($result == 1){
+			$this->session->set_flashdata('messageOK', "Pembayaran Eksekutor berhasil di-update");
+		} else {
+			$this->session->set_flashdata('message', "Pembayaran Eksekutor gagal di-update");
+		}
+		
+        $this->session->set_flashdata('id_mou_eksekutor', $id);
+		redirect(site_url().'/moueksekutor/pembayaran');
+		
+	}
+	
 	public function delete(){
 		
 		$data = $this->page_view("List Role");
