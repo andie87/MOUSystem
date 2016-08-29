@@ -46,7 +46,7 @@
             		<tr>
             			<td>
             				<label style="padding-right: 10px;">Jenis Proyek : </label>
-            				<input type="hidden" name="search" value=1>
+            				<input type="hidden" name="key" value=1>
             			</td>
             			<td colspan="2"  style="padding-bottom: 5px;">
             				<select name="jenis_proyek" >
@@ -101,7 +101,6 @@
             			<td></td>
             			<td colspan="3">
             				<button name="search" type="submit" style="width: 100px;">Cari</button> &nbsp; 
-            				<button name="report" value=1 type="submit" style="width: 100px;">Report</button>
             			</td>
             		</tr>
             	</table>

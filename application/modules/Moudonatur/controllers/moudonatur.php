@@ -12,14 +12,16 @@ class Moudonatur extends CI_Controller{
 	public function index(){
 		
 		$data = $this->page_view("List MoU dengan Donatur");
+		
 		if(strlen($this->session->flashdata('message')) > 0){
 			$data['message'] = $this->session->flashdata('message');
 		}
+		
 		if(strlen($this->session->flashdata('message_failed')) > 0){
 			$data['message_failed'] = $this->session->flashdata('message_failed');
 		}
 		
-		if( $this->input->post('search') != null ){
+		if( $this->input->post('key') != null ){
 			$data['nama_proyek'] = $this->input->post('nama_proyek') == null ? null : $this->input->post('nama_proyek');
 			$data['alamat_proyek'] = $this->input->post('alamat_proyek') == null ? null : $this->input->post('alamat_proyek');
 			$data['progress'] = $this->input->post('progress') == null ? null : $this->input->post('progress');
