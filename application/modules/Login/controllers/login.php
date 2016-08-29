@@ -15,6 +15,11 @@ class Login extends CI_Controller{
 		$this->loginForm();
 	}
 
+	public function logout(){
+		$this->session->sess_destroy();
+		$this->loginForm();	
+	}
+
 	public function loginForm(){
 		$d['judulForm'] = "Login Form";
 		$d['judul'] = "Login Form";
@@ -52,7 +57,7 @@ class Login extends CI_Controller{
 					);
 
 				$this->session->set_userdata($dlogin);
-				redirect(site_url().'/dashboard');
+				redirect(site_url().'/moudonatur');
 			}
 			
 			else {
