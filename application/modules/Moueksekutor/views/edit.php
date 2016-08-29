@@ -18,7 +18,7 @@ function changeKotaKab(){
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="#">MoU Eksekutor</a></li>
-        <li class="active"><a href="#">Tambah MoU</a></li>
+        <li class="active"><a href="#">Edit MoU</a></li>
       </ol>
     </section>
 
@@ -30,6 +30,12 @@ function changeKotaKab(){
 	    		<label><strong><?php echo $message; ?></strong></label>
 	    	</div>
     	<?php } ?>
+
+    	<div style="padding-top: 15px; padding-left: 15px;">
+	    	<a href="<?php echo site_url('moueksekutor/index'); ?>" >
+				<button type="button" class="btn btn-warning btn-sm width15" ><strong>Back</strong></button>
+			</a>
+		</div>
     	
 		<div class="panel-body">
 			<?php echo form_open('moueksekutor/prosesUpdate', array('class'=>'form-horizontal','method'=>'post'));?>
@@ -50,6 +56,11 @@ function changeKotaKab(){
 						?>
 		                </select>
 					</div>
+
+					<a href="<?php echo site_url('moueksekutor/dokumen'); ?>/<?php echo $id; ?>" >
+						<button type="button" class="btn btn-primary btn-sm width30" >LIST DOKUMEN TERKAIT MOU</button>
+					</a>
+
 				</div>
 				<div class="form-group" >
 					<label class="col-sm-3 control-label">Nomor Proyek MoU Donatur</label>
@@ -67,6 +78,11 @@ function changeKotaKab(){
 						?>
 		                </select>
 					</div>
+
+					<a href="<?php echo site_url('moueksekutor/pembayaran'); ?>/<?php echo $id; ?>" >
+						<button type="button" class="btn btn-primary btn-sm width30" >LIST PEMBAYARAN DONATUR</button>
+					</a>
+
 				</div>
 				<div class="form-group" >
 					<label class="col-sm-3 control-label">Tanggal MoU</label>

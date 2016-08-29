@@ -93,6 +93,39 @@ class M_moueksekutor extends CI_Model{
 		$query = $this->db->get("jenis_proyek");
 		return $query->result_array();	
 	}
+
+	public function getDokumenByMoueksekutorId($id){
+		$this->db->where('id_mou_eksekutor', $id);
+		return $this->db->get("dokumen_mou_eksekutor");
+	}
+	
+	public function getPembayaranByMoueksekutorId($id){
+		$this->db->where('id_mou_eksekutor', $id);
+		return $this->db->get("pembayaran_eksekutor");
+	}
+	
+	public function getDokumenById($id){
+		$this->db->where('id_dokumen_mou_eksekutor', $id);
+		$query = $this->db->get("dokumen_mou_eksekutor");
+		return $query->result_array();	
+	}
+	
+	public function getPembayaranById($id){
+		$this->db->where('id_pembayaran_eksekutor', $id);
+		$query = $this->db->get("pembayaran_eksekutor");
+		return $query->result_array();	
+	}
+	
+	public function update_data_pembayaran($data, $id_pembayaran){
+		
+		$this->db->where('id_pembayaran_eksekutor', $id_pembayaran);
+		
+		if ( ! $this->db->update("pembayaran_eksekutor", $data)) {
+        	return $this->db->error();
+		}
+		return 1;
+		
+	}
 	
 }
 ?>

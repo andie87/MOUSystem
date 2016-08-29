@@ -18,7 +18,22 @@ class Moueksekutor extends CI_Controller{
 		if(strlen($this->session->flashdata('message_failed')) > 0){
 			$data['message_failed'] = $this->session->flashdata('message_failed');
 		}
-		$data['moueksekutors'] = $this->m_moueksekutor->getAll();
+
+		if( $this->input->post('search') != null ){
+			$data['nama_proyek'] = $this->input->post('nama_proyek') == null ? null : $this->input->post('nama_proyek');
+			$data['alamat_proyek'] = $this->input->post('alamat_proyek') == null ? null : $this->input->post('alamat_proyek');
+			$data['progress'] = $this->input->post('progress') == null ? null : $this->input->post('progress');
+			$data['from_mou'] = $this->input->post('from_mou') == null ? null : $this->input->post('from_mou');
+			$data['to_mou'] = $this->input->post('to_mou') == null ? null : $this->input->post('to_mou');
+			$data['from_pembangunan'] = $this->input->post('from_pembangunan') == null ? null : $this->input->post('from_pembangunan');
+			$data['to_pembangunan'] = $this->input->post('to_pembangunan') == null ? null : $this->input->post('to_pembangunan');
+			$data['jenis_proyek'] = $this->input->post('jenis_proyek') == "All" ? null : $this->input->post('jenis_proyek');
+			$data['moudonaturs'] = $this->m_moudonatur->getAll($data);
+		} else {
+			$data['moueksekutors'] = $this->m_moueksekutor->getAll();
+		}
+
+		$data['proyeks'] = $this->m_moudonatur->get_jenis_proyek();
 		$data['jenis_proyek_array'] = $this->m_moueksekutor->get_jenis_proyek_array();
 		$arr_proyek = array();
 		foreach($data['jenis_proyek_array'] as $r){
@@ -63,6 +78,119 @@ class Moueksekutor extends CI_Controller{
 		$id = $this->uri->segment('3');
 		$this->master_view($id, $page_title);
 				
+	}
+
+	public function dokumen(){
+		
+		$this->master_dokumen("dokumen");
+		
+	}
+	
+	public function dokumenView(){
+		
+		$this->master_dokumen("dokumenView");
+		
+	}
+	
+	private function master_dokumen($dokumen_view){
+		
+		$page_title = "Dokumen MoU";
+		$id = $this->uri->segment('3');
+		$data = $this->page_view($page_title);
+
+		if(strlen($id) > 0){
+			$id_mou_eksekutor_for_dokumen = array( 'id_mou_eksekutor_for_dokumen' => $id );
+			$this->session->set_userdata($id_mou_eksekutor_for_dokumen);	
+		}
+		
+		if(strlen($this->session->flashdata('message')) > 0){
+			$data['message'] = $this->session->flashdata('message');	
+		} else if(strlen($this->session->flashdata('messageOK')) > 0){
+			$data['messageOK'] = $this->session->flashdata('messageOK');
+		}
+		
+		$data['id_mou_eksekutor'] = $this->session->userdata("id_mou_eksekutor_for_dokumen");
+		$data['dokumens'] = $this->m_moueksekutor->getDokumenByMoueksekutorId($data['id_mou_eksekutor']);
+		$this->load->view('shared/header', $data);
+		$this->load->view($dokumen_view, $data);
+		$this->load->view('shared/footer');
+		
+	}
+	
+	public function uploadDokumen(){
+		
+		$page_title = "Dokumen MoU";
+		$id = $this->input->post('mou_eksekutor');;
+		$data = $this->page_view($page_title);
+		
+		$path = "./uploads/mou eksekutor/".$id."/";
+		if(!is_dir($path)) {
+	      mkdir($path,0755,TRUE);
+	    } 
+		$config['upload_path'] = $path;
+		$config['allowed_types'] = '*';
+		$this->load->library('upload', $config);
+			
+		if ( ! $this->upload->do_upload('file')) {
+			
+			$this->session->set_flashdata('message', "Upload gagal, silakan pilih file untuk upload...");
+        
+		} else {
+        
+			$upload_data = $this->upload->data(); 
+			$nama_file = $upload_data['file_name'];
+			$alamat_file = $config['upload_path'].$nama_file;
+			
+			$arr = array( 'id_mou_eksekutor' => $id,
+						'nama_file' => $nama_file,
+						'alamat_file' => $alamat_file
+		 			);
+		 			
+			$result = $this->m_moueksekutor->input_data_dokumen($arr);
+	
+			if($result == 1){
+				$this->session->set_flashdata('messageOK', "Proses upload berhasil...");
+			} else {
+				$this->session->set_flashdata('message', "Proses upload gagal, silakan coba kembali...");
+			}
+        }
+		
+        $this->session->set_flashdata('id_mou_eksekutor', $id);
+		redirect(site_url().'/moueksekutor/dokumen');
+		
+	}
+	
+	public function download(){
+		
+		$this->load->helper('download');
+		$id = $this->uri->segment('4');
+		$doc = $this->m_moueksekutor->getDokumenById($id);
+		if(count($doc) > 0){
+			$data = file_get_contents($doc[0]['alamat_file']); // Read the file's contents
+			$name = basename($doc[0]['nama_file']);
+			force_download($name, $data);
+		} 
+		
+	}
+	
+	public function deleteDokumen(){
+		
+		$id = $id = $this->uri->segment('4');
+		$arr = array( 'id_dokumen_mou_eksekutor' => $id );
+		$doc = $this->m_moueksekutor->getDokumenById($id);
+		$result = $this->m_moueksekutor->delete_dokumen($arr);
+		$file = substr($doc[0]['alamat_file'], 2);
+		//hapus file
+		if (file_exists($file)) {
+	        unlink($file);
+	    } 
+		if($result == 1){
+			$this->session->set_flashdata('messageOK', 'Dokumen berhasil dihapus...');
+		} else {
+			$this->session->set_flashdata('message', 'Dokumen gagal dihapus!');
+		}
+		redirect(site_url().'/moueksekutor/dokumen');
+		
 	}
 	
 	public function delete(){
