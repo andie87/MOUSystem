@@ -13,11 +13,37 @@ class M_moueksekutor extends CI_Model{
 	}
 
 	//get all data role
-	public function getAll(){
+	public function getAll($param=null){
 		//return $this->db->get($this->table);
 		$this->db->select('mou_eksekutor.*, mou_donatur.nomor_proyek as moudonatur_nomor_proyek');
 		$this->db->from($this->table);
 		$this->db->join('mou_donatur', 'mou_donatur.id_mou_donatur = mou_eksekutor.id_mou_donatur');
+
+		if($param != null){
+			
+			$where = "1=1";
+			if($param['jenis_proyek'] != null){
+				$where .= " AND mou_eksekutor.id_jenis_proyek = ".$param['jenis_proyek'];
+			}
+			if($param['nama_proyek'] != null){
+				$where .= " AND lower(nama_proyek) like '%".strtolower($param['nama_proyek'])."%'";
+			}
+			if($param['alamat_proyek'] != null){
+				$where .= " AND lower(alamat_proyek) like '%".strtolower($param['alamat_proyek'])."%'";
+			}
+			if($param['progress'] != null){
+				$where .= " AND progress = ".$param['progress'];
+			}
+			if($param['from_mou'] != null && $param['to_mou'] != null){
+				$where .= " AND tanggal_mou between '".getMysqlFormatDate($param['from_mou'])."' AND '".getMysqlFormatDate($param['to_mou'])."'";
+			}
+			if($param['from_pengerjaan'] != null && $param['to_pengerjaan'] != null){
+				$where .= " AND tanggal_pengerjaan between '".getMysqlFormatDate($param['from_pengerjaan'])."' AND '".getMysqlFormatDate($param['to_pengerjaan'])."'";
+			}
+			
+			$this->db->where($where);
+		}
+
 		return $this->db->get();
 	}
 	
@@ -125,6 +151,38 @@ class M_moueksekutor extends CI_Model{
 		}
 		return 1;
 		
+	}
+
+	public function input_data_dokumen($data){
+		
+		if ( ! $this->db->insert("dokumen_mou_eksekutor", $data)) {
+        	return $this->db->error();
+		}
+		return 1;
+	}
+
+	public function delete_dokumen($data){
+		
+		if ( ! $this->db->delete("dokumen_mou_eksekutor", $data)) {
+        	return $this->db->error();
+		}
+		return 1;
+	}
+
+	public function input_data_pembayaran($data){
+		
+		if ( ! $this->db->insert("pembayaran_eksekutor", $data)) {
+        	return $this->db->error();
+		}
+		return 1;
+	}
+
+	public function delete_pembayaran($data){
+		
+		if ( ! $this->db->delete("pembayaran_eksekutor", $data)) {
+        	return $this->db->error();
+		}
+		return 1;
 	}
 	
 }

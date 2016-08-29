@@ -19,16 +19,16 @@ class Moueksekutor extends CI_Controller{
 			$data['message_failed'] = $this->session->flashdata('message_failed');
 		}
 
-		if( $this->input->post('search') != null ){
+		if( $this->input->post('key') != null ){
 			$data['nama_proyek'] = $this->input->post('nama_proyek') == null ? null : $this->input->post('nama_proyek');
 			$data['alamat_proyek'] = $this->input->post('alamat_proyek') == null ? null : $this->input->post('alamat_proyek');
 			$data['progress'] = $this->input->post('progress') == null ? null : $this->input->post('progress');
 			$data['from_mou'] = $this->input->post('from_mou') == null ? null : $this->input->post('from_mou');
 			$data['to_mou'] = $this->input->post('to_mou') == null ? null : $this->input->post('to_mou');
-			$data['from_pembangunan'] = $this->input->post('from_pembangunan') == null ? null : $this->input->post('from_pembangunan');
-			$data['to_pembangunan'] = $this->input->post('to_pembangunan') == null ? null : $this->input->post('to_pembangunan');
+			$data['from_pengerjaan'] = $this->input->post('from_pengerjaan') == null ? null : $this->input->post('from_pengerjaan');
+			$data['to_pengerjaan'] = $this->input->post('to_pengerjaan') == null ? null : $this->input->post('to_pengerjaan');
 			$data['jenis_proyek'] = $this->input->post('jenis_proyek') == "All" ? null : $this->input->post('jenis_proyek');
-			$data['moudonaturs'] = $this->m_moudonatur->getAll($data);
+			$data['moueksekutors'] = $this->m_moueksekutor->getAll($data);
 		} else {
 			$data['moueksekutors'] = $this->m_moueksekutor->getAll();
 		}
@@ -490,6 +490,7 @@ class Moueksekutor extends CI_Controller{
 		$data['provins'] = $this->m_moueksekutor->get_provinsi();
 		$data['proyeks'] = $this->m_moueksekutor->get_jenis_proyek();
 		$data['message'] = $message;
+		$data['id'] = $id;
 		$moueksekutors = $this->m_moueksekutor->getMoueksekutorById($id);
 		$data['kotas'] = $this->m_moueksekutor->get_kotakab_by_prov($moueksekutors[0]['id_provinsi']);
 		if($moueksekutors == null){
