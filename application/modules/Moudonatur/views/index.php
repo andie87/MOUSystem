@@ -40,72 +40,85 @@
             </div>
             
             <?php echo form_open('moudonatur/index', array('class'=>'form-horizontal','method'=>'post'));?>
-            
-            <div class="box-header" style="border: 1px solid #ddd; margin-left: 10px;margin-right: 10px;">
-            	<table>
-            		<tr>
-            			<td>
-            				<label style="padding-right: 10px;">Jenis Proyek : </label>
-            				<input type="hidden" name="key" value=1>
-            			</td>
-            			<td colspan="2"  style="padding-bottom: 5px;">
-            				<select name="jenis_proyek" >
-            					<option value="All">All</option>
-								<?php 
-									foreach ($proyeks->result() as $p) {
-										if($jenis_proyek == $p->id_jenis_proyek){
-											echo "<option selected value=".$p->id_jenis_proyek.">".$p->nama_proyek."</option>";
-										} else {
-											echo "<option value=".$p->id_jenis_proyek.">".$p->nama_proyek."</option>";
-										}
-									}
-								?>
-			                </select>
-            			</td>
-            		</tr>
-            		<tr>
-            			<td ><label>Nama Proyek : </label></td>
-            			<td colspan="6"> 
-            				<input style="height: 21px;" value="<?php echo isset($nama_proyek)? $nama_proyek : ""; ?>" type="text" name="nama_proyek" />
-            				<label style="padding-right: 10px; padding-left: 10px;">Alamat Proyek : </label> 
-            				<input style="height: 21px;" value="<?php echo isset($alamat_proyek)? $alamat_proyek : ""; ?>" type="text" name="alamat_proyek" />
-            				<label style="padding-right: 10px; padding-left: 10px;">Progress : </label> 
-            				<input style="height: 21px; width: 30px;" value="<?php echo isset($progress)? $progress : ""; ?>" 
-            					onkeypress="return isNumberKey(event)" type="text" name="progress" />%
-            			</td>
-            		</tr>
-            		<tr style="vertical-align: top;">
-            		
-            			<td style="padding-right: 10px;" ><label>Tanggal MoU : </label></td>
-            			<td>
-            				<input id="datepickerMOU1" value="<?php echo isset($from_mou)? $from_mou : ""; ?>" 
-            					style="height: 21px;"  type="text" name="from_mou" />&nbsp;<strong>s/d</strong>&nbsp;
-            			</td>
-            			<td>
-            				<input id="datepickerMOU2" value="<?php echo isset($to_mou)? $to_mou : ""; ?>" 
-            					style="height: 21px;" type="text" name="to_mou" />
-            			</td>
-            			
-            			<td style="padding-right: 10px;padding-left: 15px;"><label>Tanggal Pembangunan : </label></td>
-            			<td>
-            				<input id="datepickerPembangunan1" value="<?php echo isset($from_pembangunan)? $from_pembangunan : ""; ?>" 
-            					style="height: 21px;" type="text" name="from_pembangunan" />&nbsp;<strong>s/d</strong>&nbsp;
-            			</td>
-            			<td>
-            				<input value="<?php echo isset($to_pembangunan)? $to_pembangunan : ""; ?>" name="to_pembangunan" 
-            					id="datepickerPembangunan2" style="height: 21px;" type="text" />
-            			</td>
+            <div class="box-group" id="accordion">
+                <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
+                <div class="panel box box-primary">
+                  <div class="box-header with-border">
+                    <h4 class="box-title">
+                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                        Filter
+                      </a>
+                    </h4>
+                  </div>
+                  <div id="collapseOne" class="panel-collapse collapse">
+                    <div class="box-body">
+                        <div class="box-header" style="border: 1px solid #ddd; margin-left: 10px;margin-right: 10px;">
+                        	<table>
+                        		<tr>
+                        			<td>
+                        				<label style="padding-right: 10px;">Jenis Proyek : </label>
+                        				<input type="hidden" name="key" value=1>
+                        			</td>
+                        			<td colspan="2"  style="padding-bottom: 5px;">
+                        				<select name="jenis_proyek" >
+                        					<option value="All">All</option>
+            								<?php 
+            									foreach ($proyeks->result() as $p) {
+            										if($jenis_proyek == $p->id_jenis_proyek){
+            											echo "<option selected value=".$p->id_jenis_proyek.">".$p->nama_proyek."</option>";
+            										} else {
+            											echo "<option value=".$p->id_jenis_proyek.">".$p->nama_proyek."</option>";
+            										}
+            									}
+            								?>
+            			                </select>
+                        			</td>
+                        		</tr>
+                        		<tr>
+                        			<td ><label>Nama Proyek : </label></td>
+                        			<td colspan="6"> 
+                        				<input style="height: 21px;" value="<?php echo isset($nama_proyek)? $nama_proyek : ""; ?>" type="text" name="nama_proyek" />
+                        				<label style="padding-right: 10px; padding-left: 10px;">Alamat Proyek : </label> 
+                        				<input style="height: 21px;" value="<?php echo isset($alamat_proyek)? $alamat_proyek : ""; ?>" type="text" name="alamat_proyek" />
+                        				<label style="padding-right: 10px; padding-left: 10px;">Progress : </label> 
+                        				<input style="height: 21px; width: 30px;" value="<?php echo isset($progress)? $progress : ""; ?>" 
+                        					onkeypress="return isNumberKey(event)" type="text" name="progress" />%
+                        			</td>
+                        		</tr>
+                        		<tr style="vertical-align: top;">
+                        		
+                        			<td style="padding-right: 10px;" ><label>Tanggal MoU : </label></td>
+                        			<td>
+                        				<input id="datepickerMOU1" value="<?php echo isset($from_mou)? $from_mou : ""; ?>" 
+                        					style="height: 21px;"  type="text" name="from_mou" />&nbsp;<strong>s/d</strong>&nbsp;
+                        			</td>
+                        			<td>
+                        				<input id="datepickerMOU2" value="<?php echo isset($to_mou)? $to_mou : ""; ?>" 
+                        					style="height: 21px;" type="text" name="to_mou" />
+                        			</td>
+                        			
+                        			<td style="padding-right: 10px;padding-left: 15px;"><label>Tanggal Pembangunan : </label></td>
+                        			<td>
+                        				<input id="datepickerPembangunan1" value="<?php echo isset($from_pembangunan)? $from_pembangunan : ""; ?>" 
+                        					style="height: 21px;" type="text" name="from_pembangunan" />&nbsp;<strong>s/d</strong>&nbsp;
+                        			</td>
+                        			<td>
+                        				<input value="<?php echo isset($to_pembangunan)? $to_pembangunan : ""; ?>" name="to_pembangunan" 
+                        					id="datepickerPembangunan2" style="height: 21px;" type="text" />
+                        			</td>
 
-            		</tr>
-            		<tr>
-            			<td></td>
-            			<td colspan="3">
-            				<button name="search" type="submit" style="width: 100px;">Cari</button> &nbsp; 
-            			</td>
-            		</tr>
-            	</table>
- 	       	    
-		    	
+                        		</tr>
+                        		<tr>
+                        			<td></td>
+                        			<td colspan="3">
+                        				<button name="search" type="submit" style="width: 100px;">Cari</button> &nbsp; 
+                        			</td>
+                        		</tr>
+                        	</table>	
+                        </div>
+                    </div>
+                    </div>
+                </div>
             </div>
 		
             <!-- /.box-header -->
