@@ -74,7 +74,7 @@ function changeKotaKab(){
 					<label class="col-sm-3 control-label">Tanggal Pengerjaan</label>
 					<div class="col-lg-5 input-group" style="padding-left: 15px; padding-right: 15px;">
 	                <div class="input-group-addon "><i class="fa fa-calendar"></i></div>
-	                 <input type="text" name="tanggal_pengerjaan" class="form-control pull-right" id="datepickerPengerjaan">
+	                 <input type="text" name="tanggal_pengerjaan" class="form-control pull-right" id="datepickerPembangunan">
 	                </div>
                 </div>
 				<div class="form-group" >
@@ -134,7 +134,7 @@ function changeKotaKab(){
 				<div class="form-group" >
 					<label class="col-sm-3 control-label">Provinsi</label>
 					<div class="col-lg-5">
-						<select id="select_provinsi" class="form-control select2" name="id_provinsi" style="width: 100%;" onChange="changeKotaKab(this.val);">
+						<select id="select_provinsi" class="form-control select2" name="provinsi" style="width: 100%;" onChange="changeKotaKab(this.val);">
 						<option>Please select</option>
 						<?php 
 							foreach ($provins->result() as $p) {

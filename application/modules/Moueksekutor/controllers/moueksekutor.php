@@ -428,7 +428,7 @@ class Moueksekutor extends CI_Controller{
 		$id_jenis_proyek = $this->input->post('id_jenis_proyek');
 		$deskripsi_proyek = $this->input->post('deskripsi_proyek');
 		$ukuran = $this->input->post('ukuran');
-		$provinsi = $this->input->post('id_provinsi');
+		$provinsi = $this->input->post('provinsi');
 		$kota = $this->input->post('kota');
 		$alamat_lokasi = $this->input->post('alamat_lokasi');
 		$koordinat_lokasi = $this->input->post('koordinat_lokasi');
@@ -521,6 +521,7 @@ class Moueksekutor extends CI_Controller{
 		$data['provins'] = $this->m_moueksekutor->get_provinsi();
 		$data['proyeks'] = $this->m_moueksekutor->get_jenis_proyek();
 		$data['message'] = $message;
+		$data['id'] = $id;
 		$moueksekutors = $this->m_moueksekutor->getMoueksekutorById($id);
 		$data['kotas'] = $this->m_moueksekutor->get_kotakab_by_prov($moueksekutors[0]['id_provinsi']);
 		if($moueksekutors == null){
