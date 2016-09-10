@@ -55,6 +55,12 @@
 					
 				</div>
 				<div class="form-group" >
+					<label class="col-sm-3 control-label">Nama Penyumbang</label>
+					<div class="col-lg-5">
+						<input disabled type="text" name="nama_penyumbang" class="form-control input-sm" value="<?php echo $moudonatur['nama_penyumbang']; ?>">
+					</div>
+				</div>
+				<div class="form-group" >
 					<label class="col-sm-3 control-label">Tanggal MoU</label>
 					<div class="col-lg-5 input-group" style="padding-left: 15px; padding-right: 15px;">
 	                <div style="background-color: #eee;" class="input-group-addon "><i class="fa fa-calendar"></i></div>
@@ -106,6 +112,29 @@
 		                </select>
 					</div>
 				</div>
+				
+				
+				
+				<div class="form-group" >
+					<label class="col-sm-3 control-label">Kecamatan</label>
+					<div class="col-lg-5" id="div_kecamatan">
+						<select disabled id="select_kecamatan" class="form-control select2 font-black" name="kecamatan" style="width: 100%;">
+							<option>Please select</option>
+							<?php 
+								foreach ($kecamatan->result() as $k) {
+									if($moudonatur['id_kecamatan'] == $k->id_kecamatan){
+										echo "<option selected value=".$k->id_kecamatan.">".$k->nama_kecamatan."</option>";
+									} else {
+										echo "<option value=".$k->id_kecamatan.">".$k->nama_kecamatan."</option>";
+									}
+								}
+							?>
+		                </select>
+					</div>
+				</div>
+				
+				
+				
 				<div class="form-group" >
 					<label class="col-sm-3 control-label">Jenis Proyek</label>
 					<div class="col-lg-5">
@@ -120,6 +149,12 @@
 							}
 						?>
 		                </select>
+					</div>
+				</div>
+				<div class="form-group" >
+					<label class="col-sm-3 control-label">Ukuran</label>
+					<div class="col-lg-5">
+						<input disabled type="text" name="ukuran" class="form-control input-sm" value="<?php echo $moudonatur['ukuran']; ?>">
 					</div>
 				</div>
 				<div class="form-group" >
@@ -157,7 +192,33 @@
 						 value="<?php echo $moudonatur['progress']; ?>" onkeypress="return isNumberKey(event)"><br />
 					</div>
 				</div>
+				<div class="form-group" >
+					<label class="col-sm-3 control-label">Status</label>
+					<div class="col-lg-5">
+						<select disabled class="form-control select2" name="status" style="width: 100%;">
+						<option value="">please select</option>
+						<?php 
+							$selectedComplete = "";
+							$selectedCancel = "";
+							if($moudonatur['status'] == "COMPLETE"){
+								$selectedComplete = "selected";
+							} else if($moudonatur['status'] == "CANCEL"){
+								$selectedCancel = "selected";
+							}
+						?>
+						<option <?php echo $selectedComplete; ?> value='COMPLETE'>COMPLETE</option>
+						<option <?php echo $selectedCancel; ?> value='CANCEL'>CANCEL</option>
+		                </select>
+					</div>
+				</div>
+				<div class="form-group" >
+					<label class="col-sm-3 control-label">Status Note</label>
+					<div class="col-lg-5">
+						<textarea disabled class="form-control" name="note" rows="3" ><?php echo $moudonatur['note']; ?></textarea>
+					</div>
+				</div>
 				
+				<!-- 
 				<div class="form-group" >
 					<label class="col-sm-3 control-label" style="margin-right: 15px;"></label>
 					<div class="progress active" style="width: 39%; border: 1px solid #aaa">
@@ -166,6 +227,7 @@
                 		</div>
               		</div>    
 				</div>
+				 -->
 				
 				<div class="form-group">
 					<label class="col-sm-3 control-label"></label>

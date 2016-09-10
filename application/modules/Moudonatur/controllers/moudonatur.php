@@ -23,6 +23,7 @@ class Moudonatur extends CI_Controller{
 		
 		if( $this->input->post('key') != null ){
 			$data['nama_proyek'] = $this->input->post('nama_proyek') == null ? null : $this->input->post('nama_proyek');
+			$data['nomor_proyek'] = $this->input->post('nomor_proyek') == null ? null : $this->input->post('nomor_proyek');
 			$data['alamat_proyek'] = $this->input->post('alamat_proyek') == null ? null : $this->input->post('alamat_proyek');
 			$data['progress'] = $this->input->post('progress') == null ? null : $this->input->post('progress');
 			$data['from_mou'] = $this->input->post('from_mou') == null ? null : $this->input->post('from_mou');
@@ -33,6 +34,29 @@ class Moudonatur extends CI_Controller{
 			$data['moudonaturs'] = $this->m_moudonatur->getAll($data);
 		} else {
 			$data['moudonaturs'] = $this->m_moudonatur->getAll();
+		}
+		
+		//jika mengklik tombol report
+		if($this->input->post('report') > 0){
+			$this->load->helper('download');
+			$data['moudonaturs'] = $this->m_moudonatur->getAllinArray($data);
+			for($i=0; $i<count($data['moudonaturs']); $i++) {
+				//mengambil nama donatur
+				$donatur = $this->m_moudonatur->getDonaturById($data['moudonaturs'][$i]['id_donatur']);
+				$data['moudonaturs'][$i]['nama_donatur'] = $donatur[0]['nama_donatur'];
+				//mengambil nama provinsi
+				$provinsi = $this->m_moudonatur->getProvinsiById($data['moudonaturs'][$i]['id_provinsi']);
+				$data['moudonaturs'][$i]['nama_provinsi'] = $provinsi[0]['nama_provinsi'];
+				//mengambil nama kota
+				$kota = $this->m_moudonatur->getKotaKabById($data['moudonaturs'][$i]['id_kota_kab']);
+				$data['moudonaturs'][$i]['nama_kota'] = $kota[0]['nama_kota_kab'];
+				$jenis_proyek = $this->m_moudonatur->getJenisProyekById($data['moudonaturs'][$i]['id_jenis_proyek']);
+				$data['moudonaturs'][$i]['nama_proyek'] = $jenis_proyek[0]['nama_proyek'];
+			}
+			$text = $this->load->view('report', $data, true);
+			$name = 'report_mou_donatur.html';
+			force_download($name, $text);
+			
 		}
 		
 		$data['proyeks'] = $this->m_moudonatur->get_jenis_proyek();
@@ -335,12 +359,15 @@ class Moudonatur extends CI_Controller{
 		$data = $this->page_view("List MoU Donatur");
 		
 		$donatur = $this->input->post('donatur');
+		$nama_penyumbang = $this->input->post('nama_penyumbang');
 		$no_proyek = $this->input->post('no_proyek');
 		$nama_proyek = $this->input->post('nama_proyek');
 		$alamat_proyek = $this->input->post('alamat_proyek');
 		$provinsi = $this->input->post('provinsi');
 		$kota = $this->input->post('kota');
+		$kecamatan = $this->input->post('kecamatan');
 		$jenis_proyek = $this->input->post('jenis_proyek');
+		$ukuran = $this->input->post('ukuran');
 		$desc_proyek = $this->input->post('desc_proyek');
 		$dirham = str_replace(".", "", $this->input->post('dirham'));
 		$rupiah = str_replace(".", "", $this->input->post('rupiah'));
@@ -348,13 +375,16 @@ class Moudonatur extends CI_Controller{
 		$tgl_mou = getMysqlFormatDate($this->input->post('tgl_mou')); 
 		
 		$arr = array( 'id_donatur' => $donatur,
+						'nama_penyumbang' => $nama_penyumbang,
 						'tanggal_mou' => $tgl_mou,
 						'nomor_proyek' => $no_proyek,
 						'nama_proyek' => $nama_proyek,
 						'alamat_proyek' => $alamat_proyek,
 						'id_provinsi' => $provinsi,
 						'id_kota_kab' => $kota,
+						'id_kecamatan' => $kecamatan,
 						'id_jenis_proyek' => $jenis_proyek,
+						'ukuran' => $ukuran,
 						'deskripsi_proyek' => $desc_proyek,
 						'harga_dirham' => $dirham,
 						'harga_rupiah' => $rupiah,
@@ -394,6 +424,8 @@ class Moudonatur extends CI_Controller{
 		$tgl_pembangunan = getMysqlFormatDate($this->input->post('tgl_pembangunan')); 
 		$tgl_mou = getMysqlFormatDate($this->input->post('tgl_mou')); 
 		$progress = $this->input->post('progress');
+		$status = $this->input->post('status');
+		$note = $this->input->post('note');
 		$id_mou_donatur = $this->input->post('mou_donatur');
 		
 		$arr = array( 'id_donatur' => $donatur,
@@ -409,6 +441,8 @@ class Moudonatur extends CI_Controller{
 						'harga_rupiah' => $rupiah,
 						'tanggal_pembangunan' => $tgl_pembangunan,
 						'progress' => $progress,
+						'status' => $status,
+						'note' => $note
 		 			);
 		
 		$result = $this->m_moudonatur->update_data($arr, $id_mou_donatur);
@@ -424,8 +458,6 @@ class Moudonatur extends CI_Controller{
 		
 	}
 	
-	
-	
 	private function master_edit($id, $page_title, $message=null){
 		
 		$data = $this->page_view($page_title);
@@ -436,6 +468,7 @@ class Moudonatur extends CI_Controller{
 		$data['id'] = $id;
 		$moudonaturs = $this->m_moudonatur->getMoudonaturById($id);
 		$data['kotas'] = $this->m_moudonatur->get_kotakab_by_prov($moudonaturs[0]['id_provinsi']);
+		$data['kecamatan'] = $this->m_moudonatur->get_kecamatan_by_kota($moudonaturs[0]['id_kota_kab']);
 		if($moudonaturs == null){
 			//jika ID bernilai null, besar kemungkinan user melakukan direct hit url ke server
 			redirect(site_url().'/login');
@@ -466,6 +499,7 @@ class Moudonatur extends CI_Controller{
 		$data['id'] = $id;
 		$moudonaturs = $this->m_moudonatur->getMoudonaturById($id);
 		$data['kotas'] = $this->m_moudonatur->get_kotakab_by_prov($moudonaturs[0]['id_provinsi']);
+		$data['kecamatan'] = $this->m_moudonatur->get_kecamatan_by_kota($moudonaturs[0]['id_kota_kab']);
 		if($moudonaturs == null){
 			//jika ID bernilai null, besar kemungkinan user melakukan direct hit url ke server
 			redirect(site_url().'/login');
@@ -504,6 +538,14 @@ class Moudonatur extends CI_Controller{
 		$id = $this->uri->segment('3');
 		$data['kotas'] = $this->m_moudonatur->get_kotakab_by_prov($id);
 		$this->load->view('selectkotakab', $data);
+		
+	}
+	
+	public function selectkecamatan(){
+		
+		$id = $this->uri->segment('3');
+		$data['kecamatan'] = $this->m_moudonatur->get_kecamatan_by_kota($id);
+		$this->load->view('selectkecamatan', $data);
 		
 	}
 	

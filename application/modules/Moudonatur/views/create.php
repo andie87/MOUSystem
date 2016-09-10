@@ -4,7 +4,17 @@ function changeKotaKab(){
 	$.ajax({
 		url: "<?php echo base_url('index.php/moudonatur/selectkotakab' ); ?>/" + select_provinsi, 
 		success: function(result) {
-			$("#select_kotakab").html(result);					
+			$("#select_kota_kab").html(result);					
+		}
+	});
+}
+function changeKecamatan(){
+	
+	var select_kota_kab = $("#select_kota_kab").val();
+	$.ajax({
+		url: "<?php echo base_url('index.php/moudonatur/selectkecamatan' ); ?>/" + select_kota_kab, 
+		success: function(result) {
+			$("#select_kecamatan").html(result);					
 		}
 	});
 }
@@ -43,6 +53,12 @@ function changeKotaKab(){
 							}
 						?>
 		                </select>
+					</div>
+				</div>
+				<div class="form-group" >
+					<label class="col-sm-3 control-label">Nama Penyumbang</label>
+					<div class="col-lg-5">
+						<input type="text" name="nama_penyumbang" class="form-control input-sm" >
 					</div>
 				</div>
 				<div class="form-group" >
@@ -86,7 +102,15 @@ function changeKotaKab(){
 				<div class="form-group" >
 					<label class="col-sm-3 control-label">Kota/Kabupaten</label>
 					<div class="col-lg-5" id="div_kota_kab">
-						<select id="select_kotakab" class="form-control select2" name="kota" style="width: 100%;">
+						<select id="select_kota_kab" class="form-control select2" name="kota" style="width: 100%;" onChange="changeKecamatan(this.val);">
+							<option>Please select</option>
+		                </select>
+					</div>
+				</div>
+				<div class="form-group" >
+					<label class="col-sm-3 control-label">Kecamatan</label>
+					<div class="col-lg-5" id="div_kecamatan">
+						<select id="select_kecamatan" class="form-control select2" name="kecamatan" style="width: 100%;">
 							<option>Please select</option>
 		                </select>
 					</div>
@@ -101,6 +125,12 @@ function changeKotaKab(){
 							}
 						?>
 		                </select>
+					</div>
+				</div>
+				<div class="form-group" >
+					<label class="col-sm-3 control-label">Ukuran</label>
+					<div class="col-lg-5">
+						<input type="text" name="ukuran" class="form-control input-sm" >
 					</div>
 				</div>
 				<div class="form-group" >

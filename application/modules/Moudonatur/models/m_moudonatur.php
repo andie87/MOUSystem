@@ -14,8 +14,41 @@ class M_moudonatur extends CI_Model{
 		parent:: __constract();
 	}
 
-	//get all data role
 	public function getAll($param=null){
+		
+		if($param != null){
+			
+			$where = "1=1";
+			if($param['jenis_proyek'] != null){
+				$where .= " AND id_jenis_proyek = ".$param['jenis_proyek'];
+			}
+			if($param['nama_proyek'] != null){
+				$where .= " AND lower(nama_proyek) like '%".strtolower($param['nama_proyek'])."%'";
+			}
+			if($param['nomor_proyek'] != null){
+				$where .= " AND lower(nomor_proyek) like '%".strtolower($param['nomor_proyek'])."%'";
+			}
+			if($param['alamat_proyek'] != null){
+				$where .= " AND lower(alamat_proyek) like '%".strtolower($param['alamat_proyek'])."%'";
+			}
+			if($param['progress'] != null){
+				$where .= " AND progress = ".$param['progress'];
+			}
+			if($param['from_mou'] != null && $param['to_mou'] != null){
+				$where .= " AND tanggal_mou between '".getMysqlFormatDate($param['from_mou'])."' AND '".getMysqlFormatDate($param['to_mou'])."'";
+			}
+			if($param['from_pembangunan'] != null && $param['to_pembangunan'] != null){
+				$where .= " AND tanggal_pembangunan between '".getMysqlFormatDate($param['from_pembangunan'])."' AND '".getMysqlFormatDate($param['to_pembangunan'])."'";
+			}
+			
+			$this->db->where($where);
+		}
+		
+		return $this->db->get($this->table);
+		
+	}
+	
+	public function getAllinArray($param=null){
 		
 		if($param != null){
 			
@@ -42,7 +75,8 @@ class M_moudonatur extends CI_Model{
 			$this->db->where($where);
 		}
 		
-		return $this->db->get($this->table);
+		$query = $this->db->get($this->table);
+		return $query->result_array();
 		
 	}
 	
@@ -130,6 +164,11 @@ class M_moudonatur extends CI_Model{
 		return $this->db->get("kota_kab");
 	}
 	
+	public function get_kecamatan_by_kota($id){
+		$this->db->where('id_kota_kab', $id);
+		return $this->db->get("kecamatan");
+	}
+	
 	public function get_jenis_proyek(){
 		return $this->db->get("jenis_proyek");	
 	}
@@ -170,6 +209,30 @@ class M_moudonatur extends CI_Model{
 		}
 		return 1;
 		
+	}
+	
+	public function getDonaturById($id){
+		$this->db->where('id_donatur', $id);
+		$query = $this->db->get("donatur");
+		return $query->result_array();	
+	}
+	
+	public function getProvinsiById($id){
+		$this->db->where('id_provinsi', $id);
+		$query = $this->db->get("provinsi");
+		return $query->result_array();	
+	}
+	
+	public function getKotaKabById($id){
+		$this->db->where('id_kota_kab', $id);
+		$query = $this->db->get("kota_kab");
+		return $query->result_array();	
+	}
+	
+	public function getJenisProyekById($id){
+		$this->db->where('id_jenis_proyek', $id);
+		$query = $this->db->get("jenis_proyek");
+		return $query->result_array();	
 	}
 	
 }

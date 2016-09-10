@@ -34,9 +34,9 @@
               	<strong>MoU Donatur Baru</strong></a>
               <span class="label label-info pull-right"><?php echo $moudonaturs->num_rows();?>  MoU</span>
             	&nbsp;&nbsp;&nbsp;
-              <a href="<?php echo site_url('moudonatur/index'); ?>" >
+              <!-- <a href="<?php echo site_url('moudonatur/index'); ?>" >
 				<button type="button" class="btn btn-warning btn-sm width15" ><strong>Report Mou</strong></button>
-			  </a>
+			  </a> -->
             </div>
             
             <?php echo form_open('moudonatur/index', array('class'=>'form-horizontal','method'=>'post'));?>
@@ -46,7 +46,7 @@
                   <div class="box-header with-border">
                     <h4 class="box-title">
                       <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                        Filter
+                        Search
                       </a>
                     </h4>
                   </div>
@@ -59,7 +59,7 @@
                         				<label style="padding-right: 10px;">Jenis Proyek : </label>
                         				<input type="hidden" name="key" value=1>
                         			</td>
-                        			<td colspan="2"  style="padding-bottom: 5px;">
+                        			<td colspan="6"  style="padding-bottom: 5px;">
                         				<select name="jenis_proyek" >
                         					<option value="All">All</option>
             								<?php 
@@ -72,6 +72,8 @@
             									}
             								?>
             			                </select>
+            			                <label style="padding-right: 10px; padding-left: 10px;">Nomor Proyek : </label> 
+                        				<input style="height: 21px;" value="<?php echo isset($nomor_proyek)? $nomor_proyek : ""; ?>" type="text" name="nomor_proyek" />
                         			</td>
                         		</tr>
                         		<tr>
@@ -112,6 +114,7 @@
                         			<td></td>
                         			<td colspan="3">
                         				<button name="search" type="submit" style="width: 100px;">Cari</button> &nbsp; 
+                        				<button name="report" value=1 type="submit" style="width: 100px;">Report</button>
                         			</td>
                         		</tr>
                         	</table>	
