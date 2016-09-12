@@ -11,6 +11,18 @@ class Moudonatur extends CI_Controller{
 
 	public function index(){
 		
+		$this->master_index("");	
+		
+	}
+	
+	public function index_view(){
+		
+		$this->master_index("index_view");	
+		
+	}
+	
+	public function master_index($page){
+		
 		$data = $this->page_view("List MoU dengan Donatur");
 		
 		if(strlen($this->session->flashdata('message')) > 0){
@@ -46,12 +58,29 @@ class Moudonatur extends CI_Controller{
 				$data['moudonaturs'][$i]['nama_donatur'] = $donatur[0]['nama_donatur'];
 				//mengambil nama provinsi
 				$provinsi = $this->m_moudonatur->getProvinsiById($data['moudonaturs'][$i]['id_provinsi']);
-				$data['moudonaturs'][$i]['nama_provinsi'] = $provinsi[0]['nama_provinsi'];
+				if(count($provinsi) > 0){
+					$data['moudonaturs'][$i]['nama_provinsi'] = $provinsi[0]['nama_provinsi'];
+				} else {
+					$data['moudonaturs'][$i]['nama_provinsi'] = "";
+				}
 				//mengambil nama kota
 				$kota = $this->m_moudonatur->getKotaKabById($data['moudonaturs'][$i]['id_kota_kab']);
-				$data['moudonaturs'][$i]['nama_kota'] = $kota[0]['nama_kota_kab'];
+				if(count($kota) > 0){
+					$data['moudonaturs'][$i]['nama_kota'] = $kota[0]['nama_kota_kab'];
+				} else {
+					$data['moudonaturs'][$i]['nama_kota'] = "";
+				}
+				//mengambil nama kecamatan
+				$kecamatan = $this->m_moudonatur->getKecamatanById($data['moudonaturs'][$i]['id_kecamatan']);
+				if(count($kecamatan) > 0){
+					$data['moudonaturs'][$i]['nama_kecamatan'] = $kecamatan[0]['nama_kecamatan'];	
+				} else {
+					$data['moudonaturs'][$i]['nama_kecamatan'] = "وَمِنْ آيَاتِهِ";
+				}
+				
+				
 				$jenis_proyek = $this->m_moudonatur->getJenisProyekById($data['moudonaturs'][$i]['id_jenis_proyek']);
-				$data['moudonaturs'][$i]['nama_proyek'] = $jenis_proyek[0]['nama_proyek'];
+				$data['moudonaturs'][$i]['jenis_proyek'] = $jenis_proyek[0]['nama_proyek'];
 			}
 			$text = $this->load->view('report', $data, true);
 			$name = 'report_mou_donatur.html';
@@ -67,7 +96,11 @@ class Moudonatur extends CI_Controller{
 		}
 		$data['arr_proyek'] = $arr_proyek;
 		$this->load->view('shared/header', $data);
-		$this->load->view('index', $data);
+		if($page == "index_view"){
+			$this->load->view('index_view', $data);
+		} else {
+			$this->load->view('index', $data);	
+		}
 		$this->load->view('shared/footer');
 		
 	}

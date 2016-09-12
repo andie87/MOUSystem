@@ -228,6 +228,12 @@ class M_moudonatur extends CI_Model{
 		$query = $this->db->get("kota_kab");
 		return $query->result_array();	
 	}
+
+	public function getKecamatanById($id){
+		$this->db->where('id_kecamatan', $id);
+		$query = $this->db->get("kecamatan");
+		return $query->result_array();	
+	}
 	
 	public function getJenisProyekById($id){
 		$this->db->where('id_jenis_proyek', $id);

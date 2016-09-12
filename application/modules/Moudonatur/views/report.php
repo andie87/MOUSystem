@@ -1,3 +1,5 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
 <style>
 	table {
 		font-family: calibri;
@@ -35,12 +37,14 @@
 		<tr>
 			<td class="td-header">No</td>
 			<td class="td-header">Donatur</td>
+			<td class="td-header">Penyumbang</td>
 			<td class="td-header">No Proyek</td>
 			<td class="td-header">Tanggal MoU</td>
 			<td class="td-header">Nama Proyek</td>
 			<td class="td-header">Alamat Proyek</td>
 			<td class="td-header">Provinsi</td>
 			<td class="td-header">Kota/Kab</td>
+			<td class="td-header">Kecamatan</td>
 			<td class="td-header">Jenis Proyek</td>
 			<td class="td-header">Nilai Dirham</td>
 			<td class="td-header">Nilai Rupiah</td>
@@ -58,13 +62,15 @@
 		<tr>
 			<td class="<?php echo $class; ?> center"><?php echo $i; ?></td>
 			<td class="<?php echo $class; ?>"><?php echo $md['nama_donatur']; ?></td>
+			<td class="<?php echo $class; ?>"><?php echo $md['nama_penyumbang']; ?></td>
 			<td class="<?php echo $class; ?>"><?php echo $md['nomor_proyek']; ?></td>
 			<td class="<?php echo $class; ?> center"><?php echo $md['tanggal_mou']=='0000-00-00' ? "" : getUserFormatDate($md['tanggal_mou']); ?></td>
 			<td class="<?php echo $class; ?>"><?php echo $md['nama_proyek']; ?></td>
 			<td class="<?php echo $class; ?>"><?php echo $md['alamat_proyek']; ?></td>
 			<td class="<?php echo $class; ?>"><?php echo $md['nama_provinsi']; ?></td>
 			<td class="<?php echo $class; ?>"><?php echo $md['nama_kota']; ?></td>
-			<td class="<?php echo $class; ?>"><?php echo $md['nama_proyek']; ?></td>
+			<td class="<?php echo $class; ?>"><?php echo $md['nama_kecamatan']; ?></td>
+			<td class="<?php echo $class; ?>"><?php echo $md['jenis_proyek']; ?></td>
 			<td class="<?php echo $class; ?> right"><?php echo $md['harga_dirham']; ?></td>
 			<td class="<?php echo $class; ?> right"><?php echo $md['harga_rupiah']; ?></td>
 			<td class="<?php echo $class; ?> center"><?php echo $md['tanggal_pembangunan']=='0000-00-00' ? "" : getUserFormatDate($md['tanggal_pembangunan']); ?></td>
