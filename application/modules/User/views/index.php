@@ -42,6 +42,7 @@
                         <th>User Login</th>
                         <th>Nomor Kontak</th>
                         <th>Email</th>
+                        <th>Role</th>
                         <th class="width20 center-col">Action</th>
                     </tr>
                 </thead>
@@ -56,6 +57,7 @@
                         <td><?php echo $user->user_login; ?></td>
                         <td><?php echo $user->no_kontak; ?></td>
                         <td><?php echo $user->email; ?></td>
+                        <td><?php echo $arr_role[$user->id_role]; ?></td>
                         <td class="width20 center-col">
                         	<a href="<?php echo site_url('user/edit'); ?>/<?php echo $user->id_user; ?>"><i class="fa fa-pencil fa-lg"></i>edit</a>
                         	&nbsp;&nbsp;&nbsp;&nbsp; 
@@ -65,7 +67,7 @@
                         	data-hapus="<?php echo $user->id_user;?>" data-target="#deleteModal">
                         		<i class="fa fa-trash-o fa-lg"></i>delete
                         	</a>    
-                        </td>
+                        </td>                        
                     </tr>
                     <?php $i++; }?>
                 </tbody>

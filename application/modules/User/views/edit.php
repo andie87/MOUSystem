@@ -54,6 +54,22 @@
 						<input type="email" name="email" class="form-control input-sm" value="<?php echo $user['email']; ?>">
 					</div>
 				</div>
+				<div class="form-group" >
+					<label class="col-md-2 control-label">Role</label>
+					<div class="col-lg-5" id="div_role">
+						<select id="select_role" class="form-control select2" name="id_role" style="width: 100%;">
+							<option value="">Please select</option>
+							<?php 
+							foreach ($roles->result() as $p) {
+								if($user['id_role'] == $p->id_role )
+									echo "<option selected value=".$p->id_role.">".$p->nama_role."</option>";
+								else
+									echo "<option value=".$p->id_role.">".$p->nama_role."</option>";
+							}
+						?>
+		                </select>
+					</div>
+				</div>
 				<div class="form-group">
 					<div class="col-lg-offset-2 col-lg-5">
 						<button type="submit" class="btn btn-success btn-sm">Tambah</button>

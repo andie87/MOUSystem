@@ -14,6 +14,11 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">
 		</div>
+		<?php if(isset($message)){ ?> 
+	    	<div class="alert alert-danger">
+	    		<label><strong><?php echo $message; ?></strong></label>
+	    	</div>
+    	<?php } ?>
 		<div class="panel-body">
 			<?php echo form_open('user/prosesCreate', array('class'=>'form-horizontal','method'=>'post'));?>
 				<div class="form-group">
@@ -44,6 +49,19 @@
 					<label  class="col-md-2 control-label">Email</label>
 					<div class="col-lg-5">
 						<input type="email" name="email" class="form-control input-sm" placeholder="Email">
+					</div>
+				</div>
+				<div class="form-group" >
+					<label class="col-md-2 control-label">Role</label>
+					<div class="col-lg-5" id="div_role">
+						<select id="select_role" class="form-control select2" name="id_role" style="width: 100%;">
+							<option value="">Please select</option>
+							<?php 
+							foreach ($roles->result() as $p) {
+								echo "<option value=".$p->id_role.">".$p->nama_role."</option>";
+							}
+						?>
+		                </select>
 					</div>
 				</div>
 				<div class="form-group">

@@ -16,13 +16,41 @@ class M_user extends CI_Model{
 
 	//get all data donatur
 	public function getAll(){
-		return $this->db->get($this->table);
+
+		$this->db->select('user.*, user_role.id_role');
+		$this->db->from($this->table);
+		$this->db->join('user_role', 'user.id_user = user_role.id_user');
+		return $this->db->get();
+	}
+
+	public function get_role_array(){
+		$query = $this->db->get("role");	
+		return $query->result_array();
+	}
+
+	public function get_iduser($nama_user, $user_login){
+		$this->db->select('id_user');
+		$this->db->from($this->table);
+		$this->db->where('nama_user',$nama_user);
+		$this->db->where('user_login',$user_login);
+		return $this->db->get()->row()->id_user;
+	}
+
+	public function input_role($data){
+		
+		if ( ! $this->db->insert('user_role', $data)) {
+        	return $this->db->error();
+		}
+		return 1;
 	}
 	
 	public function getUserById($id){
 		
-		$this->db->where('id_user', $id);
-		$query = $this->db->get($this->table);
+		$this->db->select('user.*, user_role.id_role');
+		$this->db->from($this->table);
+		$this->db->join('user_role', 'user.id_user = user_role.id_user');
+		$this->db->where('user.id_user', $id);
+		$query = $this->db->get();
 		
 		if($query->num_rows() > 0){
 			return $query->result_array();
@@ -43,6 +71,16 @@ class M_user extends CI_Model{
 		$this->db->where('id_user', $id_user);
 		
 		if ( ! $this->db->update($this->table, $data)) {
+        	return $this->db->error();
+		}
+		return 1;
+	}
+	
+	public function update_role($data, $id_user){
+		
+		$this->db->where('id_user', $id_user);
+		
+		if ( ! $this->db->update('user_role', $data)) {
         	return $this->db->error();
 		}
 		return 1;

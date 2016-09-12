@@ -18,6 +18,13 @@ class User extends CI_Controller{
 		if(count($this->session->flashdata('message_failed')) > 0){
 			$data['message_failed'] = $this->session->flashdata('message_failed');
 		}
+		$role_array = $this->m_user->get_role_array();
+		$arr_role = array();
+		foreach($role_array as $r){
+			$arr_role[$r['id_role']] = $r['nama_role'];
+		}
+		$data['arr_role'] = $arr_role;
+		
 		$data['users'] = $this->m_user->getAll();
 		$this->load->view('shared/header', $data);
 		$this->load->view('index', $data);
@@ -28,6 +35,7 @@ class User extends CI_Controller{
 	public function create(){
 		
 		$data = $this->page_view("Tambah User");
+		$data['roles'] = $this->m_role->getAll();
 		$this->load->view('shared/header', $data);
 		$this->load->view('create', $data);
 		$this->load->view('shared/footer');
@@ -64,24 +72,48 @@ class User extends CI_Controller{
 		$password = sha1($this->input->post('password'));
 		$nomor_kontak = $this->input->post('nomor_kontak');
 		$email = $this->input->post('email');
-		$arr = array( 'nama_user' => $nama_user, 
-						'user_login' => $user_login,
-						'password' => $password, 
-						'no_kontak' => $nomor_kontak, 
-						'email' => $email );
-		$result = $this->m_user->input_data($arr);
+		$id_role = $this->input->post('id_role');
 
-		if($result == 1){
-			$this->session->set_flashdata('message', 'User baru berhasil ditambahkan...');
-	  		redirect(site_url().'/user');
-		} else {
+		if($id_role == ""){
 			$data = $this->page_view("Tambah User");
-			$data['message'] = "User baru gagal ditambahkan, silakan input kembali...";
+			$data['roles'] = $this->m_role->getAll();
+			$data['message'] = "Role harus diisi, silakan input kembali...";
 			$this->load->view('shared/header', $data);
 			$this->load->view('create', $data);
 			$this->load->view('shared/footer');
+		}else{
+			$arr = array( 'nama_user' => $nama_user, 
+							'user_login' => $user_login,
+							'password' => $password, 
+							'no_kontak' => $nomor_kontak, 
+							'email' => $email );
+			$result = $this->m_user->input_data($arr);
+
+			if($result == 1){
+				$id_user = $this->m_user->get_iduser($nama_user,$user_login);
+				$arr = array('id_user' => $id_user,
+								'id_role' => $id_role);
+				$result = $this->m_user->input_role($arr);
+
+				if($result == 1){
+					$this->session->set_flashdata('message', 'User baru berhasil ditambahkan...');
+			  		redirect(site_url().'/user');
+				} else {
+					$data = $this->page_view("Tambah User");
+					$data['message'] = "User baru gagal ditambahkan </br>".$result." </br>, silakan input kembali...";
+					$this->load->view('shared/header', $data);
+					$this->load->view('create', $data);
+					$this->load->view('shared/footer');
+				}
+			}
+			else {
+				$data = $this->page_view("Tambah User");
+				$data['message'] = "User baru gagal ditambahkan </br>".$result." </br>, silakan input kembali...";
+				$this->load->view('shared/header', $data);
+				$this->load->view('create', $data);
+				$this->load->view('shared/footer');
+			}
 		}
-		
 	}
 	
 	public function prosesUpdate(){
@@ -93,6 +125,8 @@ class User extends CI_Controller{
 		$no_kontak = $this->input->post('no_kontak');
 		$email = $this->input->post('email');
 		$id_user = $this->input->post('id_user');
+		$id_role = $this->input->post('id_role');
+
 		$arr = array( 'nama_user' => $nama_user, 
 						'user_login' => $user_login, 
 						'no_kontak' => $no_kontak, 
@@ -104,7 +138,10 @@ class User extends CI_Controller{
 		
 		
 		$result = $this->m_user->update_data($arr, $id_user);
-
+		if($id_role != ""){
+			$arr = array('id_role' => $id_role);
+			$result = $this->m_user->update_role($arr, $id_user);
+		}
 		if($result == 1){
 			$this->session->set_flashdata('message', 'User berhasil diperbarui...');
 	  		redirect(site_url().'/user');
@@ -120,6 +157,7 @@ class User extends CI_Controller{
 		
 		$data = $this->page_view($page_title);
 		$data['message'] = $message;
+		$data['roles'] = $this->m_role->getAll();
 		$users = $this->m_user->getUserById($id);
 		if($users == null){
 			//jika ID bernilai null, besar kemungkinan user melakukan direct hit url ke server
