@@ -70,9 +70,9 @@ function changeKotaKab(){
 					?>
 	                </select>
 				</div>
-				<a href="<?php echo site_url('moueksekutor/pembayaranView'); ?>/<?php echo $id; ?>" >
+				<!-- <a href="<?php echo site_url('moueksekutor/pembayaranView'); ?>/<?php echo $id; ?>" >
 						<button type="button" class="btn btn-primary btn-sm width30" >LIST PEMBAYARAN DONATUR</button>
-					</a>
+					</a> -->
 			</div>
 			<div class="form-group" >
 				<label class="col-sm-3 control-label">Tanggal MoU</label>
@@ -113,7 +113,7 @@ function changeKotaKab(){
 				</div>
 			</div>
 			<div class="form-group" >
-				<label class="col-sm-3 control-label">Kontak Eksekutor</label>
+				<label class="col-sm-3 control-label">No HP Eksekutor</label>
 				<div class="col-lg-5">
 					<input type="text" name="kontak_eksekutor" disabled value="<?php echo $moueksekutor['kontak_eksekutor'];?>" class="form-control input-sm" >
 				</div>
@@ -238,7 +238,7 @@ function changeKotaKab(){
 				</div>
 			</div>
 			<div class="form-group" >
-				<label class="col-sm-3 control-label">Kontak PIC Lokasi</label>
+				<label class="col-sm-3 control-label">No HP PIC Lokasi</label>
 				<div class="col-lg-5">
 					<input disabled type="text" style="font-size: 13pt;" name="kontak_pic_lokasi" value="<?php echo $moueksekutor['kontak_pic_lokasi'];?>" class="form-control input-sm" >
 				</div>

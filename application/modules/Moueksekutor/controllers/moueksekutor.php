@@ -20,6 +20,7 @@ class Moueksekutor extends CI_Controller{
 		}
 
 		if( $this->input->post('key') != null ){
+			$data['no_proyek'] = $this->input->post('no_proyek') == null ? null : $this->input->post('no_proyek');
 			$data['nama_proyek'] = $this->input->post('nama_proyek') == null ? null : $this->input->post('nama_proyek');
 			$data['alamat_proyek'] = $this->input->post('alamat_proyek') == null ? null : $this->input->post('alamat_proyek');
 			$data['progress'] = $this->input->post('progress') == null ? null : $this->input->post('progress');

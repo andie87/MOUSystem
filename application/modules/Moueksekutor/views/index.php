@@ -30,8 +30,10 @@
           <div class="box box-danger">
     
             <div class="box-header">
+              <?php if($this->session->userdata['access']['MoU']['MoU Eksekutor']['create']){?>
               <a class="btn btn-sm btn-primary" href="<?php echo site_url('moueksekutor/create'); ?>"><i class="fa fa-plus fa-lg"></i> 
                 <strong>MoU Eksekutor Baru</strong></a>
+                <?php }?>
               <span class="label label-info pull-right"><?php echo $moueksekutors->num_rows();?>  MoU</span>
               &nbsp;&nbsp;&nbsp;
               <a href="<?php echo site_url('moueksekutor/index'); ?>" >
@@ -46,76 +48,83 @@
                   <div class="box-header with-border">
                     <h4 class="box-title">
                       <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                        Filter
+                        Search
                       </a>
                     </h4>
                   </div>
                   <div id="collapseOne" class="panel-collapse collapse">
                     <div class="box-body">
                       <div class="box-header" style="border: 1px solid #ddd; margin-left: 10px;margin-right: 10px;">
-                        <table>
-                          <tr>
-                            <td>
-                              <label style="padding-right: 10px;">Jenis Proyek : </label>
-                              <input type="hidden" name="key" value=1>
-                            </td>
-                            <td colspan="2"  style="padding-bottom: 5px;">
-                              <select name="jenis_proyek" >
+                        <div class="form-group row" >
+                          <label class="col-md-2 col-form-label">Jenis Proyek :</label>
+                          <div class="col-md-3">
+                            <select name="jenis_proyek" class="form-control input-sm" >
                                 <option value="All">All</option>
-                          <?php 
-                            foreach ($proyeks->result() as $p) {
-                              if($jenis_proyek == $p->id_jenis_proyek){
-                                echo "<option selected value=".$p->id_jenis_proyek.">".$p->nama_proyek."</option>";
-                              } else {
-                                echo "<option value=".$p->id_jenis_proyek.">".$p->nama_proyek."</option>";
-                              }
-                            }
-                          ?>
-                                </select>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td ><label>Nama Proyek : </label></td>
-                            <td colspan="6"> 
-                              <input style="height: 21px;" value="<?php echo isset($nama_proyek)? $nama_proyek : ""; ?>" type="text" name="nama_proyek" />
-                              <label style="padding-right: 10px; padding-left: 10px;">Alamat Proyek : </label> 
-                              <input style="height: 21px;" value="<?php echo isset($alamat_proyek)? $alamat_proyek : ""; ?>" type="text" name="alamat_proyek" />
-                              <label style="padding-right: 10px; padding-left: 10px;">Progress : </label> 
-                              <input style="height: 21px; width: 30px;" value="<?php echo isset($progress)? $progress : ""; ?>" 
-                                onkeypress="return isNumberKey(event)" type="text" name="progress" />%
-                            </td>
-                          </tr>
-                          <tr style="vertical-align: top;">
-                          
-                            <td style="padding-right: 10px;" ><label>Tanggal MoU : </label></td>
-                            <td>
-                              <input id="datepickerMOU1" value="<?php echo isset($from_mou)? $from_mou : ""; ?>" 
-                                style="height: 21px;"  type="text" name="from_mou" />&nbsp;<strong>s/d</strong>&nbsp;
-                            </td>
-                            <td>
-                              <input id="datepickerMOU2" value="<?php echo isset($to_mou)? $to_mou : ""; ?>" 
-                                style="height: 21px;" type="text" name="to_mou" />
-                            </td>
-                            
-                            <td style="padding-right: 10px;padding-left: 15px;"><label>Tanggal Pembangunan : </label></td>
-                            <td>
-                              <input id="datepickerPembangunan1" value="<?php echo isset($from_pembangunan)? $from_pembangunan : ""; ?>" 
-                                style="height: 21px;" type="text" name="from_pembangunan" />&nbsp;<strong>s/d</strong>&nbsp;
-                            </td>
-                            <td>
-                              <input value="<?php echo isset($to_pembangunan)? $to_pembangunan : ""; ?>" name="to_pembangunan" 
-                                id="datepickerPembangunan2" style="height: 21px;" type="text" />
-                            </td>
-
-                          </tr>
-                          <tr>
-                            <td></td>
-                            <td colspan="3">
-                              <button name="search" type="submit" style="width: 100px;">Cari</button> &nbsp; 
-                              <button name="report" value=1 type="submit" style="width: 100px;">Report</button>
-                            </td>
-                          </tr>
-                        </table>
+                                <?php 
+                                  foreach ($proyeks->result() as $p) {
+                                    if($jenis_proyek == $p->id_jenis_proyek){
+                                      echo "<option selected value=".$p->id_jenis_proyek.">".$p->nama_proyek."</option>";
+                                    } else {
+                                      echo "<option value=".$p->id_jenis_proyek.">".$p->nama_proyek."</option>";
+                                    }
+                                  }
+                                ?>
+                            </select>
+                          </div>
+                          <label class="col-xs-2 col-form-label">Nama Proyek :</label>
+                          <div class="col-sm-3">
+                            <input type="hidden" name="key" value=1>
+                            <input class="form-control input-sm" value="<?php echo isset($nama_proyek)? $nama_proyek : ""; ?>" type="text" name="nama_proyek" />  
+                          </div>
+                        </div>
+                        <div class="form-group row" >
+                          <label class="col-md-2 col-form-label">No Proyek :</label>
+                          <div class="col-md-3">
+                            <input class="form-control input-sm" value="<?php echo isset($no_proyek)? $no_proyek : ""; ?>" type="text" name="no_proyek" />  
+                          </div>
+                          <label class="col-xs-2 col-form-label">Alamat Proyek :</label>
+                          <div class="col-sm-3">
+                            <input class="form-control input-sm" value="<?php echo isset($alamat_proyek)? $alamat_proyek : ""; ?>" type="text" name="alamat_proyek" />
+                          </div>
+                        </div>
+                        <div class="form-group row" >
+                          <label class="col-md-2 col-form-label">Progress :</label>
+                          <div class="col-md-3">
+                            <div class="input-group">
+                              <input class="form-control input-sm" value="<?php echo isset($progress)? $progress : ""; ?>" 
+                                onkeypress="return isNumberKey(event)" type="text" name="progress" />
+                                <span class="input-group-addon">%</span>
+                            </div> 
+                          </div>                          
+                        </div>
+                        <div class="form-group row" >
+                          <label class="col-md-2 col-form-label">Tanggal MOU :</label>
+                          <div class="col-md-6">
+                            <div class="input-group">
+                              <input class="form-control input-sm" id="datepickerMOU1" value="<?php echo isset($from_mou)? $from_mou : ""; ?>" type="text" name="from_mou" />
+                                <span class="input-group-addon">s/d</span>
+                              <input class="form-control input-sm" id="datepickerMOU2" value="<?php echo isset($to_mou)? $to_mou : ""; ?>" type="text" name="to_mou" />
+                            </div> 
+                          </div>                          
+                        </div>
+                        <div class="form-group row" >
+                          <label class="col-md-2 col-form-label">Tanggal Pembangunan</label>
+                          <div class="col-md-6">
+                            <div class="input-group">
+                              <input class="form-control input-sm" id="datepickerPembangunan1" value="<?php echo isset($from_pembangunan)? $from_pembangunan : ""; ?>" type="text" name="from_pembangunan" />
+                                <span class="input-group-addon">s/d</span>
+                              <input class="form-control input-sm" id="datepickerPembangunan2" value="<?php echo isset($to_pembangunan)? $to_pembangunan : ""; ?>" type="text" name="to_pembangunan" />
+                            </div> 
+                          </div>                          
+                        </div>
+                        <div class="form-group row">
+                          <div class="col-md-2">
+                            <button name="search" type="submit" class="btn btn-primary">Cari</button> &nbsp; 
+                          </div>
+                          <div class="col-md-2">
+                            <button name="report" value=1 type="submit" class="btn btn-secondary">Report</button>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -149,18 +158,24 @@
                         <td class="center"><?php echo getUserFormatDate($md->tanggal_mou); ?></td>
                         <td class="center"><?php echo getUserFormatDate($md->tanggal_pengerjaan); ?></td>
                         <td class="center-col">
+                          <?php if($this->session->userdata['access']['MoU']['MoU Eksekutor']['edit']){?>
                         	<a href="<?php echo site_url('moueksekutor/edit'); ?>/<?php echo $md->id_mou_eksekutor; ?>">
                         		<i class="fa fa-pencil fa-lg"></i>edit
                         	</a>
+                          <?php }?>
                         	&nbsp; 
+                          <?php if($this->session->userdata['access']['MoU']['MoU Eksekutor']['view']){?>
                         	<a href="<?php echo site_url('moueksekutor/view'); ?>/<?php echo $md->id_mou_eksekutor; ?>">
                         		<i class="fa fa-edit fa-lg"></i>view
                         	</a>
+                          <?php }?>
                         	&nbsp;
+                          <?php if($this->session->userdata['access']['MoU']['MoU Eksekutor']['delete']){?>
                         	<a href="#" data-toggle="modal" data-nama="<?php echo $md->nama_proyek;?>" 
                         	data-hapus="<?php echo $md->id_mou_eksekutor;?>" data-target="#deleteModal">
                         		<i class="fa fa-trash-o fa-lg"></i>delete
                         	</a>    
+                          <?php }?>
                         </td>
                     </tr>
                     <?php $i++; }?>

@@ -8,6 +8,16 @@ function changeKotaKab(){
 		}
 	});
 }
+function changeKecamatan(){
+	
+	var select_kotakab = $("#select_kotakab").val();
+	$.ajax({
+		url: "<?php echo base_url('index.php/moudonatur/selectkecamatan' ); ?>/" + select_kotakab, 
+		success: function(result) {
+			$("#select_kecamatan").html(result);					
+		}
+	});
+}
 </script>
 
 <div class="content-wrapper">
@@ -96,7 +106,7 @@ function changeKotaKab(){
 					</div>
 				</div>
 				<div class="form-group" >
-					<label class="col-sm-3 control-label">Kontak Eksekutor</label>
+					<label class="col-sm-3 control-label">No HP Eksekutor</label>
 					<div class="col-lg-5">
 						<input type="text" name="kontak_eksekutor" class="form-control input-sm" >
 					</div>
@@ -147,7 +157,15 @@ function changeKotaKab(){
 				<div class="form-group" >
 					<label class="col-sm-3 control-label">Kota/Kabupaten</label>
 					<div class="col-lg-5" id="div_kota_kab">
-						<select id="select_kotakab" class="form-control select2" name="kota" style="width: 100%;">
+						<select id="select_kotakab" class="form-control select2" name="kota" style="width: 100%;" onChange="changeKecamatan(this.val);">
+							<option>Please select</option>
+		                </select>
+					</div>
+				</div>
+				<div class="form-group" >
+					<label class="col-sm-3 control-label">Kecamatan</label>
+					<div class="col-lg-5" id="div_kecamatan">
+						<select id="select_kecamatan" class="form-control select2" name="kecamatan" style="width: 100%;">
 							<option>Please select</option>
 		                </select>
 					</div>
@@ -202,7 +220,7 @@ function changeKotaKab(){
 					</div>
 				</div>
 				<div class="form-group" >
-					<label class="col-sm-3 control-label">Kontak PIC Lokasi</label>
+					<label class="col-sm-3 control-label">No HP PIC Lokasi</label>
 					<div class="col-lg-5">
 						<input type="text" style="font-size: 13pt;" name="kontak_pic_lokasi" class="form-control input-sm" >
 					</div>

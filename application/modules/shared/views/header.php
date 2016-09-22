@@ -160,6 +160,23 @@
             <li><a href="pages/layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
           </ul>
         </li> -->
+        <?php foreach($this->session->userdata('access') as $key => $access){?>
+          <li class="treeview <?php if($menuaktif == "wilayah"): ?>active <?php endif;?>">
+            <a href="#">
+              <i class="fa fa-map-marker"></i> <span><?php echo $access["top_menu_name"]; ?></span>            
+            </a>
+            <ul class="treeview-menu">
+              <?php 
+              foreach ($access as $k => $val) {
+                  if ($k != "top_menu_name") {
+                      echo '<li><a href="' . ($val["page_name"]) . '"><i class="fa fa-circle-o"></i>' . $val["menu_name"] . '</a></li>'; 
+                  }
+              }
+              ?>
+            </ul>
+
+        <?php } ?>
+
         <li <?php if($menuaktif == "moudonatur"): ?>class="active" <?php endif;?>>
           <a href="<?php echo site_url('moudonatur');?>">
             <i class="fa fa-files-o"></i> <span>MoU Donatur</span>
@@ -180,7 +197,7 @@
             <i class="fa fa-legal"></i> <span>Eksekutor</span>            
           </a>
         </li>
-		<li <?php if($menuaktif == "role"): ?>class="active" <?php endif;?>>
+		    <li <?php if($menuaktif == "role"): ?>class="active" <?php endif;?>>
           <a href="<?php echo site_url('role');?>">
             <i class="fa fa-files-o"></i> <span>Role</span>
           </a>

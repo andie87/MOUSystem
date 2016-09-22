@@ -25,6 +25,9 @@ class M_moueksekutor extends CI_Model{
 			if($param['jenis_proyek'] != null){
 				$where .= " AND mou_eksekutor.id_jenis_proyek = ".$param['jenis_proyek'];
 			}
+			if($param['no_proyek'] != null){
+				$where .= " AND mou_donatur.nomor_proyek = ".$param['no_proyek'];
+			}
 			if($param['nama_proyek'] != null){
 				$where .= " AND lower(nama_proyek) like '%".strtolower($param['nama_proyek'])."%'";
 			}

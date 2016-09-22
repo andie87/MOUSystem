@@ -48,16 +48,22 @@ class Login extends CI_Controller{
 					$fullname = $datalogin['nama_user'];
 					$userlogin = $datalogin['user_login'];
 					$email = $datalogin['email'];
+					$role = $datalogin['id_role'];
 				}
+
+				$commonModule = $this->M_login->getModule();
+				$allModules = $this->M_login->getlAllModules();
+				$roleRights = $this->M_login->getRoleRights($role);
 				$dlogin = array(
 						'username' => $fullname,
 						'userlogin' => $userlogin,
 						'email' => $email,
-						'logged_in' => TRUE
+						'logged_in' => TRUE,
+						'access' => $this->set_rights($allModules, $roleRights)
 					);
 
 				$this->session->set_userdata($dlogin);
-				redirect(site_url().'/moudonatur');
+				redirect(site_url().'/dashboard');				
 			}
 			
 			else {
@@ -77,4 +83,38 @@ class Login extends CI_Controller{
 			}
 		}
 	}
+
+	function set_rights($allModules, $menuRights) {
+	    $data = array();
+
+	    for ($i = 0, $c = count($allModules); $i < $c; $i++) {
+
+
+	        $row = array();
+	        for ($j = 0, $c2 = count($menuRights); $j < $c2; $j++) {
+	            if ($menuRights[$j]["id_module"] == $allModules[$i]["id_module"]) {
+	                if ($menuRights[$j]["create"] || $menuRights[$j]["edit"] ||
+	                        $menuRights[$j]["delete"] || $menuRights[$j]["view"]) {
+
+	                    $row["menu"] = $allModules[$i]["module_group_name"];
+	                	$row["menu_name"] = $allModules[$i]["module_name"];
+	                    $row["page_name"] = $allModules[$i]["module_page"];
+	                    $row["create"] = $menuRights[$j]["create"];
+	                    $row["edit"] = $menuRights[$j]["edit"];
+	                    $row["delete"] = $menuRights[$j]["delete"];
+	                    $row["view"] = $menuRights[$j]["view"];
+
+	                    $data[$allModules[$i]["module_group_name"]][$allModules[$j]["module_name"]] = $row;
+	                    $data[$allModules[$i]["module_group_name"]]["top_menu_name"] = $allModules[$i]["module_group_name"];
+	                }
+	            }
+	        }
+	    }
+	    
+	    return $data;
+	}
+
+	function authorize($module) {
+    return $module;
+}
 }

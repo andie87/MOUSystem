@@ -16,8 +16,8 @@ class Dashboard extends CI_Controller{
 			redirect(site_url().'/login');
 		}
 
-		$data['page'] = "Dashboard";
-		$data['menuaktif'] = "dashboard";
+		$data['page'] = "Welcome";
+		$data['menuaktif'] = "welcome";
 		$this->load->view('shared/header', $data);
 		$this->load->view('index', $data);
 		$this->load->view('shared/footer');
