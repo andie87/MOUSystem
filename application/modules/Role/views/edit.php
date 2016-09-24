@@ -28,6 +28,31 @@
 						<input type="hidden" name="id_role" value="<?php echo $role['id_role']; ?>">
 					</div>
 				</div>
+				<hr/>
+				<?php foreach($modules->result() as $module){
+					foreach($access->result() as $k){
+						if($module->id_module == $k->id_module){?>
+	      				<div class="form-group">
+							<label class="col-sm-2 control-label"> <?php echo $module->module_name ?> </label>
+							<!-- VALUE DARI CHECKBOX ADALAH ID_ROLE_RIGHTS-->
+			                <div class="col-sm-1">
+				                  <input type="checkbox" class="minimal" name="view[]" value="<?php echo $k->id_role_rights; ?>" <?php if($k->view){?> Checked <?php } ?>> View
+				            </div>
+			                <div class="col-sm-1">
+				                  <input type="checkbox" class="minimal" name="create[]" value="<?php echo $k->id_role_rights; ?>" <?php if($k->create){?> Checked <?php } ?>> Create
+				            </div>
+			                <div class="col-sm-1">
+				                  <input type="checkbox" class="minimal" name="edit[]" value="<?php echo $k->id_role_rights; ?>" <?php if($k->edit){?> Checked <?php } ?>> Update
+				            </div>
+				            <div class="col-sm-1">
+				                  <input type="checkbox" class="minimal" name="delete[]" value="<?php echo $k->id_role_rights; ?>" <?php if($k->delete){?> Checked <?php } ?>> Delete
+				            </div>
+				        </div>
+				<?php   
+						}
+					}
+				}
+				?>
 				<div class="form-group">
 					<div class="col-lg-offset-2 col-lg-5">
 						<button type="submit" class="btn btn-success btn-sm">Update</button>

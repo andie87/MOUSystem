@@ -59,6 +59,7 @@ class Login extends CI_Controller{
 						'userlogin' => $userlogin,
 						'email' => $email,
 						'logged_in' => TRUE,
+						'role' => $id_role,
 						'access' => $this->set_rights($allModules, $roleRights)
 					);
 
@@ -103,6 +104,7 @@ class Login extends CI_Controller{
 	                    $row["edit"] = $menuRights[$j]["edit"];
 	                    $row["delete"] = $menuRights[$j]["delete"];
 	                    $row["view"] = $menuRights[$j]["view"];
+	                    $row['id'] = $menuRights[$j]["id_module"];
 
 	                    $data[$allModules[$i]["module_group_name"]][$allModules[$j]["module_name"]] = $row;
 	                    $data[$allModules[$i]["module_group_name"]]["top_menu_name"] = $allModules[$i]["module_group_name"];

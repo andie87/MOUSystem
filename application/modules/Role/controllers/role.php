@@ -28,6 +28,7 @@ class Role extends CI_Controller{
 	public function create(){
 		
 		$data = $this->page_view("Tambah Role");
+		$data['modules'] = $this->m_role->getAllModule();
 		$this->load->view('shared/header', $data);
 		$this->load->view('create', $data);
 		$this->load->view('shared/footer');
@@ -62,7 +63,18 @@ class Role extends CI_Controller{
 		$nama = $this->input->post('nama');
 		$arr = array( 'nama_role' => $nama );
 		$result = $this->m_role->input_data($arr);
-
+		$role = $this->m_role->getRoleByName($nama);
+		$modules = $this->m_role->getAllModule();
+		foreach ($modules->result() as $module) {
+			$arr = array('id_role' => $role[0]->id_role,
+				'id_module'=> $module->id_module,
+				'view' => false,
+				'edit' => false,
+				'create' => false,
+				'delete' => false );
+			$result = $this->m_role->input_access($arr);
+		}
+		
 		if($result == 1){
 			$this->session->set_flashdata('message', 'Role baru berhasil ditambahkan...');
 	  		redirect(site_url().'/role');
@@ -81,8 +93,35 @@ class Role extends CI_Controller{
 		$data = $this->page_view("List Role");
 		$nama_role = $this->input->post('nama_role');
 		$id_role = $this->input->post('id_role');
+		$view = $this->input->post('view');
+		$edit = $this->input->post('edit');
+		$create = $this->input->post('create');
+		$delete = $this->input->post('delete');
 		$arr = array( 'nama_role' => $nama_role, 'id_role' => $id_role );
 		$result = $this->m_role->update_data($arr);
+
+		try{
+			$this->m_role->reset_access($id_role);
+			foreach ($view as $key => $value) {
+				$id_role_rights = explode("_", $value)[0];
+				$this->m_role->update_access("1", "role_rights.view", $id_role_rights);
+			}
+			foreach ($edit as $key => $value) {
+				$id_role_rights = explode("_", $value)[0];
+				$this->m_role->update_access("1", "role_rights.edit", $id_role_rights);
+			}
+			foreach ($create as $key => $value) {
+				$id_role_rights = explode("_", $value)[0];
+				$this->m_role->update_access("1", "role_rights.create", $id_role_rights);
+			}
+			foreach ($delete as $key => $value) {
+				$id_role_rights = explode("_", $value)[0];
+				$this->m_role->update_access("1", "role_rights.delete", $id_role_rights);
+			}
+		}
+		catch (Exception $e){
+			$result = 0;
+		}
 
 		if($result == 1){
 			$this->session->set_flashdata('message', 'Role berhasil diperbarui...');
@@ -113,6 +152,8 @@ class Role extends CI_Controller{
 				$data['role']['id_role'] = "";
 			}
 		}
+		$data['modules'] = $this->m_role->getAllModule();
+		$data['access'] = $this->m_role->getAccess($data['role']['id_role']);
 		$this->load->view('shared/header', $data);
 		$this->load->view('edit', $data);
 		$this->load->view('shared/footer');

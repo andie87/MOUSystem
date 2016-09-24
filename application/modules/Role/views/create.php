@@ -19,19 +19,20 @@
 	    	</div>
     	<?php } ?>
     	
-		<div class="panel-body">
-			<?php echo form_open('role/prosesCreate', array('class'=>'form-horizontal','method'=>'post'));?>
+		<div class="box box-success">            
+            <div class="box-body">
+            	<?php echo form_open('role/prosesCreate', array('class'=>'form-horizontal','method'=>'post'));?>
 				<div class="form-group" style="padding-top: 20px;">
 					<label class="col-sm-2 control-label">Nama Role</label>
 					<div class="col-lg-5">
 						<input type="text" name="nama" class="form-control input-sm" >
 					</div>
 				</div>
-				<div class="form-group">
 					<div class="col-lg-offset-2 col-lg-5">
 						<button type="submit" class="btn btn-success btn-sm">Tambah</button>
 					</div>
 				</div>
+			</div>
 		</div>
 	</div>
 	</div>
