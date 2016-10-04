@@ -441,6 +441,7 @@ class Moueksekutor extends CI_Controller{
 		$alamat_pic_lokasi = $this->input->post('alamat_pic_lokasi');
 		$nama_bangunan_di_lokasi = $this->input->post('nama_bangunan_di_lokasi');
 		$tanggal_selesai = getMysqlFormatDate($this->input->post('tanggal_selesai')); 
+		$progress_proyek = $this->input->post('progress_proyek');
 		
 		
 		$arr = array( 'id_eksekutor' => $id_eksekutor,
@@ -467,7 +468,8 @@ class Moueksekutor extends CI_Controller{
 						'kontak_pic_lokasi' => $kontak_pic_lokasi,
 						'alamat_pic_lokasi' => $alamat_pic_lokasi,
 						'nama_bangunan_di_lokasi' => $nama_bangunan_di_lokasi,
-						'tanggal_selesai' => $tanggal_selesai
+						'tanggal_selesai' => $tanggal_selesai,
+						'progress_proyek' => $progress_proyek
 		 			);
 		
 		$result = $this->m_moueksekutor->update_data($arr, $id_mou_eksekutor);

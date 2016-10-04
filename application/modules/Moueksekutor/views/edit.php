@@ -283,6 +283,13 @@ function changeKecamatan(){
 						<input type="text" id="nama_bangunan_di_lokasi" value="<?php echo $moueksekutor['nama_bangunan_di_lokasi'];?>" style="font-size: 13pt;" name="nama_bangunan_di_lokasi" class="form-control input-sm" >
 					</div>
 				</div>
+				<div class="form-group" >
+					<label class="col-sm-3 control-label">Progress (dalam persen)</label>
+					<div class="col-lg-5">
+						<input type="text" id="progress_proyek" style="font-size: 13pt;" name="progress_proyek" class="form-control pull-right" 
+						 value="<?php echo $moueksekutor['progress_proyek']; ?>" onkeypress="return isNumberKey(event)"><br />
+					</div>
+				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label"></label>
 					<div class="col-lg-5">
