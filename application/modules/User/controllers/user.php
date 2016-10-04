@@ -11,7 +11,7 @@ class User extends CI_Controller{
 
 	public function index(){
 
-		$data = $this->page_view("List User");
+		$data = $this->page_view("List User", "view");
 		if(count($this->session->flashdata('message')) > 0){
 			$data['message'] = $this->session->flashdata('message');
 		}
@@ -19,6 +19,7 @@ class User extends CI_Controller{
 			$data['message_failed'] = $this->session->flashdata('message_failed');
 		}
 		$role_array = $this->m_user->get_role_array();
+		
 		$arr_role = array();
 		foreach($role_array as $r){
 			$arr_role[$r['id_role']] = $r['nama_role'];
@@ -34,7 +35,7 @@ class User extends CI_Controller{
 
 	public function create(){
 		
-		$data = $this->page_view("Tambah User");
+		$data = $this->page_view("Tambah User", "create");
 		$data['roles'] = $this->m_role->getAll();
 		$this->load->view('shared/header', $data);
 		$this->load->view('create', $data);
@@ -51,7 +52,7 @@ class User extends CI_Controller{
 	
 	public function delete(){
 		
-		$data = $this->page_view("List User");
+		$data = $this->page_view("List User", "delete");
 		$id = $this->input->post('id');
 		$arr = array( 'id_user' => $id );
 		$result = $this->m_user->delete_data($arr);
@@ -66,7 +67,7 @@ class User extends CI_Controller{
 
 	public function prosesCreate(){
 		
-		$data = $this->page_view("List User");
+		$data = $this->page_view("List User", "create");
 		$nama_user = $this->input->post('nama_user');
 		$user_login = $this->input->post('user_login');
 		$password = sha1($this->input->post('password'));
@@ -75,7 +76,7 @@ class User extends CI_Controller{
 		$id_role = $this->input->post('id_role');
 
 		if($id_role == ""){
-			$data = $this->page_view("Tambah User");
+			$data = $this->page_view("Tambah User", "create");
 			$data['roles'] = $this->m_role->getAll();
 			$data['message'] = "Role harus diisi, silakan input kembali...";
 			$this->load->view('shared/header', $data);
@@ -99,7 +100,7 @@ class User extends CI_Controller{
 					$this->session->set_flashdata('message', 'User baru berhasil ditambahkan...');
 			  		redirect(site_url().'/user');
 				} else {
-					$data = $this->page_view("Tambah User");
+					$data = $this->page_view("Tambah User", "create");
 					$data['message'] = "User baru gagal ditambahkan </br>".$result." </br>, silakan input kembali...";
 					$this->load->view('shared/header', $data);
 					$this->load->view('create', $data);
@@ -107,7 +108,7 @@ class User extends CI_Controller{
 				}
 			}
 			else {
-				$data = $this->page_view("Tambah User");
+				$data = $this->page_view("Tambah User", "create");
 				$data['message'] = "User baru gagal ditambahkan </br>".$result." </br>, silakan input kembali...";
 				$this->load->view('shared/header', $data);
 				$this->load->view('create', $data);
@@ -118,7 +119,7 @@ class User extends CI_Controller{
 	
 	public function prosesUpdate(){
 		
-		$data = $this->page_view("List User");
+		$data = $this->page_view("List User", "edit");
 		$nama_user = $this->input->post('nama_user');
 		$user_login = $this->input->post('user_login');
 		$password = $this->input->post('password');
@@ -155,7 +156,7 @@ class User extends CI_Controller{
 	
 	private function master_edit($id, $page_title, $message=null){
 		
-		$data = $this->page_view($page_title);
+		$data = $this->page_view($page_title, "edit");
 		$data['message'] = $message;
 		$data['roles'] = $this->m_role->getAll();
 		$users = $this->m_user->getUserById($id);
@@ -178,15 +179,29 @@ class User extends CI_Controller{
 		
 	}
 	
-	private function page_view($page){
+	private function page_view($page, $access_level){
 		
 		//no user session, redirect to login page
 		if($this->session->userdata('userlogin')==""){
 			redirect(site_url().'/login');
 		}
 		
+		//manage access
+		$access_user = "user";
+		$granted_access = $this->session->userdata('access');
+		if(isset($granted_access[$access_user])){
+			if(strpos($granted_access[$access_user], $access_level) === false){
+				//jika tidak ada akses ke function ini maka arahkan ke dashboard
+				redirect(site_url().'/dashboard');
+			}
+		} else {
+			//jika tidak ada akses ke halaman ini maka arahkan ke dashboard
+			redirect(site_url().'/dashboard');
+		}
+		
 		$data['page'] = $page;
-		$data['menuaktif'] = "user";
+		$data['menuaktif'] = $access_user;
+		$data['menu'] = $this->session->userdata('access');
 		return $data;
 	
 	}

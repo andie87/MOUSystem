@@ -30,10 +30,8 @@
           <div class="box box-danger">
     
             <div class="box-header">
-                <?php if($this->session->userdata['access']['MoU']['MoU Donatur']['create']){?>
                   <a class="btn btn-sm btn-primary" href="<?php echo site_url('moudonatur/create'); ?>"><i class="fa fa-plus fa-lg"></i> 
                   	<strong>MoU Donatur Baru</strong></a>
-                <?php } ?>
               <span class="label label-info pull-right"><?php echo $moudonaturs->num_rows();?>  MoU</span>
             	&nbsp;&nbsp;&nbsp;
               <!-- <a href="<?php echo site_url('moudonatur/index'); ?>" >

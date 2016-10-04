@@ -109,7 +109,7 @@
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
-      <!-- Sidebar user panel -->
+      <!-- Sidebar user panel 
       <div class="user-panel">
         <div class="pull-left image">
           <img src="<?php echo base_url('asset/dist/img/user2-160x160.jpg')?>" class="img-circle" alt="User Image">
@@ -119,6 +119,7 @@
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
+      -->
       <!-- search form -->
       <!-- <form action="#" method="get" class="sidebar-form">
         <div class="input-group">
@@ -159,7 +160,7 @@
             <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>
             <li><a href="pages/layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
           </ul>
-        </li> -->
+        </li> 
         <?php foreach($this->session->userdata('access') as $key => $access){?>
           <li class="treeview <?php if($menuaktif == "wilayah"): ?>active <?php endif;?>">
             <a href="#">
@@ -176,54 +177,80 @@
             </ul>
 
         <?php } ?>
+        -->
 
+		<?php if(isset($menu['moudonatur'])){ ?>
         <li <?php if($menuaktif == "moudonatur"): ?>class="active" <?php endif;?>>
           <a href="<?php echo site_url('moudonatur');?>">
             <i class="fa fa-files-o"></i> <span>MoU Donatur</span>
           </a>
         </li>
+        <?php } ?>
+        
+        <?php if(isset($menu['moueksekutor'])){ ?>
         <li <?php if($menuaktif == "moueksekutor"): ?>class="active" <?php endif;?>>
           <a href="<?php echo site_url('moueksekutor');?>">
             <i class="fa fa-files-o"></i> <span>MoU Eksekutor</span>
           </a>
         </li>
+        <?php } ?>
+        
+        <?php if(isset($menu['donatur'])){ ?>
         <li <?php if($menuaktif == "donatur"): ?>class="active" <?php endif;?>>
           <a href="<?php echo site_url('donatur');?>">
             <i class="fa fa-university"></i> <span>Donatur</span>            
           </a>
         </li>
+        <?php } ?>
+        
+        <?php if(isset($menu['eksekutor'])){ ?>
         <li <?php if($menuaktif == "eksekutor"): ?>class="active" <?php endif;?>>
           <a href="<?php echo site_url('eksekutor');?>">
             <i class="fa fa-legal"></i> <span>Eksekutor</span>            
           </a>
         </li>
-		    <li <?php if($menuaktif == "role"): ?>class="active" <?php endif;?>>
+        <?php } ?>
+		
+		<?php if(isset($menu['role'])){ ?>
+		<li <?php if($menuaktif == "role"): ?>class="active" <?php endif;?>>
           <a href="<?php echo site_url('role');?>">
             <i class="fa fa-files-o"></i> <span>Role</span>
           </a>
         </li>
+        <?php } ?>
+        
+        <?php if(isset($menu['user'])){ ?>
         <li <?php if($menuaktif == "user"): ?>class="active" <?php endif;?>>
           <a href="<?php echo site_url('user');?>">
             <i class="fa fa-files-o"></i> <span>User</span>
           </a>
         </li>
-        <li class="treeview <?php if($menuaktif == "wilayah"): ?>active <?php endif;?>">
-          <a href="#">
-            <i class="fa fa-map-marker"></i> <span>Wilayah</span>            
+        <?php } ?>
+        
+        <?php if(isset($menu['provinsi'])){ ?>
+        <li <?php if($menuaktif == "provinsi"): ?>class="active" <?php endif;?>>
+          <a href="<?php echo site_url('provinsi');?>">
+            <i class="fa fa-map-marker"></i> <span>Provinsi</span>
           </a>
-          <ul class="treeview-menu">
-            <li><a href="<?php echo site_url('provinsi');?>"><i class="fa fa-circle-o"></i> Provinsi</a></li>
-            <li><a href="<?php echo site_url('kota');?>"><i class="fa fa-circle-o"></i> Kota / Kabupaten</a></li>
-          </ul>
         </li>
-        <li class="treeview <?php if($menuaktif == "proyek"): ?>active <?php endif;?>">
-          <a href="#">
-            <i class="fa fa-map-marker"></i> <span>Proyek</span>            
+        <?php } ?>
+        
+        <?php if(isset($menu['kota'])){ ?>
+        <li <?php if($menuaktif == "kota"): ?>class="active" <?php endif;?>>
+          <a href="<?php echo site_url('kota');?>">
+            <i class="fa fa-map-marker"></i> <span>Kota</span>
           </a>
-          <ul class="treeview-menu">
-            <li><a href="<?php echo site_url('jenisproyek');?>"><i class="fa fa-circle-o"></i> Jenis Proyek</a></li>
-          </ul>
         </li>
+        <?php } ?>
+        
+        <?php if(isset($menu['jenisproyek'])){ ?>
+        <li <?php if($menuaktif == "jenisproyek"): ?>class="active" <?php endif;?>>
+          <a href="<?php echo site_url('jenisproyek');?>">
+            <i class="fa fa-map-marker"></i> <span>Jenis Proyek</span>
+          </a>
+        </li>
+        <?php } ?>
+        
         <!-- <li class="treeview <?php if($menuaktif == "dokumen"): ?>active <?php endif;?>">
           <a href="#">
             <i class="fa fa-map-marker"></i> <span>Dokumen</span>            

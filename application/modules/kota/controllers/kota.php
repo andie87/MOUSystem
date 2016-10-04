@@ -12,7 +12,7 @@ class Kota extends CI_Controller{
 	}
 
 	public function index(){
-		$data = $this->page_view("List Kota");
+		$data = $this->page_view("List Kota", "view");
 		if(count($this->session->flashdata('message')) > 0){
 			$data['message'] = $this->session->flashdata('message');
 		}
@@ -27,7 +27,7 @@ class Kota extends CI_Controller{
 
 	public function lists(){
 		$id = $this->uri->segment('3');
-		$data = $this->page_view("List Kota");
+		$data = $this->page_view("List Kota", "view");
 		if(count($this->session->flashdata('message')) > 0){
 			$data['message'] = $this->session->flashdata('message');
 		}
@@ -43,7 +43,7 @@ class Kota extends CI_Controller{
 
 	public function create(){
 		
-		$data = $this->page_view("Tambah kota");
+		$data = $this->page_view("Tambah kota", "create");
 		$data['provinces'] = $this->m_provinsi->getAll();
 		$this->load->view('shared/header', $data);
 		$this->load->view('create', $data);
@@ -60,7 +60,7 @@ class Kota extends CI_Controller{
 	
 	public function delete(){
 		
-		$data = $this->page_view("List kota");
+		$data = $this->page_view("List kota", "delete");
 		$id = $this->input->post('id');
 		$arr = array( 'id_kota_kab' => $id );
 		$result = $this->m_kota->delete_data($arr);
@@ -75,7 +75,7 @@ class Kota extends CI_Controller{
 
 	public function prosesCreate(){
 		
-		$data = $this->page_view("List kota");
+		$data = $this->page_view("List kota", "create");
 		$id_provinsi = $this->input->post('id_provinsi');
 		$nama_kota = $this->input->post('nama_kota');
 		$arr = array( 'id_provinsi' => $id_provinsi,
@@ -86,7 +86,7 @@ class Kota extends CI_Controller{
 			$this->session->set_flashdata('message', 'kota baru berhasil ditambahkan...');
 	  		redirect(site_url().'/kota');
 		} else {
-			$data = $this->page_view("Tambah kota");
+			$data = $this->page_view("Tambah kota", "create");
 			$data['provinces'] = $this->m_provinsi->getAll();
 			$data['message'] = "kota baru gagal ditambahkan, silakan input kembali...";
 			$this->load->view('shared/header', $data);
@@ -98,7 +98,7 @@ class Kota extends CI_Controller{
 	
 	public function prosesUpdate(){
 		
-		$data = $this->page_view("List kota");
+		$data = $this->page_view("List kota", "edit");
 		$id_provinsi = $this->input->post('id_provinsi');
 		$nama_kota = $this->input->post('nama_kota_kab');
 		$id_kota = $this->input->post('id_kota_kab');
@@ -120,7 +120,7 @@ class Kota extends CI_Controller{
 	
 	private function master_edit($id, $page_title, $message=null){
 		
-		$data = $this->page_view($page_title);
+		$data = $this->page_view($page_title, "edit");
 		$data['message'] = $message;		
 		$data['provinces'] = $this->m_provinsi->getAll();
 		$kotas = $this->m_kota->getkotaById($id);
@@ -143,15 +143,30 @@ class Kota extends CI_Controller{
 		
 	}
 
-	private function page_view($page){
+	private function page_view($page, $access_level){
 		
 		//no kota session, redirect to login page
 		if($this->session->userdata('userlogin')==""){
 			redirect(site_url().'/login');
 		}
 		
+		//manage access
+		$access_kota = "kota";
+		$granted_access = $this->session->userdata('access');
+		
+		if(isset($granted_access[$access_kota])){
+			if(strpos($granted_access[$access_kota], $access_level) === false){
+				//jika tidak ada akses ke function ini maka arahkan ke dashboard
+				redirect(site_url().'/dashboard');
+			}
+		} else {
+			//jika tidak ada akses ke halaman ini maka arahkan ke dashboard
+			redirect(site_url().'/dashboard');
+		}
+		
 		$data['page'] = $page;
-		$data['menuaktif'] = "wilayah";
+		$data['menuaktif'] = $access_kota;
+		$data['menu'] = $this->session->userdata('access');
 		return $data;
 	
 	}

@@ -11,7 +11,7 @@ class Role extends CI_Controller{
 
 	public function index(){
 
-		$data = $this->page_view("List Role");
+		$data = $this->page_view("List Role", "view");
 		if(count($this->session->flashdata('message')) > 0){
 			$data['message'] = $this->session->flashdata('message');
 		}
@@ -27,7 +27,7 @@ class Role extends CI_Controller{
 
 	public function create(){
 		
-		$data = $this->page_view("Tambah Role");
+		$data = $this->page_view("Tambah Role", "create");
 		$data['modules'] = $this->m_role->getAllModule();
 		$this->load->view('shared/header', $data);
 		$this->load->view('create', $data);
@@ -44,7 +44,7 @@ class Role extends CI_Controller{
 	
 	public function delete(){
 		
-		$data = $this->page_view("List Role");
+		$data = $this->page_view("List Role", "delete");
 		$id = $this->input->post('id');
 		$arr = array( 'id_role' => $id );
 		$result = $this->m_role->delete_data($arr);
@@ -59,7 +59,7 @@ class Role extends CI_Controller{
 
 	public function prosesCreate(){
 		
-		$data = $this->page_view("List Role");
+		$data = $this->page_view("List Role", "create");
 		$nama = $this->input->post('nama');
 		$arr = array( 'nama_role' => $nama );
 		$result = $this->m_role->input_data($arr);
@@ -79,7 +79,7 @@ class Role extends CI_Controller{
 			$this->session->set_flashdata('message', 'Role baru berhasil ditambahkan...');
 	  		redirect(site_url().'/role');
 		} else {
-			$data = $this->page_view("Tambah Role");
+			$data = $this->page_view("Tambah Role", "create");
 			$data['message'] = "Role baru gagal ditambahkan, silakan input kembali...";
 			$this->load->view('shared/header', $data);
 			$this->load->view('create', $data);
@@ -90,7 +90,7 @@ class Role extends CI_Controller{
 	
 	public function prosesUpdate(){
 		
-		$data = $this->page_view("List Role");
+		$data = $this->page_view("List Role", "edit");
 		$nama_role = $this->input->post('nama_role');
 		$id_role = $this->input->post('id_role');
 		$view = $this->input->post('view');
@@ -136,7 +136,7 @@ class Role extends CI_Controller{
 	
 	private function master_edit($id, $page_title, $message=null){
 		
-		$data = $this->page_view($page_title);
+		$data = $this->page_view($page_title, "edit");
 		$data['message'] = $message;
 		$roles = $this->m_role->getRoleById($id);
 		if($roles == null){
@@ -160,15 +160,29 @@ class Role extends CI_Controller{
 		
 	}
 	
-	private function page_view($page){
+	private function page_view($page, $access_level){
 		
 		//no user session, redirect to login page
 		if($this->session->userdata('userlogin')==""){
 			redirect(site_url().'/login');
 		}
 		
+		//manage access
+		$access_role = "role";
+		$granted_access = $this->session->userdata('access');
+		if(isset($granted_access[$access_role])){
+			if(strpos($granted_access[$access_role], $access_level) === false){
+				//jika tidak ada akses ke function ini maka arahkan ke dashboard
+				redirect(site_url().'/dashboard');
+			}
+		} else {
+			//jika tidak ada akses ke halaman ini maka arahkan ke dashboard
+			redirect(site_url().'/dashboard');
+		}
+		
 		$data['page'] = $page;
-		$data['menuaktif'] = "role";
+		$data['menuaktif'] = $access_role;
+		$data['menu'] = $this->session->userdata('access');
 		return $data;
 	
 	}

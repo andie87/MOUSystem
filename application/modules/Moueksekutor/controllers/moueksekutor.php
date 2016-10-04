@@ -545,15 +545,29 @@ class Moueksekutor extends CI_Controller{
 		
 	}
 	
-	private function page_view($page){
+	private function page_view($page, $access_level){
 		
 		//no user session, redirect to login page
 		if($this->session->userdata('userlogin')==""){
 			redirect(site_url().'/login');
 		}
 		
+		//manage access
+		$access_moueksekutor = "moueksekutor";
+		$granted_access = $this->session->userdata('access');
+		if(isset($granted_access[$access_moueksekutor])){
+			if(strpos($granted_access[$access_moueksekutor], $access_level) === false){
+				//jika tidak ada akses ke function ini maka arahkan ke dashboard
+				redirect(site_url().'/dashboard');
+			}
+		} else {
+			//jika tidak ada akses ke halaman ini maka arahkan ke dashboard
+			redirect(site_url().'/dashboard');
+		}
+		
 		$data['page'] = $page;
-		$data['menuaktif'] = "moueksekutor";
+		$data['menuaktif'] = $access_moueksekutor;
+		$data['menu'] = $this->session->userdata('access');
 		return $data;
 	
 	}

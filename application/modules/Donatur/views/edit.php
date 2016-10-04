@@ -40,7 +40,7 @@
 				<div class="form-group">
 					<label class="col-sm-2 control-label">Nama Donatur</label>
 					<div class="col-lg-5">
-						<input type="hidden" name="id_eksekutor" value="<?php echo $donatur['id_donatur']; ?>">
+						<input type="hidden" name="id_donatur" value="<?php echo $donatur['id_donatur']; ?>">
 						<input type="text" name="nama" class="form-control input-sm" value="<?php echo $donatur['nama_donatur']; ?>" placeholder="Nama Donatur">
 					</div><!-- /.col -->
 				</div><!-- /form-group -->

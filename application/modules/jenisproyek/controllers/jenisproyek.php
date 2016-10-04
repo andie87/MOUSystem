@@ -12,7 +12,7 @@ class JenisProyek extends CI_Controller{
 	}
 
 	public function index(){
-		$data = $this->page_view("List Proyek");
+		$data = $this->page_view("List Proyek", "view");
 		if(count($this->session->flashdata('message')) > 0){
 			$data['message'] = $this->session->flashdata('message');
 		}
@@ -30,7 +30,7 @@ class JenisProyek extends CI_Controller{
 
 	public function create(){
 		
-		$data = $this->page_view("Tambah proyek");
+		$data = $this->page_view("Tambah proyek", "create");
 		$this->load->view('shared/header', $data);
 		$this->load->view('create', $data);
 		$this->load->view('shared/footer');
@@ -46,7 +46,7 @@ class JenisProyek extends CI_Controller{
 	
 	public function delete(){
 		
-		$data = $this->page_view("List proyek");
+		$data = $this->page_view("List proyek", "delete");
 		$id = $this->input->post('id');
 		$arr = array( 'id_jenis_proyek' => $id );
 		$result = $this->m_jenisproyek->delete_data($arr);
@@ -61,7 +61,7 @@ class JenisProyek extends CI_Controller{
 
 	public function prosesCreate(){
 		
-		$data = $this->page_view("List proyek");
+		$data = $this->page_view("List proyek", "create");
 		$nama_proyek = $this->input->post('nama_proyek');
 		$arr = array( 'nama_proyek' => $nama_proyek);
 		$result = $this->m_jenisproyek->input_data($arr);
@@ -70,7 +70,7 @@ class JenisProyek extends CI_Controller{
 			$this->session->set_flashdata('message', 'proyek baru berhasil ditambahkan...');
 	  		redirect(site_url().'/jenisproyek');
 		} else {
-			$data = $this->page_view("Tambah proyek");
+			$data = $this->page_view("Tambah proyek", "create");
 			$data['message'] = "proyek baru gagal ditambahkan, silakan input kembali...";
 			$this->load->view('shared/header', $data);
 			$this->load->view('create', $data);
@@ -81,7 +81,7 @@ class JenisProyek extends CI_Controller{
 	
 	public function prosesEdit(){
 		
-		$data = $this->page_view("List proyek");
+		$data = $this->page_view("List proyek", "edit");
 		$nama_proyek = $this->input->post('nama_proyek');
 		$id_jenis_proyek = $this->input->post('id_jenis_proyek');
 		$arr = array( 'nama_proyek' => $nama_proyek);
@@ -101,7 +101,7 @@ class JenisProyek extends CI_Controller{
 	
 	private function master_edit($id, $page_title, $message=null){
 		
-		$data = $this->page_view($page_title);
+		$data = $this->page_view($page_title, "edit");
 		$data['message'] = $message;		
 		$proyeks = $this->m_jenisproyek->getproyekById($id);
 		if($proyeks == null){
@@ -123,15 +123,29 @@ class JenisProyek extends CI_Controller{
 		
 	}
 
-	private function page_view($page){
+	private function page_view($page, $access_level){
 		
 		//no proyek session, redirect to login page
 		if($this->session->userdata('userlogin')==""){
 			redirect(site_url().'/login');
 		}
 		
+		//manage access
+		$access_jenisproyek = "jenisproyek";
+		$granted_access = $this->session->userdata('access');
+		if(isset($granted_access[$access_jenisproyek])){
+			if(strpos($granted_access[$access_jenisproyek], $access_level) === false){
+				//jika tidak ada akses ke function ini maka arahkan ke dashboard
+				redirect(site_url().'/dashboard');
+			}
+		} else {
+			//jika tidak ada akses ke halaman ini maka arahkan ke dashboard
+			redirect(site_url().'/dashboard');
+		}
+		
 		$data['page'] = $page;
-		$data['menuaktif'] = "proyek";
+		$data['menuaktif'] = $access_jenisproyek;
+		$data['menu'] = $this->session->userdata('access');
 		return $data;
 	
 	}
