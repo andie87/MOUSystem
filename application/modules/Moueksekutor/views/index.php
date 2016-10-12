@@ -30,15 +30,11 @@
           <div class="box box-danger">
     
             <div class="box-header">
-              <?php if($this->session->userdata['access']['MoU']['MoU Eksekutor']['create']){?>
+            <?php if(strpos($granted_access['moueksekutor'], 'create') !== false){ ?>
               <a class="btn btn-sm btn-primary" href="<?php echo site_url('moueksekutor/create'); ?>"><i class="fa fa-plus fa-lg"></i> 
                 <strong>MoU Eksekutor Baru</strong></a>
-                <?php }?>
+            <?php } ?>
               <span class="label label-info pull-right"><?php echo $moueksekutors->num_rows();?>  MoU</span>
-              &nbsp;&nbsp;&nbsp;
-              <a href="<?php echo site_url('moueksekutor/index'); ?>" >
-              <button type="button" class="btn btn-warning btn-sm width15" ><strong>Report Mou</strong></button>
-              </a>
             </div>
 
             <?php echo form_open('moueksekutor/index', array('class'=>'form-horizontal','method'=>'post'));?>
@@ -52,7 +48,7 @@
                       </a>
                     </h4>
                   </div>
-                  <div id="collapseOne" class="panel-collapse collapse">
+                  <div id="collapseOne" class="panel-collapse collapse <?php echo $search; ?> ">
                     <div class="box-body">
                       <div class="box-header" style="border: 1px solid #ddd; margin-left: 10px;margin-right: 10px;">
                         <div class="form-group row" >
@@ -119,9 +115,9 @@
                         </div>
                         <div class="form-group row">
                           <div class="col-md-2">
-                            <button name="search" type="submit" class="btn btn-primary">Cari</button> &nbsp; 
                           </div>
                           <div class="col-md-2">
+                          	<button name="search" type="submit" class="btn btn-primary">Cari</button> &nbsp;&nbsp;&nbsp; 
                             <button name="report" value=1 type="submit" class="btn btn-secondary">Report</button>
                           </div>
                         </div>
@@ -142,7 +138,7 @@
                         <th>Jenis Proyek</th>
                         <th class="width10 center">Tanggal MoU</th>
                         <th class="width10 center">Tanggal Pengerjaan</th>
-                        <th class="center-col width20">Action</th>
+                        <th class="center-col" style="width: 13%">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -158,24 +154,28 @@
                         <td class="center"><?php echo getUserFormatDate($md->tanggal_mou); ?></td>
                         <td class="center"><?php echo getUserFormatDate($md->tanggal_pengerjaan); ?></td>
                         <td class="center-col">
-                          <?php if($this->session->userdata['access']['MoU']['MoU Eksekutor']['edit']){?>
+                        <?php if(strpos($granted_access['moueksekutor'], 'edit') !== false){ ?>	
                         	<a href="<?php echo site_url('moueksekutor/edit'); ?>/<?php echo $md->id_mou_eksekutor; ?>">
                         		<i class="fa fa-pencil fa-lg"></i>edit
                         	</a>
-                          <?php }?>
                         	&nbsp; 
-                          <?php if($this->session->userdata['access']['MoU']['MoU Eksekutor']['view']){?>
+                        <?php } else { if(strpos($granted_access['moueksekutor'], 'view_minus_biaya') !== false){ ?>
+                        	<a href="<?php echo site_url('moueksekutor/view_m'); ?>/<?php echo $md->id_mou_eksekutor; ?>">
+                        		<i class="fa fa-edit fa-lg"></i>view
+                        	</a>
+                        	&nbsp;
+                        <?php } else {?>
                         	<a href="<?php echo site_url('moueksekutor/view'); ?>/<?php echo $md->id_mou_eksekutor; ?>">
                         		<i class="fa fa-edit fa-lg"></i>view
                         	</a>
-                          <?php }?>
                         	&nbsp;
-                          <?php if($this->session->userdata['access']['MoU']['MoU Eksekutor']['delete']){?>
+                        <?php }} ?>
+                        <?php if(strpos($granted_access['moueksekutor'], 'delete') !== false){ ?>
                         	<a href="#" data-toggle="modal" data-nama="<?php echo $md->nama_proyek;?>" 
                         	data-hapus="<?php echo $md->id_mou_eksekutor;?>" data-target="#deleteModal">
                         		<i class="fa fa-trash-o fa-lg"></i>delete
-                        	</a>    
-                          <?php }?>
+                        	</a>
+                        <?php } ?>    
                         </td>
                     </tr>
                     <?php $i++; }?>
@@ -196,8 +196,8 @@
           <span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">Perhatian!</h4>
       </div>
+      <?php echo form_open('moueksekutor/delete', array('method'=>'post'));?>
       <div class="modal-body">
-        <?php echo form_open('moueksekutor/delete', array('method'=>'post'));?>
         <p class="data-pesan">Anda yakin ingin menghapus</p>
         <input type="hidden" name="id" class="data-id">
       </div>
@@ -205,6 +205,7 @@
         <button type="button" class="btn btn-outline" data-dismiss="modal">Tidak</button>
         <button type="submit" class="btn btn-danger">Yakin!</button>
       </div>
+      </form>
     </div>
     <!-- /.modal-content -->
   </div>

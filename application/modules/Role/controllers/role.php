@@ -94,6 +94,7 @@ class Role extends CI_Controller{
 		$nama_role = $this->input->post('nama_role');
 		$id_role = $this->input->post('id_role');
 		$view = $this->input->post('view');
+		$view_minus_biaya = $this->input->post('view_minus_biaya');
 		$edit = $this->input->post('edit');
 		$create = $this->input->post('create');
 		$delete = $this->input->post('delete');
@@ -117,6 +118,10 @@ class Role extends CI_Controller{
 			foreach ($delete as $key => $value) {
 				$id_role_rights = explode("_", $value)[0];
 				$this->m_role->update_access("1", "role_rights.delete", $id_role_rights);
+			}
+			foreach ($view_minus_biaya as $key => $value) {
+				$id_role_rights = explode("_", $value)[0];
+				$this->m_role->update_access("1", "role_rights.view_minus_biaya", $id_role_rights);
 			}
 		}
 		catch (Exception $e){

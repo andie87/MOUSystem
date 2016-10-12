@@ -188,5 +188,10 @@ class M_moueksekutor extends CI_Model{
 		return 1;
 	}
 	
+	public function getPembayaranByNomorProyek($no_proyek){
+		$this->db->where('nomor_proyek', $no_proyek);
+		return $this->db->get("pembayaran_eksekutor");
+	}
+	
 }
 ?>

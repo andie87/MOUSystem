@@ -11,7 +11,7 @@ class Moueksekutor extends CI_Controller{
 
 	public function index(){
 
-		$data = $this->page_view("List MoU dengan Eksekutor");
+		$data = $this->page_view("List MoU dengan Eksekutor", "view");
 		if(strlen($this->session->flashdata('message')) > 0){
 			$data['message'] = $this->session->flashdata('message');
 		}
@@ -30,8 +30,10 @@ class Moueksekutor extends CI_Controller{
 			$data['to_pengerjaan'] = $this->input->post('to_pengerjaan') == null ? null : $this->input->post('to_pengerjaan');
 			$data['jenis_proyek'] = $this->input->post('jenis_proyek') == "All" ? null : $this->input->post('jenis_proyek');
 			$data['moueksekutors'] = $this->m_moueksekutor->getAll($data);
+			$data['search'] = "in";
 		} else {
 			$data['moueksekutors'] = $this->m_moueksekutor->getAll();
+			$data['search'] = "";
 		}
 
 		$data['proyeks'] = $this->m_moudonatur->get_jenis_proyek();
@@ -47,6 +49,8 @@ class Moueksekutor extends CI_Controller{
 		}
 		$data['arr_eksekutor'] = $arr_eksekutor;
 		$data['arr_proyek'] = $arr_proyek;
+		$data['granted_access'] = $this->session->userdata('access');
+		
 		$this->load->view('shared/header', $data);
 		$this->load->view('index', $data);
 		$this->load->view('shared/footer');
@@ -55,7 +59,7 @@ class Moueksekutor extends CI_Controller{
 
 	public function create(){
 		
-		$data = $this->page_view("MoU Baru");
+		$data = $this->page_view("MoU Baru", "create");
 		$data['eksekutors'] = $this->m_moueksekutor->get_eksekutor();
 		$data['moudonatur'] = $this->m_moueksekutor->get_moudonatur();
 		$data['provins'] = $this->m_moueksekutor->get_provinsi();
@@ -80,6 +84,14 @@ class Moueksekutor extends CI_Controller{
 		$this->master_view($id, $page_title);
 				
 	}
+	
+	public function view_m(){
+		
+		$page_title = "View MoU";
+		$id = $this->uri->segment('3');
+		$this->master_view($id, $page_title, null, "view_minus_biaya");
+				
+	}
 
 	public function dokumen(){
 		
@@ -97,7 +109,7 @@ class Moueksekutor extends CI_Controller{
 		
 		$page_title = "Dokumen MoU";
 		$id = $this->uri->segment('3');
-		$data = $this->page_view($page_title);
+		$data = $this->page_view($page_title, "view");
 
 		if(strlen($id) > 0){
 			$id_mou_eksekutor_for_dokumen = array( 'id_mou_eksekutor_for_dokumen' => $id );
@@ -112,6 +124,7 @@ class Moueksekutor extends CI_Controller{
 		
 		$data['id_mou_eksekutor'] = $this->session->userdata("id_mou_eksekutor_for_dokumen");
 		$data['dokumens'] = $this->m_moueksekutor->getDokumenByMoueksekutorId($data['id_mou_eksekutor']);
+		$data['granted_access'] = $this->session->userdata('access'); 
 		$this->load->view('shared/header', $data);
 		$this->load->view($dokumen_view, $data);
 		$this->load->view('shared/footer');
@@ -121,8 +134,8 @@ class Moueksekutor extends CI_Controller{
 	public function uploadDokumen(){
 		
 		$page_title = "Dokumen MoU";
-		$id = $this->input->post('mou_eksekutor');;
-		$data = $this->page_view($page_title);
+		$id = $this->input->post('mou_eksekutor');
+		$data = $this->page_view($page_title, "create", "dokumeneksekutor");
 		
 		$path = "./uploads/mou eksekutor/".$id."/";
 		if(!is_dir($path)) {
@@ -210,7 +223,7 @@ class Moueksekutor extends CI_Controller{
 		
 		$page_title = "Pembayaran Eksekutor";
 		$id = $this->uri->segment('3');
-		$data = $this->page_view($page_title);
+		$data = $this->page_view($page_title, "view");
 
 		if(strlen($id) > 0){
 			$id_mou_eksekutor_for_pembayaran = array( 'id_mou_eksekutor_for_pembayaran' => $id );
@@ -225,6 +238,7 @@ class Moueksekutor extends CI_Controller{
 		
 		$data['id_mou_eksekutor'] = $this->session->userdata("id_mou_eksekutor_for_pembayaran");
 		$data['pembayaran'] = $this->m_moueksekutor->getPembayaranByMouEksekutorId($data['id_mou_eksekutor']);
+		$data['granted_access'] = $this->session->userdata('access'); 
 		$this->load->view('shared/header', $data);
 		$this->load->view($pembayaran_view, $data);
 		$this->load->view('shared/footer');
@@ -279,7 +293,7 @@ class Moueksekutor extends CI_Controller{
 		
 		$page_title = "Pembayaran Eksekutor";
 		$id = $this->uri->segment('4');
-		$data = $this->page_view($page_title);
+		$data = $this->page_view($page_title, "edit");
 		
 		$dok = $this->m_moueksekutor->getPembayaranById($id);
 		$data['dok'] = $dok[0];
@@ -322,7 +336,7 @@ class Moueksekutor extends CI_Controller{
 	
 	public function delete(){
 		
-		$data = $this->page_view("List Role");
+		$data = $this->page_view("List Role", "delete");
 		$id = $this->input->post('id');
 		$arr = array( 'id_mou_eksekutor' => $id );
 		$result = $this->m_moueksekutor->delete_data($arr);
@@ -337,7 +351,7 @@ class Moueksekutor extends CI_Controller{
 
 	public function prosesCreate(){
 		
-		$data = $this->page_view("List MoU Eksekutor");
+		$data = $this->page_view("List MoU Eksekutor", "create");
 		
 		$id_eksekutor = $this->input->post('id_eksekutor');
 		$id_mou_donatur = $this->input->post('id_mou_donatur');
@@ -399,7 +413,7 @@ class Moueksekutor extends CI_Controller{
 			$this->session->set_flashdata('message', 'MoU baru berhasil ditambahkan...');
 	  		redirect(site_url().'/moueksekutor');
 		} else {
-			$data = $this->page_view("Tambah MoU Eksekutor");
+			$data = $this->page_view("Tambah MoU Eksekutor", "create");
 			$data['message'] = "MoU baru gagal ditambahkan, silakan input kembali...";
 			$data['eksekutors'] = $this->m_moueksekutor->get_eksekutor();
 			$data['moudonatur'] = $this->m_moueksekutor->get_moudonatur();
@@ -414,7 +428,7 @@ class Moueksekutor extends CI_Controller{
 	
 	public function prosesUpdate(){
 		
-		$data = $this->page_view("List MoU Eksekutor");
+		$data = $this->page_view("List MoU Eksekutor", "edit");
 		$id_mou_eksekutor = $this->input->post('id_mou_eksekutor');
 		$id_eksekutor = $this->input->post('id_eksekutor');
 		$id_mou_donatur = $this->input->post('id_mou_donatur');
@@ -487,7 +501,7 @@ class Moueksekutor extends CI_Controller{
 	
 	private function master_edit($id, $page_title, $message=null){
 		
-		$data = $this->page_view($page_title);
+		$data = $this->page_view($page_title, "edit");
 		$data['eksekutors'] = $this->m_moueksekutor->get_eksekutor();
 		$data['moudonatur'] = $this->m_moueksekutor->get_moudonatur();
 		$data['provins'] = $this->m_moueksekutor->get_provinsi();
@@ -508,17 +522,19 @@ class Moueksekutor extends CI_Controller{
 				$data['moueksekutor'] = null;
 			}
 		}
-		$data['moueksekutor']['tanggal_mou'] = getUserFormatDate($data['moueksekutor']['tanggal_mou']); 
-		$data['moueksekutor']['tanggal_pengerjaan'] = getUserFormatDate($data['moueksekutor']['tanggal_pengerjaan']); 
+		$data['moueksekutor']['tanggal_mou'] = $data['moueksekutor']['tanggal_mou']=="0000-00-00" ? "" : getUserFormatDate($data['moueksekutor']['tanggal_mou']); 
+		$data['moueksekutor']['tanggal_pengerjaan'] = $data['moueksekutor']['tanggal_pengerjaan']=="0000-00-00" ? "" : getUserFormatDate($data['moueksekutor']['tanggal_pengerjaan']);
+		$data['moueksekutor']['tanggal_selesai'] = $data['moueksekutor']['tanggal_selesai']=="0000-00-00" ? "" : getUserFormatDate($data['moueksekutor']['tanggal_selesai']);
+		$data['granted_access'] = $this->session->userdata('access'); 
 		$this->load->view('shared/header', $data);
 		$this->load->view('edit', $data);
 		$this->load->view('shared/footer');
 		
 	}
 	
-	private function master_view($id, $page_title, $message=null){
+	private function master_view($id, $page_title, $message=null, $view=null){
 		
-		$data = $this->page_view($page_title);
+		$data = $this->page_view($page_title, "view");
 		$data['eksekutors'] = $this->m_moueksekutor->get_eksekutor();
 		$data['moudonatur'] = $this->m_moueksekutor->get_moudonatur();
 		$data['provins'] = $this->m_moueksekutor->get_provinsi();
@@ -541,13 +557,18 @@ class Moueksekutor extends CI_Controller{
 		}
 		$data['moueksekutor']['tanggal_mou'] = getUserFormatDate($data['moueksekutor']['tanggal_mou']); 
 		$data['moueksekutor']['tanggal_pembangunan'] = getUserFormatDate($data['moueksekutor']['tanggal_pengerjaan']); 
+		$data['granted_access'] = $this->session->userdata('access');
 		$this->load->view('shared/header', $data);
-		$this->load->view('view', $data);
+		if($view == "view_minus_biaya"){
+			$this->load->view('view_m', $data);
+		} else {
+			$this->load->view('view', $data);
+		}
 		$this->load->view('shared/footer');
 		
 	}
 	
-	private function page_view($page, $access_level){
+	private function page_view($page, $access_level, $module="moueksekutor"){
 		
 		//no user session, redirect to login page
 		if($this->session->userdata('userlogin')==""){
@@ -555,7 +576,12 @@ class Moueksekutor extends CI_Controller{
 		}
 		
 		//manage access
-		$access_moueksekutor = "moueksekutor";
+		if($module=="dokumeneksekutor"){
+			$access_moueksekutor = "dokumeneksekutor";	
+		} else {
+			$access_moueksekutor = "moueksekutor";
+		}
+		
 		$granted_access = $this->session->userdata('access');
 		if(isset($granted_access[$access_moueksekutor])){
 			if(strpos($granted_access[$access_moueksekutor], $access_level) === false){

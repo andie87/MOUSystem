@@ -36,10 +36,10 @@
               <table id="example1" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                        <th>No</th>
+                        <th style="text-align: center">No</th>
                         <th>Nama Provinsi</th>
                         <th>Kota / Kabupaten</th>
-                        <th>Action</th>
+                        <th style="text-align: center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -55,8 +55,6 @@
                         </td>
                         <td class="width20 center-col">
                           <a href="<?php echo site_url('kota/edit/'.$kota->id_kota_kab);?>"><i class="fa fa-pencil fa-lg"></i>edit</a>
-                          &nbsp;&nbsp;&nbsp;&nbsp; 
-                          <a href="<?php echo site_url('kota/manage/'.$kota->id_kota_kab);?>"><i class="fa fa-edit fa-lg"></i>manage</a>
                           &nbsp;&nbsp;&nbsp;&nbsp;
                           <a href="#" data-toggle="modal" data-nama="<?php echo $kota->nama_kota_kab;?>" data-hapus="<?php echo $kota->id_kota_kab;?>" data-target="#deleteModal"><i class="fa fa-trash-o fa-lg"></i>Delete</a>  
                         </td>

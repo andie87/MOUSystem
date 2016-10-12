@@ -33,7 +33,7 @@
 					foreach($access->result() as $k){
 						if($module->id_module == $k->id_module){?>
 	      				<div class="form-group">
-							<label class="col-sm-2 control-label"> <?php echo $module->module_name ?> </label>
+							<label class="col-sm-3 control-label"> <?php echo $module->module_name ?> </label>
 							<!-- VALUE DARI CHECKBOX ADALAH ID_ROLE_RIGHTS-->
 			                <div class="col-sm-1">
 				                  <input type="checkbox" class="minimal" name="view[]" value="<?php echo $k->id_role_rights; ?>" <?php if($k->view){?> Checked <?php } ?>> View
@@ -47,15 +47,22 @@
 				            <div class="col-sm-1">
 				                  <input type="checkbox" class="minimal" name="delete[]" value="<?php echo $k->id_role_rights; ?>" <?php if($k->delete){?> Checked <?php } ?>> Delete
 				            </div>
+				            <?php if($module->module_page == 'moudonatur' OR $module->module_page == 'moueksekutor'){ ?>
+				            <div class="col-sm-2">
+				                  <input type="checkbox" class="minimal" name="view_minus_biaya[]" 
+				                  value="<?php echo $k->id_role_rights; ?>" <?php if($k->view_minus_biaya){?> Checked <?php } ?>> View Minus Biaya
+				            </div>
+				            <?php } ?>
 				        </div>
 				<?php   
 						}
 					}
 				}
 				?>
-				<div class="form-group">
-					<div class="col-lg-offset-2 col-lg-5">
-						<button type="submit" class="btn btn-success btn-sm">Update</button>
+				<div class="form-group" style="padding-top: 20px;">
+					<label class="col-sm-3"></label>
+					<div class="col-sm-1">
+						<button type="submit" class="btn btn-success btn-sm" style="width: 100px;">Update</button>
 					</div>
 				</div>
 		</div>

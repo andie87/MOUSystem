@@ -52,8 +52,6 @@
                         <td><?php echo $role->nama_role; ?></td>
                         <td class="width40 center-col">
                         	<a href="<?php echo site_url('role/edit'); ?>/<?php echo $role->id_role; ?>"><i class="fa fa-pencil fa-lg"></i>edit</a>
-                        	&nbsp;&nbsp;&nbsp;&nbsp; 
-                        	<a href="<?php echo site_url('role/manage'); ?>/<?php echo $role->id_role; ?>"><i class="fa fa-edit fa-lg"></i>manage</a>
                         	&nbsp;&nbsp;&nbsp;&nbsp;
                         	<a href="#" data-toggle="modal" data-nama="<?php echo $role->nama_role;?>" 
                         	data-hapus="<?php echo $role->id_role;?>" data-target="#deleteModal">

@@ -60,8 +60,6 @@
                         <td><?php echo $arr_role[$user->id_role]; ?></td>
                         <td class="width20 center-col">
                         	<a href="<?php echo site_url('user/edit'); ?>/<?php echo $user->id_user; ?>"><i class="fa fa-pencil fa-lg"></i>edit</a>
-                        	&nbsp;&nbsp;&nbsp;&nbsp; 
-                        	<a href="<?php echo site_url('user/manage'); ?>/<?php echo $user->id_user; ?>"><i class="fa fa-edit fa-lg"></i>manage</a>
                         	&nbsp;&nbsp;&nbsp;&nbsp;
                         	<a href="#" data-toggle="modal" data-nama="<?php echo $user->nama_user;?>" 
                         	data-hapus="<?php echo $user->id_user;?>" data-target="#deleteModal">

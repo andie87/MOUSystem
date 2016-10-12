@@ -37,10 +37,15 @@
 						?>
 		                </select>
 					</div>
-					
+					<?php if(strpos($granted_access['dokumendonatur'], 'edit') !== false){ ?>
+					<a href="<?php echo site_url('moudonatur/dokumen'); ?>/<?php echo $id; ?>" >
+						<button type="button" class="btn btn-primary btn-sm width30" >LIST DOKUMEN TERKAIT MOU</button>
+					</a>
+					<?php } else { ?>
 					<a href="<?php echo site_url('moudonatur/dokumenView'); ?>/<?php echo $id; ?>" >
 						<button type="button" class="btn btn-primary btn-sm width30" >LIST DOKUMEN TERKAIT MOU</button>
 					</a>
+					<?php } ?>
 				
 				</div>
 				<div class="form-group" >
@@ -48,10 +53,6 @@
 					<div class="col-lg-5">
 						<input disabled type="text" name="no_proyek" value="<?php echo $moudonatur['nomor_proyek']; ?>" class="form-control pull-right font-black" >
 					</div>
-					<!-- untuk menampilkan halaman pembayaran view atau edit, ditentukan disini dengan menggunakan flag -->
-					<a href="<?php echo site_url('moudonatur/pembayaranView'); ?>/<?php echo $id; ?>" >
-						<button type="button" class="btn btn-primary btn-sm width30" >LIST PEMBAYARAN DONATUR</button>
-					</a>
 					
 				</div>
 				<div class="form-group" >

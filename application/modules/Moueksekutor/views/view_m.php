@@ -1,14 +1,3 @@
-<script>
-function changeKotaKab(){
-	var select_provinsi = $("#select_provinsi").val();
-	$.ajax({
-		url: "<?php echo base_url('index.php/moudonatur/selectkotakab' ); ?>/" + select_provinsi, 
-		success: function(result) {
-			$("#select_kotakab").html(result);					
-		}
-	});
-}
-</script>
 
 <div class="content-wrapper">
     <section class="content-header">
@@ -203,12 +192,6 @@ function changeKotaKab(){
 				<label class="col-sm-3 control-label">Koordinat Lokasi</label>
 				<div class="col-lg-5">
 					<input type="text" disabled id="koordinat_lokasi" style="font-size: 13pt;" name="koordinat_lokasi" value="<?php echo $moueksekutor['koordinat_lokasi'];?>" class="form-control input-sm" >
-				</div>
-			</div>
-			<div class="form-group" >
-				<label class="col-sm-3 control-label">Nilai Proyek</label>
-				<div class="col-lg-5">
-					<input type="text" disabled id="nilai_rupiah" style="font-size: 13pt;" name="nilai_proyek" value="<?php echo $moueksekutor['nilai_proyek'];?>" class="form-control input-sm" onkeypress="return isNumberKey(event)">
 				</div>
 			</div>
 			<div class="form-group" >

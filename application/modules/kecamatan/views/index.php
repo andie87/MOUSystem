@@ -2,11 +2,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        List Provinsi
+        List Kecamatan
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active"><a href="#">Provinsi</a></li>
+        <li><a href="#">Provinsi</a></li>
+        <li class="active"><a href="#">Kecamatan</a></li>
       </ol>
     </section>
 
@@ -27,35 +28,42 @@
               </div>
             <?php } ?>
             <div class="box-header">
-              <a class="btn btn-sm btn-success" href="<?php echo site_url('provinsi/create'); ?>"><i class="fa fa-plus fa-lg"></i> Tambah provinsi</a>
-              <span class="label label-info pull-right"><?php echo $provinces->num_rows();?>  provinsi</span>
+              <a class="btn btn-sm btn-success" href="<?php echo site_url('kecamatan/create'); ?>"><i class="fa fa-plus fa-lg"></i> Tambah Kecamatan</a>
+              <span class="label label-info pull-right"><?php echo $kecamatan->num_rows();?>  kecamatan</span>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
               <table id="example1" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                        <th style="text-align: center">No</th>
+                        <th>No</th>
                         <th>Nama Provinsi</th>
                         <th>Kota / Kabupaten</th>
-                        <th style="text-align: center">Action</th>
+                        <th>Kecamatan</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
                      $i = 1;   
-                     foreach ($provinces->result() as $provinsi) {
+                     foreach ($kecamatan->result() as $kec) {
                     ?>
                     <tr>
                         <td class="width10 center-col"><?php echo $i; ?></td>
-                        <td><?php echo $provinsi->nama_provinsi; ?></td>
+                        <td><?php echo $kec->nama_provinsi; ?></td>
                         <td>
-                          <a href="<?php echo site_url('kota/lists/'.$provinsi->id_provinsi);?>"><i class="fa fa-map-marker fa-lg"></i>&nbsp;lihat</a>
+                          <?php echo $kec->nama_kota_kab; ?>
+                        </td>
+                        <td>
+                          <?php echo $kec->nama_kecamatan; ?>
                         </td>
                         <td class="width20 center-col">
-                          <a href="<?php echo site_url('provinsi/edit/'.$provinsi->id_provinsi);?>"><i class="fa fa-pencil fa-lg"></i>edit</a>
-                          &nbsp;&nbsp;&nbsp;&nbsp;
-                          <a href="#" data-toggle="modal" data-nama="<?php echo $provinsi->nama_provinsi;?>" data-hapus="<?php echo $provinsi->id_provinsi;?>" data-target="#deleteModal"><i class="fa fa-trash-o fa-lg"></i>Delete</a>  
+                          <a href="<?php echo site_url('kecamatan/edit/'.$kec->id_kecamatan);?>">
+                          	<i class="fa fa-pencil fa-lg"></i>edit
+                          </a>&nbsp;&nbsp;&nbsp;&nbsp; 
+                          <a href="#" data-toggle="modal" data-nama="<?php echo $kec->nama_kecamatan;?>" 
+                          data-hapus="<?php echo $kec->id_kecamatan;?>" data-target="#deleteModal">
+                          <i class="fa fa-trash-o fa-lg"></i>Delete</a>  
                         </td>
                     </tr>
                     <?php $i++; }?>
@@ -83,7 +91,7 @@
         <h4 class="modal-title">Perhatian!</h4>
       </div>
       <div class="modal-body">
-        <?php echo form_open('provinsi/delete', array('method'=>'post'));?>
+        <?php echo form_open('kecamatan/delete', array('method'=>'post'));?>
         <p class="data-pesan">Anda yakin ingin menghapus</p>
         <input type="hidden" name="id" class="data-id">
       </div>

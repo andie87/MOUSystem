@@ -39,7 +39,7 @@ class M_login extends CI_Model{
 	}
 
 	public function getRoleRights($role){
-		$sql = "SELECT b.id_module, b.module_page, `create`,`edit`, `delete`, `view` FROM role_rights a inner join module b on a.id_module = b.id_module ".
+		$sql = "SELECT b.id_module, b.module_page, `create`,`edit`, `delete`, `view`, `view_minus_biaya` FROM role_rights a inner join module b on a.id_module = b.id_module ".
 				" WHERE a.id_role = ".$role." ORDER BY a.`id_module` ASC ";
 		$query = $this->db->query($sql);
 		return $query->result_array();

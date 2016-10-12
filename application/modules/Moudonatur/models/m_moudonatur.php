@@ -188,6 +188,11 @@ class M_moudonatur extends CI_Model{
 		return $this->db->get("pembayaran_donatur");
 	}
 	
+	public function getPembayaranByNomorProyek($no_proyek){
+		$this->db->where('nomor_proyek', $no_proyek);
+		return $this->db->get("pembayaran_donatur");
+	}
+	
 	public function getDokumenById($id){
 		$this->db->where('id_dokumen_mou_donatur', $id);
 		$query = $this->db->get("dokumen_mou_donatur");
@@ -239,6 +244,10 @@ class M_moudonatur extends CI_Model{
 		$this->db->where('id_jenis_proyek', $id);
 		$query = $this->db->get("jenis_proyek");
 		return $query->result_array();	
+	}
+	
+	public function get_moudonatur(){
+		return $this->db->get("mou_donatur");
 	}
 	
 }

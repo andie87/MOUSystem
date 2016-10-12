@@ -196,7 +196,7 @@ function changeKecamatan(){
 	                 </div>
                 </div>
                 <div class="form-group" >
-					<label class="col-sm-3 control-label">Pakai Banner</label>
+					<label class="col-sm-3 control-label">Sudah dipasang Banner</label>
 					<div class="col-lg-5">
 						<select name="is_banner" class="form-control select2">
 							<option value="1">Ya</option>
@@ -205,7 +205,7 @@ function changeKecamatan(){
 					</div>
 				</div>
 				<div class="form-group" >
-					<label class="col-sm-3 control-label">Pakai Prasasti</label>
+					<label class="col-sm-3 control-label">Sudah dipasang Prasasti</label>
 					<div class="col-lg-5">
 						<select name="is_prasasti" class="form-control select2">
 							<option value="1">Ya</option>

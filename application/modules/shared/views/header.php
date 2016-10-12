@@ -41,7 +41,7 @@
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>M</b>OU</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Admin</b>MOU</span>
+      <span class="logo-lg"><b>MOU Application</b></span>
     </a>
 
     <!-- Header Navbar: style can be found in header.less -->
@@ -55,51 +55,18 @@
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
           <!-- User Account: style can be found in dropdown.less -->
-          <li class="dropdown user user-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="<?php echo base_url('asset/dist/img/user2-160x160.jpg')?>" class="user-image" alt="User Image">
-              <span class="hidden-xs"><?php echo $this->session->userdata('username')?></span>
+          <li style="display: inline-table;">
+            <a href="#" >
+              Welcome, 
+              <?php echo $this->session->userdata('username')?>
             </a>
-            <ul class="dropdown-menu">
-              <!-- User image -->
-              <li class="user-header">
-                <img src="<?php echo base_url('asset/dist/img/user2-160x160.jpg')?>" class="img-circle" alt="User Image">
-
-                <p>
-                  <?php echo $this->session->userdata('username')?>
-                  
-                </p>
-              </li>
-              <!-- Menu Body -->
-              <li class="user-body">
-                <div class="row">
-                  <!-- <div class="col-xs-4 text-center">
-                    <a href="#">Followers</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Sales</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Friends</a>
-                  </div> -->
-                </div>
-                <!-- /.row -->
-              </li>
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="pull-left">
-                  <!-- <a href="#" class="btn btn-default btn-flat">Profile</a> -->
-                </div>
-                <div class="pull-right">
-                  <a href="<?php echo site_url('login/logout');?>" class="btn btn-default btn-flat">Sign out</a>
-                </div>
-              </li>
-            </ul>
+            
+            
+          </li>
+          <li>
+          	<a href="<?php echo site_url('login/logout');?>" style="color: #f95"><strong>SIGN OUT</strong></a>
           </li>
           <!-- Control Sidebar Toggle Button -->
-          <li>
-            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-          </li>
         </ul>
       </div>
 
@@ -195,6 +162,22 @@
         </li>
         <?php } ?>
         
+        <?php if(isset($menu['pembayarandonatur'])){ ?>
+        <li <?php if($menuaktif == "pembayarandonatur"): ?>class="active" <?php endif;?>>
+          <a href="<?php echo site_url('pembayarandonatur');?>">
+            <i class="fa fa-files-o"></i> <span>Pembayaran Donatur</span>
+          </a>
+        </li>
+        <?php } ?>
+        
+        <?php if(isset($menu['pembayaraneksekutor'])){ ?>
+        <li <?php if($menuaktif == "pembayaraneksekutor"): ?>class="active" <?php endif;?>>
+          <a href="<?php echo site_url('pembayaraneksekutor');?>">
+            <i class="fa fa-files-o"></i> <span>Pembayaran Eksekutor</span>
+          </a>
+        </li>
+        <?php } ?>
+        
         <?php if(isset($menu['donatur'])){ ?>
         <li <?php if($menuaktif == "donatur"): ?>class="active" <?php endif;?>>
           <a href="<?php echo site_url('donatur');?>">
@@ -243,10 +226,18 @@
         </li>
         <?php } ?>
         
+        <?php if(isset($menu['kecamatan'])){ ?>
+        <li <?php if($menuaktif == "kecamatan"): ?>class="active" <?php endif;?>>
+          <a href="<?php echo site_url('kecamatan');?>">
+            <i class="fa fa-map-marker"></i> <span>Kecamatan</span>
+          </a>
+        </li>
+        <?php } ?>
+        
         <?php if(isset($menu['jenisproyek'])){ ?>
         <li <?php if($menuaktif == "jenisproyek"): ?>class="active" <?php endif;?>>
           <a href="<?php echo site_url('jenisproyek');?>">
-            <i class="fa fa-map-marker"></i> <span>Jenis Proyek</span>
+            <i class="fa fa-files-o"></i> <span>Jenis Proyek</span>
           </a>
         </li>
         <?php } ?>

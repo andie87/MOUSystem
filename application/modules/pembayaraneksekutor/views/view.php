@@ -6,42 +6,49 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active"><a href="<?php echo site_url('moueksekutor'); ?>">mou eksekutor</a></li>
-        <li class="active"><a href="">dokumen</a></li>
+        <li class="active"><a href="<?php echo site_url('pembayaraneksekutor'); ?>">pembayaran eksekutor</a></li>
+        <li class="active"><a href="">view</a></li>
       </ol>
     </section>
 
 		<div class="padding-md">
 		<div class="panel panel-default">
 		
-		<?php if(isset($message)){ ?> 
-	    	<div class="alert alert-danger">
-	    		<label><strong><?php echo $message; ?></strong></label>
-	    	</div>
-    	<?php } ?>
-    	
-    	<?php if(isset($messageOK)){ ?> 
-	    	<div class="callout callout-success">
-	    		<label><strong><?php echo $messageOK; ?></strong></label>
-	    	</div>
-    	<?php } ?>
+		<div class="panel-body" style="padding-top: 30px;">
+		
+			<?php echo form_open('pembayaraneksekutor/search_noproyek', array('class'=>'form-horizontal','method'=>'post'));?>
+			<div class="form-group" style="margin-bottom: 50px;">
+				<label class="col-sm-3 control-label">Nomor Proyek</label>
+				<div class="col-lg-4">
+					<select class="form-control select2" name="nomor_proyek" style="width: 100%;">
+						<option>silakan pilih nomor proyek</option>
+					<?php 
+						foreach ($moudonatur->result() as $d) {
+							if($nomor_proyek == $d->nomor_proyek){
+								$selected = "selected";
+							} else {
+								$selected = "";
+							}
+							echo "<option ".$selected." value=".$d->nomor_proyek.">".$d->nomor_proyek."</option>";
+						}
+					?>
+	                </select>
+				</div>
+				<div class="col-lg-3"  style="padding-left: 0px;">
+					<button type="submit" class="btn btn-success btn-sm width30" >Pilih</button>
+				</div>
+			</div>
+			</form>
+		
+		</div>
 		
 		<section class="content">
-		
-		<?php if(strpos($granted_access['moueksekutor'], 'edit') !== false){ ?>	
-        	<a href="<?php echo site_url('moueksekutor/edit'); ?>/<?php echo $id_mou_eksekutor; ?>" >
-				<button type="button" class="btn btn-warning btn-sm width15" ><strong>Back</strong></button>
-			</a>
-        <?php } else { ?>
-        	<a href="<?php echo site_url('moueksekutor/view'); ?>/<?php echo $id_mou_eksekutor; ?>" >
-				<button type="button" class="btn btn-warning btn-sm width15" ><strong>Back</strong></button>
-			</a>
-        <?php } ?>
-		
+      	
 		<br /><br />
-
+      	
       	<div class="row">
         <div class="col-xs-12">
+		
 		<div class="box box-warning">
     
             <!-- /.box-header -->
@@ -50,11 +57,12 @@
                 <thead>
                 	<tr>
                         <th class="width5 center-col">No</th>
-                        <th class="width15">Nominal Pembayaran</th>
-                        <th class="width15">Persen Pembayaran</th>
-                        <th class="width15">Pembayaran Ke</th>
-                        <th class="center-col width15">Tanggal Pembayaran</th>
-                        <th class="center-col width15">Tanggal Deadline Pembayaran</th>
+                        <th class="">Nominal Pembayaran</th>
+                        <th class="">Persen Pembayaran</th>
+                        <th class="">Pembayaran Ke</th>
+                        <th class="center-col ">Tanggal Pembayaran</th>
+                        <th class="center-col ">Tanggal Deadline Pembayaran</th>
+                        <th class="center-col">Download</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -69,6 +77,10 @@
                         <td><?php echo $p->pembayaran_ke; ?></td>
                         <td class="center-col"><?php echo $p->tanggal_pembayaran=='0000-00-00' ? "" : getUserFormatDate($p->tanggal_pembayaran); ?></td>
                         <td class="center-col"><?php echo $p->tanggal_deadline_pembayaran=='0000-00-00' ? "" : getUserFormatDate($p->tanggal_deadline_pembayaran); ?></td>
+                        <td class="center-col">
+                          <a href="<?php echo site_url('pembayaraneksekutor/download/'.$p->id_pembayaran_eksekutor);?>">
+                          <i class="fa fa-download fa-lg"></i>&nbsp;Download</a>
+                        </td>
                     </tr>
                     <?php $i++; } ?>
                 </tbody>

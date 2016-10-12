@@ -45,9 +45,19 @@
 		
 		<section class="content">
       	
+      	<?php if(strpos($granted_access['moudonatur'], 'edit') !== false){ ?>
       	<a href="<?php echo site_url('moudonatur/edit'); ?>/<?php echo $id_mou_donatur; ?>" >
 			<button type="button" class="btn btn-warning btn-sm width15" ><strong>Back</strong></button>
 		</a>
+		<?php } else if(strpos($granted_access['moudonatur'], 'view_minus_biaya') !== false){ ?>
+		<a href="<?php echo site_url('moudonatur/view_m'); ?>/<?php echo $id_mou_donatur; ?>" >
+			<button type="button" class="btn btn-warning btn-sm width15" ><strong>Back</strong></button>
+		</a>
+		<?php } else {?>
+		<a href="<?php echo site_url('moudonatur/view'); ?>/<?php echo $id_mou_donatur; ?>" >
+			<button type="button" class="btn btn-warning btn-sm width15" ><strong>Back</strong></button>
+		</a>
+		<?php } ?>
 		<br /><br />
       	
       	<div class="row">

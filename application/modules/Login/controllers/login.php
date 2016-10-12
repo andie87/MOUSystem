@@ -69,6 +69,9 @@ class Login extends CI_Controller{
 					if($rr['view'] == 1){ 
 						$detail .= "-view"; 
 					}
+					if($rr['view_minus_biaya'] == 1){ 
+						$detail .= "-view_minus_biaya"; 
+					}
 					if($detail != ""){
 						$roles[$rr['module_page']] = $detail;		
 					}
