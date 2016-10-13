@@ -18,6 +18,7 @@ class Dashboard extends CI_Controller{
 
 		$data['page'] = "Welcome";
 		$data['menuaktif'] = "welcome";
+		$data['menu'] = $this->session->userdata('access');
 		$this->load->view('shared/header', $data);
 		$this->load->view('index', $data);
 		$this->load->view('shared/footer');

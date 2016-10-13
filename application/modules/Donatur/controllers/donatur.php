@@ -12,7 +12,7 @@ class Donatur extends CI_Controller{
 	}
 
 	public function index(){
-		$data = $this->page_view("List Donatur");
+		$data = $this->page_view("List Donatur", "view");
 		if(count($this->session->flashdata('message')) > 0){
 			$data['message'] = $this->session->flashdata('message');
 		}
@@ -29,14 +29,14 @@ class Donatur extends CI_Controller{
 	}
 
 	public function create(){
-		$data = $this->page_view("Tambah Donatur");
+		$data = $this->page_view("Tambah Donatur", "create");
 		$this->load->view('shared/header', $data);
 		$this->load->view('create', $data);
 		$this->load->view('shared/footer');
 	}
 
 	public function prosesCreate(){
-		$data = $this->page_view("List Donatur");
+		$data = $this->page_view("List Donatur", "create");
 		$nama = $this->input->post('nama');
 		$negara = $this->input->post('negara');
 		$alamat = $this->input->post('alamat');
@@ -54,7 +54,7 @@ class Donatur extends CI_Controller{
 			array('required'=>'%s harus di isi.'));
 
 		if ($this->form_validation->run() == FALSE){
-			$data = $this->page_view("List Donatur");
+			$data = $this->page_view("List Donatur", "create");
 			$this->load->view('shared/header', $data);
 			$this->load->view('create', $data);
 			$this->load->view('shared/footer');
@@ -75,7 +75,7 @@ class Donatur extends CI_Controller{
 		  		redirect(site_url().'/donatur');
 			} 
 			else {
-				$data = $this->page_view("Tambah Donatur");
+				$data = $this->page_view("Tambah Donatur", "create");
 				$data['message_failed'] = "Donatur baru gagal ditambahkan, silakan input kembali...";
 				$this->load->view('shared/header', $data);
 				$this->load->view('create', $data);
@@ -91,7 +91,7 @@ class Donatur extends CI_Controller{
 	}
 
 	public function prosesEdit(){ 
-		$data = $this->page_view("List Donatur");
+		$data = $this->page_view("List Donatur", "edit");
 		$nama = $this->input->post('nama');
 		$negara = $this->input->post('negara');
 		$alamat = $this->input->post('alamat');
@@ -123,7 +123,6 @@ class Donatur extends CI_Controller{
 				'email' => $email,
 				'nama_pic' => $pic
 				);
-
 			$result = $this->m_donatur->update_data($data, $id_donatur);
 			if($result == 1){
 				$this->session->set_flashdata('message', 'Donatur berhasil diperbarui...');
@@ -137,7 +136,7 @@ class Donatur extends CI_Controller{
 	}
 
 	public function delete(){
-		$data = $this->page_view("List Donatur");
+		$data = $this->page_view("List Donatur", "delete");
 		$id = $this->input->post('id');
 		$arr = array( 'id_donatur' => $id );
 		$result = $this->m_donatur->hapus_data($arr);
@@ -151,7 +150,7 @@ class Donatur extends CI_Controller{
 
 	private function master_edit($id, $page_title, $message=null){
 		
-		$data = $this->page_view($page_title);
+		$data = $this->page_view($page_title, "edit");
 		$data['message'] = $message;
 		$donaturs = $this->m_donatur->get_donatur_byID($id);
 		if($donaturs == null){
@@ -175,15 +174,29 @@ class Donatur extends CI_Controller{
 		
 	}
 
-	private function page_view($page){
+	private function page_view($page, $access_level){
 		
 		//no user session, redirect to login page
 		if($this->session->userdata('userlogin')==""){
 			redirect(site_url().'/login');
 		}
-
+		
+		//manage access
+		$access_donatur = "donatur";
+		$granted_access = $this->session->userdata('access');
+		if(isset($granted_access[$access_donatur])){
+			if(strpos($granted_access[$access_donatur], $access_level) === false){
+				//jika tidak ada akses ke function ini maka arahkan ke dashboard
+				redirect(site_url().'/dashboard');
+			}
+		} else {
+			//jika tidak ada akses ke halaman ini maka arahkan ke dashboard
+			redirect(site_url().'/dashboard');
+		}
+		
 		$data['page'] = $page;
-		$data['menuaktif'] = "donatur";
+		$data['menuaktif'] = $access_donatur;
+		$data['menu'] = $this->session->userdata('access');
 		return $data;	
 	}
 }

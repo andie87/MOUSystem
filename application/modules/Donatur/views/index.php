@@ -36,14 +36,14 @@
               <table id="example2" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                        <th>No</th>
+                        <th style="text-align: center">No</th>
                         <th>Nama Donatur</th>
                         <th>Negara Asal</th>
                         <th>Alamat</th>
                         <th>No Kontak</th>
                         <th>Email</th>
                         <th>Nama PIC</th>
-                        <th>Action</th>
+                        <th style="text-align: center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -52,7 +52,7 @@
                      foreach ($donaturs->result() as $donatur) {
                     ?>
                     <tr>
-                        <td><?php echo $i; ?></td>
+                        <td style="text-align: center"><?php echo $i; ?></td>
                         <td><?php echo $donatur->nama_donatur; ?></td>
                         <td><?php echo $donatur->asal_negara; ?></td>
                         <td><?php echo $donatur->alamat; ?></td>
@@ -61,8 +61,6 @@
                         <td><?php echo $donatur->nama_pic; ?></td>
                         <td class="width20 center-col">
                           <a href="<?php echo site_url('donatur/edit/'.$donatur->id_donatur);?>"><i class="fa fa-pencil fa-lg"></i>edit</a>
-                          &nbsp;&nbsp;&nbsp;&nbsp; 
-                          <a href="<?php echo site_url('donatur/manage/'.$donatur->id_donatur);?>"><i class="fa fa-edit fa-lg"></i>manage</a>
                           &nbsp;&nbsp;&nbsp;&nbsp;
                           <a href="#" data-toggle="modal" data-nama="<?php echo $donatur->nama_donatur;?>" data-hapus="<?php echo $donatur->id_donatur;?>" data-target="#deleteModal"><i class="fa fa-trash-o fa-lg"></i>Delete</a>  
                         </td>

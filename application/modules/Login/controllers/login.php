@@ -54,15 +54,35 @@ class Login extends CI_Controller{
 				$commonModule = $this->M_login->getModule();
 				$allModules = $this->M_login->getlAllModules();
 				$roleRights = $this->M_login->getRoleRights($role);
+				$roles = array();
+				foreach($roleRights as $rr){
+					$detail = "";
+					if($rr['create'] == 1){ 
+						$detail = "create"; 
+					} 
+					if($rr['edit'] == 1){ 
+						$detail .= "-edit"; 
+					} 
+					if($rr['delete'] == 1){ 
+						$detail .= "-delete"; 
+					} 
+					if($rr['view'] == 1){ 
+						$detail .= "-view"; 
+					}
+					if($rr['view_minus_biaya'] == 1){ 
+						$detail .= "-view_minus_biaya"; 
+					}
+					if($detail != ""){
+						$roles[$rr['module_page']] = $detail;		
+					}
+				}
 				$dlogin = array(
 						'username' => $fullname,
 						'userlogin' => $userlogin,
 						'email' => $email,
 						'logged_in' => TRUE,
-						'role' => $id_role,
-						'access' => $this->set_rights($allModules, $roleRights)
+						'access' => $roles
 					);
-
 				$this->session->set_userdata($dlogin);
 				redirect(site_url().'/dashboard');				
 			}

@@ -36,13 +36,13 @@
               <table id="example2" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                        <th>No</th>
+                        <th style="text-align: center">No</th>
                         <th>Nama Eksekutor</th>
                         <th>Alamat</th>
                         <th>No Kontak</th>
                         <th>Email</th>
                         <th>Nama PIC</th>
-                        <th>Action</th>
+                        <th style="text-align: center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -59,8 +59,6 @@
                         <td><?php echo $eksekutor->nama_pic; ?></td>
                         <td class="width20 center-col">
                           <a href="<?php echo site_url('eksekutor/edit/'.$eksekutor->id_eksekutor);?>"><i class="fa fa-pencil fa-lg"></i>edit</a>
-                          &nbsp;&nbsp;&nbsp;&nbsp; 
-                          <a href="<?php echo site_url('eksekutor/manage/'.$eksekutor->id_eksekutor);?>"><i class="fa fa-edit fa-lg"></i>manage</a>
                           &nbsp;&nbsp;&nbsp;&nbsp;
                           <a href="#" data-toggle="modal" data-nama="<?php echo $eksekutor->nama_eksekutor;?>" data-hapus="<?php echo $eksekutor->id_eksekutor;?>" data-target="#deleteModal"><i class="fa fa-trash-o fa-lg"></i>Delete</a>  
                         </td>

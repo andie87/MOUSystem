@@ -137,7 +137,5 @@ $autoload['language'] = array();
 |	$autoload['model'] = array('first_model' => 'first');
 */
 
-//$autoload['model'] = array('login/M_login','donatur/m_donatur','eksekutor/m_eksekutor', 'role/m_role', 'user/m_user', 'provinsi/m_provinsi', 'kota/m_kota');
-$autoload['model'] = array('login/M_login','donatur/m_donatur','eksekutor/m_eksekutor', 'provinsi/m_provinsi', 'kota/m_kota',
-							'role/m_role', 'user/m_user', 'moudonatur/m_moudonatur','jenisproyek/m_jenisproyek', 'dokumen/m_DocMOUEks', 'moueksekutor/m_moueksekutor',
-							'selisih/m_selisih');
+$autoload['model'] = array('login/M_login','donatur/m_donatur','eksekutor/m_eksekutor', 'provinsi/m_provinsi', 'kota/m_kota', 'kecamatan/m_kecamatan', 'selisih/m_selisih',
+							'role/m_role', 'user/m_user', 'moudonatur/m_moudonatur','jenisproyek/m_jenisproyek', 'dokumen/m_DocMOUEks', 'moueksekutor/m_moueksekutor');

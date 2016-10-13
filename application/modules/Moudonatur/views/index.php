@@ -30,15 +30,11 @@
           <div class="box box-danger">
     
             <div class="box-header">
-                <?php if($this->session->userdata['access']['MoU']['MoU Donatur']['create']){?>
+            <?php if(strpos($granted_access['moudonatur'], 'create') !== false){ ?>
                   <a class="btn btn-sm btn-primary" href="<?php echo site_url('moudonatur/create'); ?>"><i class="fa fa-plus fa-lg"></i> 
                   	<strong>MoU Donatur Baru</strong></a>
-                <?php } ?>
+             <?php } ?>
               <span class="label label-info pull-right"><?php echo $moudonaturs->num_rows();?>  MoU</span>
-            	&nbsp;&nbsp;&nbsp;
-              <!-- <a href="<?php echo site_url('moudonatur/index'); ?>" >
-				<button type="button" class="btn btn-warning btn-sm width15" ><strong>Report Mou</strong></button>
-			  </a> -->
             </div>
             
             <?php echo form_open('moudonatur/index', array('class'=>'form-horizontal','method'=>'post'));?>
@@ -47,12 +43,12 @@
                 <div class="panel box box-primary">
                   <div class="box-header with-border">
                     <h4 class="box-title">
-                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                      <a data-toggle="collapse"  data-parent="#accordion" href="#collapseOne">
                         Search
                       </a>
                     </h4>
                   </div>
-                  <div id="collapseOne" class="panel-collapse collapse">
+                  <div id="collapseOne" class="panel-collapse collapse <?php echo $search; ?>">
                     <div class="box-body">
                         <div class="box-header" style="border: 1px solid #ddd; margin-left: 10px;margin-right: 10px;">
                         	<table>
@@ -132,13 +128,14 @@
                 <thead>
                 	<tr>
                         <th class="width5 center-col">No</th>
+                        <th>Nomor Proyek</th>
                         <th>Nama Proyek</th>
                         <th>Jenis Proyek</th>
                         <th>Alamat Proyek</th>
                         <th class="width10 center">Tanggal MoU</th>
                         <th class="width10 center">Tanggal Pembangunan</th>
                         <th class="center">Progress</th>
-                        <th class="center-col">Action</th>
+                        <th class="center-col" style="width: 13%">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -148,6 +145,7 @@
                     ?>
                     <tr>
                         <td class="width5 center-col"><?php echo $i; ?></td>
+                        <td><?php echo $md->nomor_proyek; ?></td>
                         <td><?php echo $md->nama_proyek; ?></td>
                         <td><?php echo $arr_proyek[$md->id_jenis_proyek]; ?></td>
                         <td><?php echo $md->alamat_proyek; ?></td>
@@ -155,18 +153,28 @@
                         <td class="center"><?php echo $md->tanggal_pembangunan=='0000-00-00' ? "" : getUserFormatDate($md->tanggal_pembangunan); ?></td>
                         <td class="center bg-green"><?php echo $md->progress; ?>% </td>
                         <td class="center-col">
+                        <?php if(strpos($granted_access['moudonatur'], 'edit') !== false){ ?>	
                         	<a href="<?php echo site_url('moudonatur/edit'); ?>/<?php echo $md->id_mou_donatur; ?>">
                         		<i class="fa fa-pencil fa-lg"></i>edit
                         	</a>
                         	&nbsp; 
+                        <?php } else { if(strpos($granted_access['moudonatur'], 'view_minus_biaya') !== false){ ?>
+                        	<a href="<?php echo site_url('moudonatur/view_m'); ?>/<?php echo $md->id_mou_donatur; ?>">
+                        		<i class="fa fa-edit fa-lg"></i>view
+                        	</a>
+                        	&nbsp;
+                        <?php } else {?>
                         	<a href="<?php echo site_url('moudonatur/view'); ?>/<?php echo $md->id_mou_donatur; ?>">
                         		<i class="fa fa-edit fa-lg"></i>view
                         	</a>
                         	&nbsp;
+                        <?php }} ?>
+                        <?php if(strpos($granted_access['moudonatur'], 'delete') !== false){ ?>
                         	<a href="#" data-toggle="modal" data-nama="<?php echo $md->nama_proyek;?>" 
                         	data-hapus="<?php echo $md->id_mou_donatur;?>" data-target="#deleteModal">
                         		<i class="fa fa-trash-o fa-lg"></i>delete
-                        	</a>    
+                        	</a>
+                        <?php } ?>    
                         </td>
                     </tr>
                     <?php $i++; }?>

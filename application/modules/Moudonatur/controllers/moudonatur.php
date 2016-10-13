@@ -11,19 +11,7 @@ class Moudonatur extends CI_Controller{
 
 	public function index(){
 		
-		$this->master_index("");	
-		
-	}
-	
-	public function index_view(){
-		
-		$this->master_index("index_view");	
-		
-	}
-	
-	public function master_index($page){
-		
-		$data = $this->page_view("List MoU dengan Donatur");
+		$data = $this->page_view("List MoU dengan Donatur", "view");
 		
 		if(strlen($this->session->flashdata('message')) > 0){
 			$data['message'] = $this->session->flashdata('message');
@@ -43,9 +31,11 @@ class Moudonatur extends CI_Controller{
 			$data['from_pembangunan'] = $this->input->post('from_pembangunan') == null ? null : $this->input->post('from_pembangunan');
 			$data['to_pembangunan'] = $this->input->post('to_pembangunan') == null ? null : $this->input->post('to_pembangunan');
 			$data['jenis_proyek'] = $this->input->post('jenis_proyek') == "All" ? null : $this->input->post('jenis_proyek');
+			$data['search'] = "in";
 			$data['moudonaturs'] = $this->m_moudonatur->getAll($data);
 		} else {
 			$data['moudonaturs'] = $this->m_moudonatur->getAll();
+			$data['search'] = "";
 		}
 		
 		//jika mengklik tombol report
@@ -75,7 +65,7 @@ class Moudonatur extends CI_Controller{
 				if(count($kecamatan) > 0){
 					$data['moudonaturs'][$i]['nama_kecamatan'] = $kecamatan[0]['nama_kecamatan'];	
 				} else {
-					$data['moudonaturs'][$i]['nama_kecamatan'] = "وَمِنْ آيَاتِهِ";
+					$data['moudonaturs'][$i]['nama_kecamatan'] = "";
 				}
 				
 				
@@ -94,20 +84,19 @@ class Moudonatur extends CI_Controller{
 		foreach($data['jenis_proyek_array'] as $r){
 			$arr_proyek[$r['id_jenis_proyek']] = $r['nama_proyek'];
 		}
+		
 		$data['arr_proyek'] = $arr_proyek;
+		$data['granted_access'] = $this->session->userdata('access');
+		
 		$this->load->view('shared/header', $data);
-		if($page == "index_view"){
-			$this->load->view('index_view', $data);
-		} else {
-			$this->load->view('index', $data);	
-		}
+		$this->load->view('index', $data);	
 		$this->load->view('shared/footer');
 		
 	}
 
 	public function create(){
 		
-		$data = $this->page_view("MoU Baru");
+		$data = $this->page_view("MoU Baru", "create");
 		$data['donaturs'] = $this->m_moudonatur->get_donatur();
 		$data['provins'] = $this->m_moudonatur->get_provinsi();
 		$data['proyeks'] = $this->m_moudonatur->get_jenis_proyek();
@@ -132,6 +121,14 @@ class Moudonatur extends CI_Controller{
 				
 	}
 	
+	public function view_m(){
+		
+		$page_title = "View MoU";
+		$id = $this->uri->segment('3');
+		$this->master_view($id, $page_title, null, "view_minus_biaya");
+				
+	}
+	
 	public function dokumen(){
 		
 		$this->master_dokumen("dokumen");
@@ -148,7 +145,7 @@ class Moudonatur extends CI_Controller{
 		
 		$page_title = "Dokumen MoU";
 		$id = $this->uri->segment('3');
-		$data = $this->page_view($page_title);
+		$data = $this->page_view($page_title, "view");
 
 		if(strlen($id) > 0){
 			$id_mou_donatur_for_dokumen = array( 'id_mou_donatur_for_dokumen' => $id );
@@ -163,6 +160,7 @@ class Moudonatur extends CI_Controller{
 		
 		$data['id_mou_donatur'] = $this->session->userdata("id_mou_donatur_for_dokumen");
 		$data['dokumens'] = $this->m_moudonatur->getDokumenByMouDonaturId($data['id_mou_donatur']);
+		$data['granted_access'] = $this->session->userdata('access');
 		$this->load->view('shared/header', $data);
 		$this->load->view($dokumen_view, $data);
 		$this->load->view('shared/footer');
@@ -172,8 +170,8 @@ class Moudonatur extends CI_Controller{
 	public function uploadDokumen(){
 		
 		$page_title = "Dokumen MoU";
-		$id = $this->input->post('mou_donatur');;
-		$data = $this->page_view($page_title);
+		$id = $this->input->post('mou_donatur');
+		$data = $this->page_view($page_title, "create", "dokumendonatur");
 		
 		$path = "./uploads/mou donatur/".$id."/";
 		if(!is_dir($path)) {
@@ -261,7 +259,7 @@ class Moudonatur extends CI_Controller{
 		
 		$page_title = "Pembayaran Donatur";
 		$id = $this->uri->segment('3');
-		$data = $this->page_view($page_title);
+		$data = $this->page_view($page_title, "view");
 
 		if(strlen($id) > 0){
 			$id_mou_donatur_for_pembayaran = array( 'id_mou_donatur_for_pembayaran' => $id );
@@ -330,7 +328,7 @@ class Moudonatur extends CI_Controller{
 		
 		$page_title = "Pembayaran Donatur";
 		$id = $this->uri->segment('4');
-		$data = $this->page_view($page_title);
+		$data = $this->page_view($page_title, "edit");
 		
 		$dok = $this->m_moudonatur->getPembayaranById($id);
 		$data['dok'] = $dok[0];
@@ -374,7 +372,7 @@ class Moudonatur extends CI_Controller{
 	
 	public function delete(){
 		
-		$data = $this->page_view("List Role");
+		$data = $this->page_view("List Role", "delete");
 		$id = $this->input->post('id');
 		$arr = array( 'id_mou_donatur' => $id );
 		$result = $this->m_moudonatur->delete_data($arr);
@@ -389,7 +387,7 @@ class Moudonatur extends CI_Controller{
 
 	public function prosesCreate(){
 		
-		$data = $this->page_view("List MoU Donatur");
+		$data = $this->page_view("List MoU Donatur", "create");
 		
 		$donatur = $this->input->post('donatur');
 		$nama_penyumbang = $this->input->post('nama_penyumbang');
@@ -431,7 +429,7 @@ class Moudonatur extends CI_Controller{
 			$this->session->set_flashdata('message', 'MoU baru berhasil ditambahkan...');
 	  		redirect(site_url().'/moudonatur');
 		} else {
-			$data = $this->page_view("Tambah MoU Donatur");
+			$data = $this->page_view("Tambah MoU Donatur", "create");
 			$data['message'] = "MoU baru gagal ditambahkan, silakan input kembali...";
 			$this->load->view('shared/header', $data);
 			$this->load->view('create', $data);
@@ -442,7 +440,7 @@ class Moudonatur extends CI_Controller{
 	
 	public function prosesUpdate(){
 		
-		$data = $this->page_view("List MoU Donatur");
+		$data = $this->page_view("List MoU Donatur", "edit");
 		
 		$donatur = $this->input->post('donatur');
 		$no_proyek = $this->input->post('no_proyek');
@@ -493,7 +491,7 @@ class Moudonatur extends CI_Controller{
 	
 	private function master_edit($id, $page_title, $message=null){
 		
-		$data = $this->page_view($page_title);
+		$data = $this->page_view($page_title, "edit");
 		$data['donaturs'] = $this->m_moudonatur->get_donatur();
 		$data['provins'] = $this->m_moudonatur->get_provinsi();
 		$data['proyeks'] = $this->m_moudonatur->get_jenis_proyek();
@@ -522,9 +520,9 @@ class Moudonatur extends CI_Controller{
 		
 	}
 	
-	private function master_view($id, $page_title, $message=null){
+	private function master_view($id, $page_title, $message=null, $view=null){
 		
-		$data = $this->page_view($page_title);
+		$data = $this->page_view($page_title, "view");
 		$data['donaturs'] = $this->m_moudonatur->get_donatur();
 		$data['provins'] = $this->m_moudonatur->get_provinsi();
 		$data['proyeks'] = $this->m_moudonatur->get_jenis_proyek();
@@ -547,21 +545,45 @@ class Moudonatur extends CI_Controller{
 		}
 		$data['moudonatur']['tanggal_mou'] = getUserFormatDate($data['moudonatur']['tanggal_mou']); 
 		$data['moudonatur']['tanggal_pembangunan'] = getUserFormatDate($data['moudonatur']['tanggal_pembangunan']); 
+		$data['granted_access'] = $this->session->userdata('access');
 		$this->load->view('shared/header', $data);
-		$this->load->view('view', $data);
+		if($view == "view_minus_biaya"){
+			$this->load->view('view_m', $data);
+		} else {
+			$this->load->view('view', $data);
+		}
 		$this->load->view('shared/footer');
 		
 	}
 	
-	private function page_view($page){
+	private function page_view($page, $access_level, $module="moudonatur"){
 		
 		//no user session, redirect to login page
 		if($this->session->userdata('userlogin')==""){
 			redirect(site_url().'/login');
 		}
 		
+		//manage access
+		if($module=="dokumendonatur"){
+			$access_moudonatur = "dokumendonatur";	
+		} else {
+			$access_moudonatur = "moudonatur";
+		}
+		
+		$granted_access = $this->session->userdata('access');
+		if(isset($granted_access[$access_moudonatur])){
+			if(strpos($granted_access[$access_moudonatur], $access_level) === false){
+				//jika tidak ada akses ke function ini maka arahkan ke dashboard
+				redirect(site_url().'/dashboard');
+			}
+		} else {
+			//jika tidak ada akses ke halaman ini maka arahkan ke dashboard
+			redirect(site_url().'/dashboard');
+		}
+		
 		$data['page'] = $page;
-		$data['menuaktif'] = "moudonatur";
+		$data['menuaktif'] = $access_moudonatur;
+		$data['menu'] = $this->session->userdata('access');
 		return $data;
 	
 	}
