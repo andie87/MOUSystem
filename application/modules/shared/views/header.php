@@ -37,7 +37,7 @@
   <header class="main-header">
 
     <!-- Logo -->
-    <a href="index2.html" class="logo">
+    <a href="#" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>M</b>OU</span>
       <!-- logo for regular state and mobile devices -->
@@ -157,8 +157,8 @@
         </li>
         <?php } ?>
         
-        <?php if(isset($menu['pembayarandonatur'])){ ?>
-        <li <?php if($menuaktif == "pembayarandonatur"): ?>class="active" <?php endif;?>>
+        <?php if(isset($menu['selisih'])){ ?>
+        <li <?php if($menuaktif == "selisih"): ?>class="active" <?php endif;?>>
           <a href="<?php echo site_url('selisih');?>">
             <i class="fa fa-files-o"></i> <span>Rekap Selisih</span>
           </a>

@@ -160,8 +160,8 @@
                         	</a>
                         	&nbsp; 
                         <?php } else { if(strpos($granted_access['moueksekutor'], 'view_minus_biaya') !== false){ ?>
-                        	<a href="<?php echo site_url('moueksekutor/view_m'); ?>/<?php echo $md->id_mou_eksekutor; ?>">
-                        		<i class="fa fa-edit fa-lg"></i>view
+                        	<a href="<?php echo site_url('selisih/index/eksekutor'); ?>/<?php echo $md->id_mou_eksekutor; ?>">
+                        		<i class="fa fa-calculator fa-lg"></i>view
                         	</a>
                         	&nbsp;
                         <?php } else {?>

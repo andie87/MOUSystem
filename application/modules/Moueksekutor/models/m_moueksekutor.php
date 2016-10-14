@@ -49,6 +49,44 @@ class M_moueksekutor extends CI_Model{
 
 		return $this->db->get();
 	}
+
+	public function getAllinArray($param=null){
+		//return $this->db->get($this->table);
+		$this->db->select('mou_eksekutor.*, mou_donatur.nomor_proyek as moudonatur_nomor_proyek');
+		$this->db->from($this->table);
+		$this->db->join('mou_donatur', 'mou_donatur.id_mou_donatur = mou_eksekutor.id_mou_donatur');
+
+		if($param != null){
+			
+			$where = "1=1";
+			if($param['jenis_proyek'] != null){
+				$where .= " AND mou_eksekutor.id_jenis_proyek = ".$param['jenis_proyek'];
+			}
+			if($param['no_proyek'] != null){
+				$where .= " AND mou_donatur.nomor_proyek = ".$param['no_proyek'];
+			}
+			if($param['nama_proyek'] != null){
+				$where .= " AND lower(nama_proyek) like '%".strtolower($param['nama_proyek'])."%'";
+			}
+			if($param['alamat_proyek'] != null){
+				$where .= " AND lower(alamat_proyek) like '%".strtolower($param['alamat_proyek'])."%'";
+			}
+			if($param['progress'] != null){
+				$where .= " AND progress = ".$param['progress'];
+			}
+			if($param['from_mou'] != null && $param['to_mou'] != null){
+				$where .= " AND tanggal_mou between '".getMysqlFormatDate($param['from_mou'])."' AND '".getMysqlFormatDate($param['to_mou'])."'";
+			}
+			if($param['from_pengerjaan'] != null && $param['to_pengerjaan'] != null){
+				$where .= " AND tanggal_pengerjaan between '".getMysqlFormatDate($param['from_pengerjaan'])."' AND '".getMysqlFormatDate($param['to_pengerjaan'])."'";
+			}
+			
+			$this->db->where($where);
+		}
+
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 	
 	public function getMoueksekutorById($id){
 		
@@ -99,6 +137,12 @@ class M_moueksekutor extends CI_Model{
 	
 	public function get_eksekutor(){
 		return $this->db->get("eksekutor");	
+	}
+
+	public function getEksekutorById($id){
+		$this->db->where('id_eksekutor', $id);
+		$query = $this->db->get("eksekutor");
+		return $query->result_array();	
 	}
 
 	public function get_moudonatur(){

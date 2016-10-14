@@ -36,6 +36,45 @@ class Moueksekutor extends CI_Controller{
 			$data['search'] = "";
 		}
 
+		if($this->input->post('report') > 0){
+			$this->load->helper('download');
+			$data['moueksekutors'] = $this->m_moueksekutor->getAllinArray($data);
+			for($i=0; $i<count($data['moueksekutors']); $i++) {
+				//mengambil nama donatur
+				$donatur = $this->m_moueksekutor->getEksekutorById($data['moueksekutors'][$i]['id_eksekutor']);
+				$data['moueksekutors'][$i]['nama_eksekutor'] = $donatur[0]['nama_eksekutor'];
+				//mengambil nama provinsi
+				$provinsi = $this->m_moudonatur->getProvinsiById($data['moueksekutors'][$i]['id_provinsi']);
+				if(count($provinsi) > 0){
+					$data['moueksekutors'][$i]['nama_provinsi'] = $provinsi[0]['nama_provinsi'];
+				} else {
+					$data['moueksekutors'][$i]['nama_provinsi'] = "";
+				}
+				//mengambil nama kota
+				$kota = $this->m_moudonatur->getKotaKabById($data['moueksekutors'][$i]['id_kota_kab']);
+				if(count($kota) > 0){
+					$data['moueksekutors'][$i]['nama_kota'] = $kota[0]['nama_kota_kab'];
+				} else {
+					$data['moueksekutors'][$i]['nama_kota'] = "";
+				}
+				//mengambil nama kecamatan
+				$kecamatan = $this->m_moudonatur->getKecamatanById($data['moueksekutors'][$i]['id_kecamatan']);
+				if(count($kecamatan) > 0){
+					$data['moueksekutors'][$i]['nama_kecamatan'] = $kecamatan[0]['nama_kecamatan'];	
+				} else {
+					$data['moueksekutors'][$i]['nama_kecamatan'] = "";
+				}
+				
+				
+				$jenis_proyek = $this->m_moudonatur->getJenisProyekById($data['moueksekutors'][$i]['id_jenis_proyek']);
+				$data['moueksekutors'][$i]['jenis_proyek'] = $jenis_proyek[0]['nama_proyek'];
+			}
+			$text = $this->load->view('report', $data, true);
+			$name = 'report_mou_eksekutor.html';
+			force_download($name, $text);
+			
+		}
+
 		$data['proyeks'] = $this->m_moudonatur->get_jenis_proyek();
 		$data['jenis_proyek_array'] = $this->m_moueksekutor->get_jenis_proyek_array();
 		$arr_proyek = array();
@@ -368,6 +407,7 @@ class Moueksekutor extends CI_Controller{
 		$ukuran = $this->input->post('ukuran');
 		$provinsi = $this->input->post('provinsi');
 		$kota = $this->input->post('kota');
+		$kecamatan = $this->input->post('kecamatan');
 		$alamat_lokasi = $this->input->post('alamat_lokasi');
 		$koordinat_lokasi = $this->input->post('koordinat_lokasi');
 		$nilai_proyek = str_replace(".", "", $this->input->post('nilai_proyek'));
@@ -395,6 +435,7 @@ class Moueksekutor extends CI_Controller{
 						'ukuran' => $ukuran,
 						'id_provinsi' => $provinsi,
 						'id_kota_kab' => $kota,
+						'id_kecamatan' => $kecamatan,
 						'alamat_lokasi' => $alamat_lokasi,
 						'koordinat_lokasi' => $koordinat_lokasi,
 						'nilai_proyek' => $nilai_proyek,
@@ -445,6 +486,7 @@ class Moueksekutor extends CI_Controller{
 		$ukuran = $this->input->post('ukuran');
 		$provinsi = $this->input->post('provinsi');
 		$kota = $this->input->post('kota');
+		$kecamatan = $this->input->post('kecamatan');
 		$alamat_lokasi = $this->input->post('alamat_lokasi');
 		$koordinat_lokasi = $this->input->post('koordinat_lokasi');
 		$nilai_proyek = str_replace(".", "", $this->input->post('nilai_proyek'));
@@ -473,6 +515,7 @@ class Moueksekutor extends CI_Controller{
 						'ukuran' => $ukuran,
 						'id_provinsi' => $provinsi,
 						'id_kota_kab' => $kota,
+						'id_kecamatan' => $kecamatan,
 						'alamat_lokasi' => $alamat_lokasi,
 						'koordinat_lokasi' => $koordinat_lokasi,
 						'nilai_proyek' => $nilai_proyek,
@@ -510,6 +553,7 @@ class Moueksekutor extends CI_Controller{
 		$data['id'] = $id;
 		$moueksekutors = $this->m_moueksekutor->getMoueksekutorById($id);
 		$data['kotas'] = $this->m_moueksekutor->get_kotakab_by_prov($moueksekutors[0]['id_provinsi']);
+		$data['kecamatan'] = $this->m_moudonatur->get_kecamatan_by_kota($moueksekutors[0]['id_kota_kab']);
 		if($moueksekutors == null){
 			//jika ID bernilai null, besar kemungkinan user melakukan direct hit url ke server
 			redirect(site_url().'/login');
@@ -543,6 +587,7 @@ class Moueksekutor extends CI_Controller{
 		$data['id'] = $id;
 		$moueksekutors = $this->m_moueksekutor->getMoueksekutorById($id);
 		$data['kotas'] = $this->m_moueksekutor->get_kotakab_by_prov($moueksekutors[0]['id_provinsi']);
+		$data['kecamatan'] = $this->m_moudonatur->get_kecamatan_by_kota($moueksekutors[0]['id_kota_kab']);
 		if($moueksekutors == null){
 			//jika ID bernilai null, besar kemungkinan user melakukan direct hit url ke server
 			redirect(site_url().'/login');

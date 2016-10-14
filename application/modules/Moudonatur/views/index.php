@@ -30,7 +30,7 @@
           <div class="box box-danger">
     
             <div class="box-header">
-            <?php if(strpos($granted_access['moudonatur'], 'create') !== false){ ?>
+            <?php if(strpos($granted_access['moudonatur'], 'create')){ ?>
                   <a class="btn btn-sm btn-primary" href="<?php echo site_url('moudonatur/create'); ?>"><i class="fa fa-plus fa-lg"></i> 
                   	<strong>MoU Donatur Baru</strong></a>
              <?php } ?>
@@ -152,15 +152,15 @@
                         <td class="center"><?php echo $md->tanggal_mou=='0000-00-00' ? "" : getUserFormatDate($md->tanggal_mou); ?></td>
                         <td class="center"><?php echo $md->tanggal_pembangunan=='0000-00-00' ? "" : getUserFormatDate($md->tanggal_pembangunan); ?></td>
                         <td class="center bg-green"><?php echo $md->progress; ?>% </td>
-                        <td class="center-col">
+                        <td class="center-col">                            
                         <?php if(strpos($granted_access['moudonatur'], 'edit') !== false){ ?>	
                         	<a href="<?php echo site_url('moudonatur/edit'); ?>/<?php echo $md->id_mou_donatur; ?>">
                         		<i class="fa fa-pencil fa-lg"></i>edit
                         	</a>
                         	&nbsp; 
                         <?php } else { if(strpos($granted_access['moudonatur'], 'view_minus_biaya') !== false){ ?>
-                        	<a href="<?php echo site_url('moudonatur/view_m'); ?>/<?php echo $md->id_mou_donatur; ?>">
-                        		<i class="fa fa-edit fa-lg"></i>view
+                        	<a href="<?php echo site_url('selisih/index/donatur'); ?>/<?php echo $md->id_mou_donatur; ?>">
+                        		<i class="fa fa-calculator fa-lg"></i>view
                         	</a>
                         	&nbsp;
                         <?php } else {?>
@@ -169,7 +169,7 @@
                         	</a>
                         	&nbsp;
                         <?php }} ?>
-                        <?php if(strpos($granted_access['moudonatur'], 'delete') !== false){ ?>
+                        <?php if(strpos($granted_access['moudonatur'], 'delete')){ ?>
                         	<a href="#" data-toggle="modal" data-nama="<?php echo $md->nama_proyek;?>" 
                         	data-hapus="<?php echo $md->id_mou_donatur;?>" data-target="#deleteModal">
                         		<i class="fa fa-trash-o fa-lg"></i>delete

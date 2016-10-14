@@ -130,13 +130,16 @@
                         <td><?php echo $dt->nilai_proyek; ?></td>
                         <td><?php echo $dt->progress_proyek; ?>%</td>
                         <td class="center-col">
-                          <?php if($this->session->userdata['access']['MoU']['MoU Donatur']['edit']){?>
+                          <?php //if($this->session->userdata['access']['MoU']['MoU Donatur']['edit']){
+                              if(strpos($granted_access['moudonatur'], 'edit')){
+                            ?>
                           <a href="<?php echo site_url('moudonatur/edit'); ?>/<?php echo $dt->id_mou_donatur; ?>">
                             <i class="fa fa-pencil fa-lg"></i>Donatur
                           </a>
                           <?php }?>
                           &nbsp; 
-                          <?php if($this->session->userdata['access']['MoU']['MoU Eksekutor']['edit']){?>
+                          <?php //if($this->session->userdata['access']['MoU']['MoU Eksekutor']['edit']){
+                            if(strpos($granted_access['moueksekutor'], 'edit')){?>
                           <a href="<?php echo site_url('moueksekutor/edit'); ?>/<?php echo $dt->id_mou_eksekutor; ?>">
                             <i class="fa fa-edit fa-lg"></i>Eksekutor
                           </a>

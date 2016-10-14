@@ -193,6 +193,25 @@ function changeKotaKab(){
 	                </select>
 				</div>
 			</div>
+
+			<div class="form-group" >
+					<label class="col-sm-3 control-label">Kecamatan</label>
+					<div class="col-lg-5" id="div_kecamatan">
+						<select disabled id="select_kecamatan" class="form-control select2 font-black" name="kecamatan" style="width: 100%;">
+							<option>Please select</option>
+							<?php 
+								foreach ($kecamatan->result() as $k) {
+									if($moueksekutor['id_kecamatan'] == $k->id_kecamatan){
+										echo "<option selected value=".$k->id_kecamatan.">".$k->nama_kecamatan."</option>";
+									} else {
+										echo "<option value=".$k->id_kecamatan.">".$k->nama_kecamatan."</option>";
+									}
+								}
+							?>
+		                </select>
+					</div>
+				</div>
+				
 			<div class="form-group" >
 				<label class="col-sm-3 control-label">Alamat Lokasi</label>
 				<div class="col-lg-5">
