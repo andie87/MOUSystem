@@ -575,6 +575,38 @@ class Moueksekutor extends CI_Controller{
 		$this->load->view('shared/footer');
 		
 	}
+
+	public function report(){
+		$id = $this->uri->segment(3);
+		$this->load->helper('download');
+		$data['eksekutors'] = $this->m_moueksekutor->get_eksekutor();
+		$data['moudonatur'] = $this->m_moueksekutor->get_moudonatur();
+		$data['provins'] = $this->m_moueksekutor->get_provinsi();
+		$data['proyeks'] = $this->m_moueksekutor->get_jenis_proyek();
+		$data['message'] = $message;
+		$data['id'] = $id;
+		$moueksekutors = $this->m_moueksekutor->getMoueksekutorById($id);
+		$data['kotas'] = $this->m_moueksekutor->get_kotakab_by_prov($moueksekutors[0]['id_provinsi']);
+		$data['kecamatan'] = $this->m_moudonatur->get_kecamatan_by_kota($moueksekutors[0]['id_kota_kab']);
+		if($moueksekutors == null){
+			//jika ID bernilai null, besar kemungkinan user melakukan direct hit url ke server
+			redirect(site_url().'/login');
+		} else {
+			if($moueksekutors){
+				foreach($moueksekutors as $m){
+					$data['moueksekutor'] = $m;
+				}
+			} else {
+				$data['moueksekutor'] = null;
+			}
+		}
+		$data['moueksekutor']['tanggal_mou'] = $data['moueksekutor']['tanggal_mou']=="0000-00-00" ? "" : getUserFormatDate($data['moueksekutor']['tanggal_mou']); 
+		$data['moueksekutor']['tanggal_pengerjaan'] = $data['moueksekutor']['tanggal_pengerjaan']=="0000-00-00" ? "" : getUserFormatDate($data['moueksekutor']['tanggal_pengerjaan']);
+		$data['moueksekutor']['tanggal_selesai'] = $data['moueksekutor']['tanggal_selesai']=="0000-00-00" ? "" : getUserFormatDate($data['moueksekutor']['tanggal_selesai']);
+		$text = $this->load->view('reportProjek', $data, true);
+		$name = 'report_mou_eksekutor_'.$data['moueksekutor']['moudonatur_nomor_proyek'].'.html';
+		force_download($name, $text);
+	}
 	
 	private function master_view($id, $page_title, $message=null, $view=null){
 		

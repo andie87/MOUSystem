@@ -67,7 +67,9 @@ function changeKotaKab(){
 					<div class="col-lg-5">
 						<input type="text" name="no_proyek" value="<?php echo $moudonatur['nomor_proyek']; ?>" class="form-control pull-right" >
 					</div>
-					
+					<a href="<?php echo site_url('moudonatur/report'); ?>/<?php echo $id; ?>" >
+						<button type="button" class="btn btn-primary btn-sm width30" >REPORT</button>
+					</a>
 				</div>
 				<div class="form-group" >
 					<label class="col-sm-3 control-label">Nama Penyumbang</label>
