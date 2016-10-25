@@ -519,6 +519,36 @@ class Moudonatur extends CI_Controller{
 		$this->load->view('shared/footer');
 		
 	}
+
+	public function report(){
+		$id = $this->uri->segment(3);
+		$this->load->helper('download');
+		$data['donaturs'] = $this->m_moudonatur->get_donatur();
+		$data['provins'] = $this->m_moudonatur->get_provinsi();
+		$data['proyeks'] = $this->m_moudonatur->get_jenis_proyek();
+		$data['message'] = $message;
+		$data['id'] = $id;
+		$moudonaturs = $this->m_moudonatur->getMoudonaturById($id);
+		$data['kotas'] = $this->m_moudonatur->get_kotakab_by_prov($moudonaturs[0]['id_provinsi']);
+		$data['kecamatan'] = $this->m_moudonatur->get_kecamatan_by_kota($moudonaturs[0]['id_kota_kab']);
+		if($moudonaturs == null){
+			//jika ID bernilai null, besar kemungkinan user melakukan direct hit url ke server
+			redirect(site_url().'/login');
+		} else {
+			if($moudonaturs){
+				foreach($moudonaturs as $m){
+					$data['moudonatur'] = $m;
+				}
+			} else {
+				$data['moudonatur'] = null;
+			}
+		}
+		$data['moudonatur']['tanggal_mou'] = getUserFormatDate($data['moudonatur']['tanggal_mou']); 
+		$data['moudonatur']['tanggal_pembangunan'] = getUserFormatDate($data['moudonatur']['tanggal_pembangunan']); 
+		$text = $this->load->view('reportProjek', $data, true);
+		$name = 'report_mou_donatur_'.$data['moudonatur']['nomor_proyek'].'.html';
+		force_download($name, $text);
+	}
 	
 	private function master_view($id, $page_title, $message=null, $view=null){
 		

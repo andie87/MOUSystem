@@ -88,7 +88,9 @@ function changeKecamatan(){
 						?>
 		                </select>
 					</div>
-
+					<a href="<?php echo site_url('moueksekutor/report'); ?>/<?php echo $id; ?>" >
+						<button type="button" class="btn btn-primary btn-sm width30" >REPORT</button>
+					</a>
 				</div>
 				<div class="form-group" >
 					<label class="col-sm-3 control-label">Tanggal MoU</label>
