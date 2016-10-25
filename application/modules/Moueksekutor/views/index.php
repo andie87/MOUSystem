@@ -138,6 +138,7 @@
                         <th>Jenis Proyek</th>
                         <th class="width10 center">Tanggal MoU</th>
                         <th class="width10 center">Tanggal Pengerjaan</th>
+                        <th class="width10 center">Tanggal Selesai</th>
                         <th class="center-col" style="width: 13%">Action</th>
                     </tr>
                 </thead>
@@ -153,6 +154,7 @@
                         <td><?php echo $arr_proyek[$md->id_jenis_proyek]; ?></td>
                         <td class="center"><?php echo getUserFormatDate($md->tanggal_mou); ?></td>
                         <td class="center"><?php echo getUserFormatDate($md->tanggal_pengerjaan); ?></td>
+                        <td class="center"><?php echo getUserFormatDate($md->tanggal_selesai); ?></td>
                         <td class="center-col">
                         <?php if(strpos($granted_access['moueksekutor'], 'edit') !== false){ ?>	
                         	<a href="<?php echo site_url('moueksekutor/edit'); ?>/<?php echo $md->id_mou_eksekutor; ?>">

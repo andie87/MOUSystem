@@ -30,10 +30,10 @@
           <div class="box box-danger">
     
             <div class="box-header">
-            <?php if(strpos($granted_access['moudonatur'], 'create')){ ?>
+            <?php //if(strpos($granted_access['moudonatur'], 'create')){ ?>
                   <a class="btn btn-sm btn-primary" href="<?php echo site_url('moudonatur/create'); ?>"><i class="fa fa-plus fa-lg"></i> 
                   	<strong>MoU Donatur Baru</strong></a>
-             <?php } ?>
+             <?php //} ?>
               <span class="label label-info pull-right"><?php echo $moudonaturs->num_rows();?>  MoU</span>
             </div>
             

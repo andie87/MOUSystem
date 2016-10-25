@@ -166,7 +166,7 @@ function changeKecamatan(){
 				<div class="form-group" >
 					<label class="col-sm-3 control-label">Ukuran</label>
 					<div class="col-lg-5">
-						<input type="text" id="ukuran" style="font-size: 13pt;" name="ukuran" value="<?php echo $moueksekutor['ukuran'];?>" class="form-control input-sm" onkeypress="return isNumberKey(event)">
+						<input type="text" id="ukuran" style="font-size: 13pt;" name="ukuran" value="<?php echo $moueksekutor['ukuran'];?>" class="form-control input-sm" >
 					</div>
 				</div>
 				<div class="form-group" >

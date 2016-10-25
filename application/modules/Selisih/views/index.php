@@ -88,7 +88,7 @@
                 
             <!-- /.box-header -->
             <div class="box-body">
-              <table id="example2" class="table table-bordered table-hover font13">
+              <table id="example2" class="table table-bordered table-hover font13" style="width: auto; overflow-x: scroll;">
                 <thead>
                   <tr>
                         <th rowspan="2" class="width5 center-col">No</th>

@@ -46,7 +46,7 @@ class M_moueksekutor extends CI_Model{
 			
 			$this->db->where($where);
 		}
-
+		$this->db->order_by('id_mou_eksekutor', 'desc');
 		return $this->db->get();
 	}
 
