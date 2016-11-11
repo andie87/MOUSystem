@@ -242,6 +242,12 @@ function changeKecamatan(){
 					</div>
 				</div>
 				<div class="form-group" >
+					<label class="col-sm-3 control-label">Nilai Proyek Tambahan</label>
+					<div class="col-lg-5">
+						<input type="text" id="nilai_rupiah_tambahan" style="font-size: 13pt;" name="nilai_proyek_tambahan" value="<?php echo $moueksekutor['nilai_proyek_tambahan'];?>" class="form-control input-sm" onkeypress="return isNumberKey(event)">
+					</div>
+				</div>
+				<div class="form-group" >
 					<label class="col-sm-3 control-label">Tanggal Selesai</label>
 					<div class="col-lg-5 input-group" style="padding-left: 15px; padding-right: 15px;">
 	                <div class="input-group-addon "><i class="fa fa-calendar"></i></div>

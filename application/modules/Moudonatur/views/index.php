@@ -169,12 +169,16 @@
                         	</a>
                         	&nbsp;
                         <?php }} ?>
+                        
+                        <!-- 
                         <?php if(strpos($granted_access['moudonatur'], 'delete')){ ?>
                         	<a href="#" data-toggle="modal" data-nama="<?php echo $md->nama_proyek;?>" 
                         	data-hapus="<?php echo $md->id_mou_donatur;?>" data-target="#deleteModal">
                         		<i class="fa fa-trash-o fa-lg"></i>delete
                         	</a>
                         <?php } ?>    
+                         -->
+                         
                         </td>
                     </tr>
                     <?php $i++; }?>

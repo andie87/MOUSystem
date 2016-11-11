@@ -411,6 +411,7 @@ class Moueksekutor extends CI_Controller{
 		$alamat_lokasi = $this->input->post('alamat_lokasi');
 		$koordinat_lokasi = $this->input->post('koordinat_lokasi');
 		$nilai_proyek = str_replace(".", "", $this->input->post('nilai_proyek'));
+		$nilai_proyek_tambahan = str_replace(".", "", $this->input->post('nilai_proyek_tambahan'));
 		$is_banner = $this->input->post('is_banner');
 		$is_prasasti = $this->input->post('is_prasasti');
 		$pic_lokasi = $this->input->post('pic_lokasi');
@@ -439,6 +440,7 @@ class Moueksekutor extends CI_Controller{
 						'alamat_lokasi' => $alamat_lokasi,
 						'koordinat_lokasi' => $koordinat_lokasi,
 						'nilai_proyek' => $nilai_proyek,
+						'nilai_proyek_tambahan' => $nilai_proyek_tambahan,
 						'is_banner' => $is_banner,
 						'is_prasasti' => $is_prasasti,
 						'pic_lokasi' => $pic_lokasi,
@@ -490,6 +492,7 @@ class Moueksekutor extends CI_Controller{
 		$alamat_lokasi = $this->input->post('alamat_lokasi');
 		$koordinat_lokasi = $this->input->post('koordinat_lokasi');
 		$nilai_proyek = str_replace(".", "", $this->input->post('nilai_proyek'));
+		$nilai_proyek_tambahan = str_replace(".", "", $this->input->post('nilai_proyek_tambahan'));
 		$is_banner = $this->input->post('is_banner');
 		$is_prasasti = $this->input->post('is_prasasti');
 		$pic_lokasi = $this->input->post('pic_lokasi');
@@ -519,6 +522,7 @@ class Moueksekutor extends CI_Controller{
 						'alamat_lokasi' => $alamat_lokasi,
 						'koordinat_lokasi' => $koordinat_lokasi,
 						'nilai_proyek' => $nilai_proyek,
+						'nilai_proyek_tambahan' => $nilai_proyek_tambahan,
 						'is_banner' => $is_banner,
 						'is_prasasti' => $is_prasasti,
 						'pic_lokasi' => $pic_lokasi,

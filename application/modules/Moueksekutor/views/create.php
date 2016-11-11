@@ -189,9 +189,9 @@ function changeKecamatan(){
 					</div>
 				</div>
 				<div class="form-group" >
-					<label class="col-sm-3 control-label">Nilai Proyek</label>
+					<label class="col-sm-3 control-label">Nilai Proyek Tambahan</label>
 					<div class="col-lg-5">
-						<input type="text" id="nilai_rupiah" style="font-size: 13pt;" name="nilai_proyek" class="form-control input-sm" onkeypress="return isNumberKey(event)">
+						<input type="text" id="nilai_rupiah_tambahan" style="font-size: 13pt;" name="nilai_proyek_tambahan" class="form-control input-sm" onkeypress="return isNumberKey(event)">
 					</div>
 				</div>
 				<div class="form-group" >
@@ -205,8 +205,8 @@ function changeKecamatan(){
 					<label class="col-sm-3 control-label">Sudah dipasang Banner</label>
 					<div class="col-lg-5">
 						<select name="is_banner" class="form-control select2">
+							<option value="0">Belum</option>
 							<option value="1">Ya</option>
-							<option value="0">Tidak</option>
 						</select>
 					</div>
 				</div>
@@ -214,8 +214,8 @@ function changeKecamatan(){
 					<label class="col-sm-3 control-label">Sudah dipasang Prasasti</label>
 					<div class="col-lg-5">
 						<select name="is_prasasti" class="form-control select2">
+							<option value="0">Belum</option>
 							<option value="1">Ya</option>
-							<option value="0">Tidak</option>
 						</select>
 					</div>
 				</div>
