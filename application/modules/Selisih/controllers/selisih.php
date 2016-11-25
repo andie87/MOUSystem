@@ -39,7 +39,7 @@ class Selisih extends CI_Controller{
 				$data['nama_proyek'] = $this->input->post('nama_proyek') == null ? null : $this->input->post('nama_proyek');
 				$data['from_mou'] = $this->input->post('from_mou') == null ? null : $this->input->post('from_mou');
 				$data['to_mou'] = $this->input->post('to_mou') == null ? null : $this->input->post('to_mou');
-				$data['nama_eksekutor'] = $this->input->post('nama_eksekutor') == null ? null : $this->input->post('from_pengerjaan');
+				$data['nama_eksekutor'] = $this->input->post('nama_eksekutor') == null ? null : $this->input->post('nama_eksekutor');
 				$data['data_selisih'] = $this->m_selisih->getAll($data);
 			} else {
 				$data['data_selisih'] = $this->m_selisih->getAll();

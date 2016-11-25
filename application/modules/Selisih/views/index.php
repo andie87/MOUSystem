@@ -87,23 +87,23 @@
               </div>
                 
             <!-- /.box-header -->
-            <div class="box-body">
-              <table id="example2" class="table table-bordered table-hover font13">
+            <div class="box-body" style="width: 97%; overflow-x: scroll;">
+              <table id="example2" class="table table-bordered table-hover font13" style="width: 200%;">
                 <thead>
                   <tr>
-                        <th rowspan="2" class="width5 center-col">No</th>
+                        <th rowspan="2" class="center-col">No</th>
                         <th rowspan="2">Nama Donatur</th>
                         <th rowspan="2">Nama Penyumbang</th>
                         <th rowspan="2">No Proyek</th>
-                        <th rowspan="2">Nama Proyek</th>
-                        <th rowspan="2" class="width10 center">Tanggal MoU</th>                        
+                        <th rowspan="2" class="width20">Nama Proyek</th>
+                        <th rowspan="2" class=" center">Tanggal MoU</th>                        
                         <th colspan="2">Nilai Proyek</th>
-                        <th rowspan="2">Progress Pembayaran Donatur</th>
+                        <th rowspan="2" class="width5">Progress Pembayaran Donatur</th>
                         <th rowspan="2">Nama Eksekutor</th>
-                        <th rowspan="2">Nilai Proyek Eksekutor</th>
+                        <th rowspan="2" class="width5">Nilai Proyek Eksekutor</th>
                         <th rowspan="2">Selisih</th>
-                        <th rowspan="2">Progress Eksekutor</th>
-                        <th rowspan="2" class="center-col width20">Action</th>
+                        <th rowspan="2" class="width5">Progress Eksekutor</th>
+                        <th rowspan="2" class="center-col" style="width:170px;">Action</th>
                     </tr>
                     <tr>
                         <th>Dirham</th>
@@ -116,18 +116,18 @@
                      foreach ($data_selisih->result() as $dt) {
                     ?>
                     <tr>
-                        <td class="width5 center-col"><?php echo $i; ?></td>
+                        <td class="center-col"><?php echo $i; ?></td>
                         <td><?php echo $dt->nama_donatur;?></td>
                         <td><?php echo $dt->nama_penyumbang; ?></td>
                         <td><?php echo $dt->nomor_proyek; ?></td>
                         <td><?php echo $dt->nama_proyek; ?></td>
                         <td><?php echo getUserFormatDate($dt->tanggal_mou); ?></td>
-                        <td><?php echo $dt->harga_dirham; ?></td>
-                        <td><?php echo $dt->harga_rupiah; ?></td>
+                        <td><?php echo number_format($dt->harga_dirham, 0, ',', '.'); ?></td>
+                        <td><?php echo number_format($dt->harga_rupiah, 0, ',', '.'); ?></td>
                         <td><?php echo $dt->persen_pembayaran; ?></td>
                         <td><?php echo $dt->nama_eksekutor; ?></td>
-                        <td><?php echo $dt->selisih; ?></td>
-                        <td><?php echo $dt->nilai_proyek; ?></td>
+                        <td><?php echo number_format($dt->nilai_proyek, 0, ',', '.'); ?></td>
+                        <td><?php echo number_format($dt->selisih, 0, ',', '.'); ?></td>
                         <td><?php echo $dt->progress_proyek; ?>%</td>
                         <td class="center-col">
                           <?php //if($this->session->userdata['access']['MoU']['MoU Donatur']['edit']){

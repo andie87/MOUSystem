@@ -16,9 +16,10 @@ class M_moudonatur extends CI_Model{
 
 	public function getAll($param=null){
 		
+		$where = "1=1";
+		
 		if($param != null){
 			
-			$where = "1=1";
 			if($param['jenis_proyek'] != null){
 				$where .= " AND id_jenis_proyek = ".$param['jenis_proyek'];
 			}
@@ -41,10 +42,13 @@ class M_moudonatur extends CI_Model{
 				$where .= " AND tanggal_pembangunan between '".getMysqlFormatDate($param['from_pembangunan'])."' AND '".getMysqlFormatDate($param['to_pembangunan'])."'";
 			}
 			
-			$this->db->where($where);
 		}
 		
-		return $this->db->get($this->table);
+		$this->db->from($this->table);
+		$this->db->where($where);
+		$this->db->order_by('id_mou_donatur', 'desc');
+		
+		return $this->db->get();
 		
 	}
 	
