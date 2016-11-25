@@ -18,6 +18,20 @@ function changeKecamatan(){
 		}
 	});
 }
+function changeNoProyek(){
+	var id = $("#nomor_proyek").val();
+	$.ajax({
+	    type: "POST",
+	    url: "<?php echo base_url('index.php/moueksekutor/getMouDonaturDetail' ); ?>",
+	    data: 'id=' + id,
+	    dataType: "json", // Set the data type so jQuery can parse it for you
+	    success: function (data) {
+	        document.getElementById("nama_proyek").value = data[0].nama_proyek;
+	        document.getElementById("ukuran").value = data[0].ukuran;
+
+	    }
+	});
+}
 </script>
 
 <div class="content-wrapper">
@@ -58,7 +72,8 @@ function changeKecamatan(){
 				<div class="form-group" >
 					<label class="col-sm-3 control-label">Nomor Proyek MoU Donatur</label>
 					<div class="col-lg-5">
-						<select class="form-control select2" name="id_mou_donatur" style="width: 100%;">
+						<select id="nomor_proyek" class="form-control select2" name="id_mou_donatur" style="width: 100%;"onChange="changeNoProyek()">
+							<option value="0">-- Pilih No Proyek --</option>
 						<?php 
 							foreach ($moudonatur->result() as $d) {
 								echo "<option value=".$d->id_mou_donatur.">".$d->nomor_proyek."</option>";
@@ -114,7 +129,7 @@ function changeKecamatan(){
 				<div class="form-group" >
 					<label class="col-sm-3 control-label">Nama Proyek</label>
 					<div class="col-lg-5">
-						<input type="text" name="nama_proyek" class="form-control input-sm" >
+						<input type="text" id="nama_proyek" name="nama_proyek" class="form-control input-sm" >
 					</div>
 				</div>
 				<div class="form-group" >
@@ -138,7 +153,7 @@ function changeKecamatan(){
 				<div class="form-group" >
 					<label class="col-sm-3 control-label">Ukuran</label>
 					<div class="col-lg-5">
-						<input type="text" id="ukuran" style="font-size: 13pt;" name="ukuran" class="form-control input-sm" onkeypress="return isNumberKey(event)">
+						<input type="text" id="ukuran" style="font-size: 13pt;" name="ukuran" class="form-control input-sm" >
 					</div>
 				</div>
 				<div class="form-group" >
@@ -189,6 +204,12 @@ function changeKecamatan(){
 					</div>
 				</div>
 				<div class="form-group" >
+					<label class="col-sm-3 control-label">Nilai Proyek Tambahan</label>
+					<div class="col-lg-5">
+						<input type="text" id="nilai_rupiah_tambahan" style="font-size: 13pt;" name="nilai_proyek_tambahan" class="form-control input-sm" onkeypress="return isNumberKey(event)">
+					</div>
+				</div>
+				<div class="form-group" >
 					<label class="col-sm-3 control-label">Tanggal Selesai</label>
 					<div class="col-lg-5 input-group" style="padding-left: 15px; padding-right: 15px;">
 	                <div class="input-group-addon "><i class="fa fa-calendar"></i></div>
@@ -199,8 +220,8 @@ function changeKecamatan(){
 					<label class="col-sm-3 control-label">Sudah dipasang Banner</label>
 					<div class="col-lg-5">
 						<select name="is_banner" class="form-control select2">
+							<option value="0">Belum</option>
 							<option value="1">Ya</option>
-							<option value="0">Tidak</option>
 						</select>
 					</div>
 				</div>
@@ -208,8 +229,8 @@ function changeKecamatan(){
 					<label class="col-sm-3 control-label">Sudah dipasang Prasasti</label>
 					<div class="col-lg-5">
 						<select name="is_prasasti" class="form-control select2">
+							<option value="0">Belum</option>
 							<option value="1">Ya</option>
-							<option value="0">Tidak</option>
 						</select>
 					</div>
 				</div>

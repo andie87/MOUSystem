@@ -107,9 +107,9 @@
                           <label class="col-md-2 col-form-label">Tanggal Pembangunan</label>
                           <div class="col-md-6">
                             <div class="input-group">
-                              <input class="form-control input-sm" id="datepickerPembangunan1" value="<?php echo isset($from_pembangunan)? $from_pembangunan : ""; ?>" type="text" name="from_pembangunan" />
+                              <input class="form-control input-sm" id="datepickerPembangunan1" value="<?php echo isset($from_pengerjaan)? $from_pengerjaan : ""; ?>" type="text" name="from_pengerjaan" />
                                 <span class="input-group-addon">s/d</span>
-                              <input class="form-control input-sm" id="datepickerPembangunan2" value="<?php echo isset($to_pembangunan)? $to_pembangunan : ""; ?>" type="text" name="to_pembangunan" />
+                              <input class="form-control input-sm" id="datepickerPembangunan2" value="<?php echo isset($to_pengerjaan)? $to_pengerjaan : ""; ?>" type="text" name="to_pengerjaan" />
                             </div> 
                           </div>                          
                         </div>
@@ -138,6 +138,7 @@
                         <th>Jenis Proyek</th>
                         <th class="width10 center">Tanggal MoU</th>
                         <th class="width10 center">Tanggal Pengerjaan</th>
+                        <th class="width10 center">Tanggal Selesai</th>
                         <th class="center-col" style="width: 13%">Action</th>
                     </tr>
                 </thead>
@@ -153,6 +154,7 @@
                         <td><?php echo $arr_proyek[$md->id_jenis_proyek]; ?></td>
                         <td class="center"><?php echo getUserFormatDate($md->tanggal_mou); ?></td>
                         <td class="center"><?php echo getUserFormatDate($md->tanggal_pengerjaan); ?></td>
+                        <td class="center"><?php echo getUserFormatDate($md->tanggal_selesai); ?></td>
                         <td class="center-col">
                         <?php if(strpos($granted_access['moueksekutor'], 'edit') !== false){ ?>	
                         	<a href="<?php echo site_url('moueksekutor/edit'); ?>/<?php echo $md->id_mou_eksekutor; ?>">
@@ -170,12 +172,16 @@
                         	</a>
                         	&nbsp;
                         <?php }} ?>
+                        
+                        <!-- 
                         <?php if(strpos($granted_access['moueksekutor'], 'delete') !== false){ ?>
                         	<a href="#" data-toggle="modal" data-nama="<?php echo $md->nama_proyek;?>" 
                         	data-hapus="<?php echo $md->id_mou_eksekutor;?>" data-target="#deleteModal">
                         		<i class="fa fa-trash-o fa-lg"></i>delete
                         	</a>
-                        <?php } ?>    
+                        <?php } ?>
+                         -->
+                             
                         </td>
                     </tr>
                     <?php $i++; }?>

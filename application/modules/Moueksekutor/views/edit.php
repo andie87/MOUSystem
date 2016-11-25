@@ -168,7 +168,7 @@ function changeKecamatan(){
 				<div class="form-group" >
 					<label class="col-sm-3 control-label">Ukuran</label>
 					<div class="col-lg-5">
-						<input type="text" id="ukuran" style="font-size: 13pt;" name="ukuran" value="<?php echo $moueksekutor['ukuran'];?>" class="form-control input-sm" onkeypress="return isNumberKey(event)">
+						<input type="text" id="ukuran" style="font-size: 13pt;" name="ukuran" value="<?php echo $moueksekutor['ukuran'];?>" class="form-control input-sm" >
 					</div>
 				</div>
 				<div class="form-group" >
@@ -239,6 +239,12 @@ function changeKecamatan(){
 					<label class="col-sm-3 control-label">Nilai Proyek</label>
 					<div class="col-lg-5">
 						<input type="text" id="nilai_rupiah" style="font-size: 13pt;" name="nilai_proyek" value="<?php echo $moueksekutor['nilai_proyek'];?>" class="form-control input-sm" onkeypress="return isNumberKey(event)">
+					</div>
+				</div>
+				<div class="form-group" >
+					<label class="col-sm-3 control-label">Nilai Proyek Tambahan</label>
+					<div class="col-lg-5">
+						<input type="text" id="nilai_rupiah_tambahan" style="font-size: 13pt;" name="nilai_proyek_tambahan" value="<?php echo $moueksekutor['nilai_proyek_tambahan'];?>" class="form-control input-sm" onkeypress="return isNumberKey(event)">
 					</div>
 				</div>
 				<div class="form-group" >

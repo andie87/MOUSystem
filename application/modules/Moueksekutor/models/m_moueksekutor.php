@@ -38,16 +38,21 @@ class M_moueksekutor extends CI_Model{
 				$where .= " AND progress = ".$param['progress'];
 			}
 			if($param['from_mou'] != null && $param['to_mou'] != null){
-				$where .= " AND tanggal_mou between '".getMysqlFormatDate($param['from_mou'])."' AND '".getMysqlFormatDate($param['to_mou'])."'";
+				$where .= " AND mou_eksekutor.tanggal_mou between '".getMysqlFormatDate($param['from_mou'])."' AND '".getMysqlFormatDate($param['to_mou'])."'";
 			}
 			if($param['from_pengerjaan'] != null && $param['to_pengerjaan'] != null){
-				$where .= " AND tanggal_pengerjaan between '".getMysqlFormatDate($param['from_pengerjaan'])."' AND '".getMysqlFormatDate($param['to_pengerjaan'])."'";
+				$where .= " AND mou_eksekutor.tanggal_pengerjaan between '".getMysqlFormatDate($param['from_pengerjaan'])."' AND '".getMysqlFormatDate($param['to_pengerjaan'])."'";
 			}
 			
 			$this->db->where($where);
 		}
-
+		$this->db->order_by('id_mou_eksekutor', 'desc');
 		return $this->db->get();
+	}
+
+	public function getMouDonaturByNoProyek($id){
+		$this->db->where("id_mou_donatur", $id);
+		return $this->db->get("mou_donatur")->result_array();
 	}
 
 	public function getAllinArray($param=null){
