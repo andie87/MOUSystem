@@ -6,7 +6,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active"><a href="#">mou donatur</a></li>
+        <li class="active"><a href="#">list mou donatur</a></li>
       </ol>
     </section>
     

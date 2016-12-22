@@ -68,7 +68,10 @@ class Pembayarandonatur extends CI_Controller{
 		$data['moudonatur'] = $this->m_moudonatur->get_moudonatur();
 		$data['nomor_proyek'] = $this->session->userdata("nomor_proyek_pembayaran_donatur");
 		$data['pembayaran'] = $this->m_moudonatur->getPembayaranByNomorProyek($data['nomor_proyek']);	
-		
+		if($pembayaran_view == "create"){
+			$data['pembayaran_ke'] = $data['pembayaran']->num_rows() + 1;
+			$data['nilai_rupiah'] = $this->m_moudonatur->getHargaRupiahByNoProyek($data['nomor_proyek']);
+		}
 		$this->load->view('shared/header', $data);
 		$this->load->view($pembayaran_view, $data);
 		$this->load->view('shared/footer');
@@ -155,7 +158,8 @@ class Pembayarandonatur extends CI_Controller{
 		$data['pembayaran'] = $this->m_moudonatur->getPembayaranByNomorProyek($data['nomor_proyek']);
 		$data['moudonatur'] = $this->m_moudonatur->get_moudonatur();
 		$data['nomor_proyek'] = $this->session->userdata("nomor_proyek_pembayaran_donatur");
-		
+		$data['nilai_rupiah'] = $this->m_moudonatur->getHargaRupiahByNoProyek($data['nomor_proyek']);
+				
 		$this->load->view('shared/header', $data);
 		$this->load->view('editPembayaran', $data);
 		$this->load->view('shared/footer');

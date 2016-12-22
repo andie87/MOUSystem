@@ -53,6 +53,33 @@ class Selisih extends CI_Controller{
 		$this->load->view('shared/footer');
 	}
 
+	public function tahunan(){
+		$data = $this->page_view("Selisih Nilai MoU Donatur dengan Eksekutor - Resume Tahunan", "view");
+		if(strlen($this->session->flashdata('message')) > 0){
+			$data['message'] = $this->session->flashdata('message');
+		}
+		if(strlen($this->session->flashdata('message_failed')) > 0){
+			$data['message_failed'] = $this->session->flashdata('message_failed');
+		}
+
+		$data['list_tahun'] = $this->m_selisih->getListTahun();
+		$data['list_donatur'] = $this->m_selisih->getDonatur();
+		if( $this->input->post('key') != null ){
+			$data['tahun'] = $this->input->post('tahun') == null ? null : $this->input->post('tahun');
+			$data['donatur'] = $this->input->post('donatur') == null ? null : $this->input->post('donatur');
+			
+			$data['data_selisih'] = $this->m_selisih->getAll($data);
+		} else {
+			$data['data_selisih'] = $this->m_selisih->getAll($data);
+		}
+
+		$data['granted_access'] = $this->session->userdata('access');
+
+		$this->load->view('shared/header', $data);
+		$this->load->view('tahunan', $data);
+		$this->load->view('shared/footer');
+	}
+
 	private function page_view($page, $access_level, $module="selisih"){
 		
 		//no user session, redirect to login page

@@ -85,6 +85,12 @@
                     <?php $i++; } ?>
                 </tbody>
               </table>
+              <?php if($this->session->userdata("nomor_proyek_pembayaran_eksekutor") != ""){
+                echo form_open('pembayaraneksekutor/create_tagihan', array('class'=>'form-horizontal','method'=>'post'));
+                ?>
+                <input type="hidden" name="nomor_proyek" value="<?php echo $this->session->userdata("nomor_proyek_pembayaran_eksekutor");?>">
+                <button type="submit" class="btn btn-success btn-sm">Buat Tagihan</button>
+              <?php echo form_close();}?>
             </div>
           </div>
           

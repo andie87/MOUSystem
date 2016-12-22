@@ -13,7 +13,7 @@
   <!-- Ionicons -->
   <link rel="stylesheet" href="<?php echo base_url('asset/ionicons-2.0.1/css/ionicons.min.css')?>">
   <!-- Theme style -->
-  <link rel="stylesheet" href="<?php echo base_url('asset/dist/css/AdminLTE.min.css')?>">
+  <link rel="stylesheet" href="<?php echo base_url('asset/dist/css/AdminLTE.css')?>">
   <!-- iCheck -->
   <link rel="stylesheet" href="<?php echo base_url('asset/plugins/iCheck/square/blue.css')?>">
 
@@ -25,9 +25,12 @@
   <![endif]-->
 </head>
 <body class="hold-transition login-page">
-<div class="login-box">
+<div class="login-box">  
+  <img src="<?php echo base_url('asset/dist/img/logo-kki.png');?>" style="display: block;height:100px;width:100px;margin-left: auto;
+    margin-right: auto" class="user-image" alt="User Image">
   <div class="login-logo">
-    <a href="#"><b>MOU Management</b>System</a>
+    <a href="#">
+    <b>MOU Management</b>System</a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">

@@ -13,7 +13,7 @@ function changeKotaKab(){
 <div class="content-wrapper">
     <section class="content-header">
       <h1 style="padding-bottom: 15px;">
-        Form Edit MoU Donatur
+        Edit Resume MoU Donatur
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -58,7 +58,7 @@ function changeKotaKab(){
 					</div>
 					
 					<a href="<?php echo site_url('moudonatur/dokumen'); ?>/<?php echo $id; ?>" >
-						<button type="button" class="btn btn-primary btn-sm width30" >LIST DOKUMEN TERKAIT MOU</button>
+						<button type="button" class="btn btn-primary btn-sm width30" >DOKUMEN ASLI</button>
 					</a>
 				
 				</div>

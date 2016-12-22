@@ -196,6 +196,15 @@ class M_moudonatur extends CI_Model{
 		$this->db->where('nomor_proyek', $no_proyek);
 		return $this->db->get("pembayaran_donatur");
 	}
+
+	public function getHargaRupiahByNoProyek($no_proyek){
+		$this->db->where('nomor_proyek', $no_proyek);
+		$result =  $this->db->get("mou_donatur");
+		if($result->num_rows() > 0)
+			return $result->row()->harga_rupiah;
+		else
+			return "";
+	}
 	
 	public function getDokumenById($id){
 		$this->db->where('id_dokumen_mou_donatur', $id);

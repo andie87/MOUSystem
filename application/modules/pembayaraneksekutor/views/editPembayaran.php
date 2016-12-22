@@ -54,6 +54,12 @@
 			
 			<?php echo form_open_multipart('pembayaraneksekutor/updatePembayaran', array('class'=>'form-horizontal','method'=>'post'));?>
 				<div class="form-group" >
+					<label class="col-sm-3 control-label">Nilai Total Proyek</label>
+					<div class="col-lg-5">
+						<input type="text" id="total" name="nilai_total" value="<?php echo $nilai_rupiah;?>" readonly="readonly" class="form-control input-sm" >
+					</div>
+				</div>
+				<div class="form-group" >
 					<label class="col-sm-3 control-label">Nominal Pembayaran</label>
 					<div class="col-lg-5">
 						<input type="text" id="nominal" name="nominal_pembayaran" value="<?php echo $dok['nominal_pembayaran']; ?>"
@@ -64,15 +70,18 @@
 				<div class="form-group" >
 					<label class="col-sm-3 control-label">Persen Pembayaran</label>
 					<div class="col-lg-5">
-						<input type="text" name="persen_pembayaran" value="<?php echo $dok['persen_pembayaran']; ?>" 
+						<div class="input-group"> 
+							<input type="text" name="persen_pembayaran" value="<?php echo $dok['persen_pembayaran']; ?>" 
 							class="form-control input-sm" onkeypress="return isNumberKey(event)">
+							<span class="input-group-addon">%</span>
+						</div>
 					</div>
 				</div>
 				<div class="form-group" >
 					<label class="col-sm-3 control-label">Pembayaran Ke</label>
 					<div class="col-lg-5">
-						<input type="text" name="pembayaran_ke" value="<?php echo $dok['pembayaran_ke']; ?>" 
-							class="form-control input-sm" onkeypress="return isNumberKey(event)">
+						<input type="text" id="persen" name="pembayaran_ke" value="<?php echo $dok['pembayaran_ke']; ?>" 
+							class="form-control input-sm" readonly="readonly">
 					</div>
 				</div>
 				<div class="form-group" >

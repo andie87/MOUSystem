@@ -55,6 +55,18 @@ class M_moueksekutor extends CI_Model{
 		return $this->db->get("mou_donatur")->result_array();
 	}
 
+	public function getNilaiProyekByNoProyek($no_proyek){
+		$this->db->select('mou_eksekutor.*, mou_donatur.nomor_proyek as moudonatur_nomor_proyek');
+		$this->db->from($this->table);
+		$this->db->join('mou_donatur', 'mou_donatur.id_mou_donatur = mou_eksekutor.id_mou_donatur');
+		$this->db->where('mou_donatur.nomor_proyek', $no_proyek);
+		$result = $this->db->get();
+		if($result->num_rows() > 0)
+			return $result->row()->nilai_proyek;
+		else
+			return "";
+	}
+
 	public function getAllinArray($param=null){
 		//return $this->db->get($this->table);
 		$this->db->select('mou_eksekutor.*, mou_donatur.nomor_proyek as moudonatur_nomor_proyek');

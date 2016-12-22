@@ -1,4 +1,3 @@
-
 <div class="content-wrapper">
     <section class="content-header">
       <h1 style="padding-bottom: 15px;">
@@ -54,6 +53,12 @@
 		
 			<?php echo form_open_multipart('pembayarandonatur/createPembayaran', array('class'=>'form-horizontal','method'=>'post'));?>
 				<div class="form-group" >
+					<label class="col-sm-3 control-label">Nilai Total Proyek</label>
+					<div class="col-lg-5">
+						<input type="text" id="total" name="nilai_total" value="<?php echo $nilai_rupiah;?>" readonly="readonly" class="form-control input-sm" >
+					</div>
+				</div>
+				<div class="form-group" >
 					<label class="col-sm-3 control-label">Nominal Pembayaran</label>
 					<div class="col-lg-5">
 						<input type="text" id="nominal" name="nominal_pembayaran" onkeypress="return isNumberKey(event)" class="form-control input-sm" >
@@ -62,13 +67,16 @@
 				<div class="form-group" >
 					<label class="col-sm-3 control-label">Persen Pembayaran</label>
 					<div class="col-lg-5">
-						<input type="text" name="persen_pembayaran" class="form-control input-sm" onkeypress="return isNumberKey(event)">
+						<div class="input-group">                
+							<input type="text" id="persen" name="persen_pembayaran" class="form-control input-sm" readonly="readonly">
+							<span class="input-group-addon">%</span>
+						</div>
 					</div>
 				</div>
 				<div class="form-group" >
 					<label class="col-sm-3 control-label">Pembayaran Ke</label>
 					<div class="col-lg-5">
-						<input type="text" name="pembayaran_ke" class="form-control input-sm" onkeypress="return isNumberKey(event)">
+						<input type="text" name="pembayaran_ke" class="form-control input-sm" readonly="readonly" value="<?php echo $pembayaran_ke;?>">
 					</div>
 				</div>
 				<div class="form-group" >

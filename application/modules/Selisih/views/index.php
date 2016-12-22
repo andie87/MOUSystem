@@ -88,14 +88,14 @@
                 
             <!-- /.box-header -->
             <div class="box-body" style="width: 97%; overflow-x: scroll;">
-              <table id="example2" class="table table-bordered table-hover font13" style="width: 200%;">
+              <table class="table table-hover" style="width: 200%;">
                 <thead>
                   <tr>
                         <th rowspan="2" class="center-col">No</th>
                         <th rowspan="2">Nama Donatur</th>
                         <th rowspan="2">Nama Penyumbang</th>
                         <th rowspan="2">No Proyek</th>
-                        <th rowspan="2" class="width20">Nama Proyek</th>
+                        <th rowspan="2" style="width:250px;">Nama Proyek</th>
                         <th rowspan="2" class=" center">Tanggal MoU</th>                        
                         <th colspan="2">Nilai Proyek</th>
                         <th rowspan="2" class="width5">Progress Pembayaran Donatur</th>
@@ -113,7 +113,15 @@
                 <tbody>
                     <?php
                      $i = 1;   
+                     $total_dirham = 0;
+                     $total_rupiah = 0;
+                     $total_eksekutor = 0;
+                     $total_selisih = 0;
                      foreach ($data_selisih->result() as $dt) {
+                      $total_dirham += $dt->harga_dirham;
+                      $total_rupiah += $dt->harga_rupiah;
+                      $total_eksekutor += $dt->nilai_proyek;
+                      $total_selisih += $dt->selisih;
                     ?>
                     <tr>
                         <td class="center-col"><?php echo $i; ?></td>
@@ -122,12 +130,12 @@
                         <td><?php echo $dt->nomor_proyek; ?></td>
                         <td><?php echo $dt->nama_proyek; ?></td>
                         <td><?php echo getUserFormatDate($dt->tanggal_mou); ?></td>
-                        <td><?php echo number_format($dt->harga_dirham, 0, ',', '.'); ?></td>
-                        <td><?php echo number_format($dt->harga_rupiah, 0, ',', '.'); ?></td>
+                        <td><?php echo number_format($dt->harga_dirham, 0, ',', '.'). " AED"; ?></td>
+                        <td><?php echo "Rp.".number_format($dt->harga_rupiah, 0, ',', '.'); ?></td>
                         <td><?php echo $dt->persen_pembayaran; ?></td>
                         <td><?php echo $dt->nama_eksekutor; ?></td>
-                        <td><?php echo number_format($dt->nilai_proyek, 0, ',', '.'); ?></td>
-                        <td><?php echo number_format($dt->selisih, 0, ',', '.'); ?></td>
+                        <td><?php echo "Rp.".number_format($dt->nilai_proyek, 0, ',', '.'); ?></td>
+                        <td><?php echo "Rp.".number_format($dt->selisih, 0, ',', '.'); ?></td>
                         <td><?php echo $dt->progress_proyek; ?>%</td>
                         <td class="center-col">
                           <?php //if($this->session->userdata['access']['MoU']['MoU Donatur']['edit']){
@@ -149,6 +157,42 @@
                     <?php $i++; }?>
                 </tbody>
               </table>
+            </div>
+            <div class="box-footer">
+              <div class="row">
+                <div class="col-sm-3 col-xs-6">
+                  <div class="description-block border-right">
+                    <h5 class="description-header"><?php echo number_format($total_dirham,0,',','.')." AED";?></h5>
+                    <span class="description-text">TOTAL DIRHAM DARI DONATUR</span>
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-3 col-xs-6">
+                  <div class="description-block border-right">
+                    <h5 class="description-header"><?php echo "Rp.".number_format($total_rupiah,0,',','.');?></h5>
+                    <span class="description-text">TOTAL RUPIAH DARI DONATUR</span>
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-3 col-xs-6">
+                  <div class="description-block border-right">
+                    <h5 class="description-header"><?php echo "Rp.".number_format($total_eksekutor,0,',','.');?></h5>
+                    <span class="description-text">TOTAL UNTUK EKSEKUTOR</span>
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-3 col-xs-6">
+                  <div class="description-block">
+                    <h5 class="description-header"><?php echo "Rp.".number_format($total_selisih,0,',','.');?></h5>
+                    <span class="description-text">TOTAL SELISIH / PROFIT</span>
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+              </div>
+              <!-- /.row -->
             </div>
           </div>
           </div>

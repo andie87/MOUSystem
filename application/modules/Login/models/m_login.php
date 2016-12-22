@@ -26,6 +26,13 @@ class M_login extends CI_Model{
 		}
 	}
 
+	public function getFotoProfil($id){
+		$this->db->select('nama_file');
+		$this->db->from('foto_profil');
+		$this->db->where('id_user',$id);
+		return $this->db->get()->row()->nama_file;
+	}
+
 	public function getModule(){
 		$sql = "SELECT `module_group_code` FROM module WHERE 1 GROUP BY `module_group_code` ORDER BY `module_group_code` ASC";
 		$query = $this->db->query($sql);

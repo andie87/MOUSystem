@@ -44,10 +44,25 @@ class M_selisih extends CI_Model{
 			if(ISSET($param['nama_eksekutor'])){
 				$where .= " AND lower(d.nama_eksekutor) like '%".strtolower($param['nama_eksekutor'])."%'";
 			}
+			if(ISSET($param['id_donatur'])){
+				$where .= " AND c.id_donatur = '".$param['id_donatur']."'";
+			}
+			if(ISSET($param['tahun'])){
+				$where .= " AND YEAR(a.tanggal_mou) = '".$param['tahun']."'";
+			}
 		}
 		// 	$this->db->where($where);
 		// }
 
 		return $this->db->query($sql.$where);
+	}
+
+	public function getDonatur(){
+		return $this->db->get("donatur");	
+	}
+
+	public function getListTahun(){
+		$sql = "SELECT distinct year(a.tanggal_mou) tahun FROM mou_donatur a INNER JOIN (SELECT nomor_proyek, persen_pembayaran, max(tanggal_pembayaran) tanggal_pembayaran FROM pembayaran_donatur group by nomor_proyek) b on a.nomor_proyek = b.nomor_proyek INNER JOIN donatur c on a.id_donatur = c.id_donatur INNER JOIN mou_eksekutor e on a.id_mou_donatur = e.id_mou_donatur INNER JOIN eksekutor d on e.id_eksekutor = d.id_eksekutor";
+		return $this->db->query($sql);
 	}
 }

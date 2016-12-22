@@ -49,6 +49,7 @@ class Login extends CI_Controller{
 					$userlogin = $datalogin['user_login'];
 					$email = $datalogin['email'];
 					$role = $datalogin['id_role'];
+					$id_user = $datalogin['id_user'];
 				}
 
 				$commonModule = $this->M_login->getModule();
@@ -76,12 +77,16 @@ class Login extends CI_Controller{
 						$roles[$rr['module_page']] = $detail;		
 					}
 				}
+
+				$foto = $this->M_login->getFotoProfil($id_user);
 				$dlogin = array(
 						'username' => $fullname,
 						'userlogin' => $userlogin,
 						'email' => $email,
 						'logged_in' => TRUE,
-						'access' => $roles
+						'access' => $roles,
+						'foto' => $foto,
+						'id_user' => $id_user
 					);
 				$this->session->set_userdata($dlogin);
 				redirect(site_url().'/dashboard');				
@@ -93,7 +98,9 @@ class Login extends CI_Controller{
 						'username' => "",
 						'userlogin' => "",
 						'email' => "",
-						'logged_in' => FALSE
+						'logged_in' => FALSE,
+						'foto' => "",
+						'id_user' => ""
 					);
 
 				$this->session->set_userdata($dlogin);

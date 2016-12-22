@@ -23,12 +23,12 @@ function changeKecamatan(){
 <div class="content-wrapper">
     <section class="content-header">
       <h1 style="padding-bottom: 15px;">
-        Form MoU Donatur
+        Resume MoU Donatur
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="#">MoU Donatur</a></li>
-        <li class="active"><a href="#">Tambah MoU</a></li>
+        <li class="active"><a href="#">Tambah Resume MoU</a></li>
       </ol>
     </section>
 

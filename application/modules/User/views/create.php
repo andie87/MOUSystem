@@ -20,7 +20,7 @@
 	    	</div>
     	<?php } ?>
 		<div class="panel-body">
-			<?php echo form_open('user/prosesCreate', array('class'=>'form-horizontal','method'=>'post'));?>
+			<?php echo form_open('user/prosesCreate', array('class'=>'form-horizontal','method'=>'post', 'enctype'=>'multipart/form-data'));?>
 				<div class="form-group">
 					<label class="col-sm-2 control-label">Nama User</label>
 					<div class="col-lg-5">
@@ -62,6 +62,12 @@
 							}
 						?>
 		                </select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label  class="col-md-2 control-label">Foto</label>
+					<div class="col-lg-5">
+						<input type="file" name="foto" class="form-control input-sm" placeholder="Foto">
 					</div>
 				</div>
 				<div class="form-group">

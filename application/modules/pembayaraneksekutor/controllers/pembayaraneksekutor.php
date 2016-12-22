@@ -42,6 +42,64 @@ class Pembayaraneksekutor extends CI_Controller{
 		redirect(site_url().'/pembayaraneksekutor/index');
 		
 	}
+
+	public function cetakInvoice(){
+		$data['nilai'] = $this->input->post('nilai');
+		$data['terbilang'] = $this->input->post('terbilang');
+		$data['koorProyek'] = $this->input->post('koorProyek');
+		$data['bendahara'] = $this->input->post('bendahara');
+		$data['direktur'] = $this->input->post('direktur');
+		$data['moudonatur'] = $this->m_moueksekutor->get_moudonatur();
+		$data['nomor_proyek'] = $this->input->post('nomor_proyek');
+		foreach ($data['moudonatur']->result() as $d) {
+			if($d->nomor_proyek == $data['nomor_proyek']){
+				$data['moudonatur'] = $d;
+			}
+		}
+		$data['pembayaran'] = $this->m_moueksekutor->getPembayaranByNomorProyek($data['nomor_proyek']);
+		$data['nilai_rupiah'] = $this->m_moueksekutor->getNilaiProyekByNoProyek($data['nomor_proyek']);
+		if($data['pembayaran']->num_rows()>0){
+			$total = $data['nilai_rupiah'];
+			foreach ($data['pembayaran']->result() as $key) {
+				$total = $total - $key->nominal_pembayaran;
+			}
+			$data['sisa'] = $total;
+		}
+		else{
+			$data['sisa'] = $data['nilai_rupiah'];
+		}
+		$this->load->view('invoice', $data);
+		/*$text = $this->load->view('invoice', $data, true);
+		$name = 'invoice_eksekutor.html';
+		force_download($name, $text);*/
+	}
+
+	public function create_tagihan(){
+		$page_title = "Tagihan Pembayaran Eksekutor";
+		$data = $this->page_view($page_title, 'view');
+		$data['moudonatur'] = $this->m_moueksekutor->get_moudonatur();
+		$data['nomor_proyek'] = $this->input->post('nomor_proyek');
+		foreach ($data['moudonatur']->result() as $d) {
+			if($d->nomor_proyek == $data['nomor_proyek']){
+				$data['moudonatur'] = $d;
+			}
+		}
+		$data['pembayaran'] = $this->m_moueksekutor->getPembayaranByNomorProyek($data['nomor_proyek']);
+		$data['nilai_rupiah'] = $this->m_moueksekutor->getNilaiProyekByNoProyek($data['nomor_proyek']);
+		if($data['pembayaran']->num_rows()>0){
+			$total = $data['nilai_rupiah'];
+			foreach ($data['pembayaran']->result() as $key) {
+				$total = $total - $key->nominal_pembayaran;
+			}
+			$data['sisa'] = $total;
+		}
+		else{
+			$data['sisa'] = $data['nilai_rupiah'];
+		}
+		$this->load->view('shared/header', $data);
+		$this->load->view('createTagihan', $data);
+		$this->load->view('shared/footer');
+	}
 	
 	public function index(){
 		
@@ -68,6 +126,10 @@ class Pembayaraneksekutor extends CI_Controller{
 		$data['moudonatur'] = $this->m_moueksekutor->get_moudonatur();
 		$data['nomor_proyek'] = $this->session->userdata("nomor_proyek_pembayaran_eksekutor");
 		$data['pembayaran'] = $this->m_moueksekutor->getPembayaranByNomorProyek($data['nomor_proyek']);	
+		if($pembayaran_view == "create"){
+			$data['pembayaran_ke'] = $data['pembayaran']->num_rows() + 1;
+			$data['nilai_rupiah'] = $this->m_moueksekutor->getNilaiProyekByNoProyek($data['nomor_proyek']);
+		}
 		
 		$this->load->view('shared/header', $data);
 		$this->load->view($pembayaran_view, $data);
@@ -155,6 +217,7 @@ class Pembayaraneksekutor extends CI_Controller{
 		$data['pembayaran'] = $this->m_moueksekutor->getPembayaranByNomorProyek($data['nomor_proyek']);
 		$data['moudonatur'] = $this->m_moudonatur->get_moudonatur();
 		$data['nomor_proyek'] = $this->session->userdata("nomor_proyek_pembayaran_eksekutor");
+		$data['nilai_rupiah'] = $this->m_moueksekutor->getNilaiProyekByNoProyek($data['nomor_proyek']);
 		
 		$this->load->view('shared/header', $data);
 		$this->load->view('editPembayaran', $data);

@@ -23,6 +23,59 @@ class M_user extends CI_Model{
 		return $this->db->get();
 	}
 
+	public function insert_foto($data){
+		if ( ! $this->db->insert('foto_profil', $data)) {
+        	return $this->db->error();
+		}
+		return 1;
+	}
+
+	public function insert_pesan($data){
+		if ( ! $this->db->insert('pesan', $data)) {
+        	return $this->db->error();
+		}
+		return 1;
+	}
+
+	public function getAllPesan($id_penerima){
+		$this->db->where('penerima', $id_penerima);
+		return $this->db->get('pesan');
+	}
+
+	public function getUnreadPesan($id_penerima){
+		$this->db->where('penerima', $id_penerima);
+		$this->db->where('isread', false);
+		return $this->db->get('pesan');
+	}
+
+	public function getPesanById($id){
+		$this->db->where('id_pesan', $id);
+		$query = $this->db->get('pesan');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return null;
+	}
+
+	public function updatePesanterbaca($id){
+		$this->db->where('id_pesan', $id);
+		
+		if ( ! $this->db->update('pesan', array('isread'=>true))) {
+        	return $this->db->error();
+		}
+		return 1;
+	}
+
+	public function update_foto($data, $id_user){
+		
+		$this->db->where('id_user', $id_user);
+		
+		if ( ! $this->db->update('foto_profil', $data)) {
+        	return $this->db->error();
+		}
+		return 1;
+	}
+
 	public function get_role_array(){
 		$query = $this->db->get("role");	
 		return $query->result_array();
@@ -89,6 +142,14 @@ class M_user extends CI_Model{
 	public function delete_data($data){
 		
 		if ( ! $this->db->delete($this->table, $data)) {
+        	return $this->db->error();
+		}
+		return 1;
+	}
+
+	public function delete_pesan($data){
+		
+		if ( ! $this->db->delete('pesan', $data)) {
         	return $this->db->error();
 		}
 		return 1;

@@ -228,8 +228,25 @@
 <script src="<?php echo base_url('asset/dist/js/bootstrap-datepicker.js')?>"></script>
 <script src="<?php echo base_url('asset/dist/js/kki.js')?>"></script>
 <script src="<?php echo base_url('asset/dist/js/jquery.price_format_min.js')?>"></script>
+<script src="<?php echo base_url('asset/dist/js/bootstrap-multiselect.js')?>"></script>
+
 
 <script>
+setInterval(function(){
+$("#load_pesan").load('<?=site_url()?>/pesan/load_pesan')
+}, 2000);
+
+
+$('#nominal').focusout(function(){
+    var total = parseInt($('#total').val());
+    var nominal = parseInt($('#nominal').val());
+    var persen = (nominal / total) * 100;
+    if(Math.round(persen) !== persen) {
+        persen = persen.toFixed(2);
+    }
+    $('#persen').val(persen); 
+  });
+
 $(function () {
 
     //Date picker
@@ -284,6 +301,8 @@ $(function () {
         centsLimit: 0,
         thousandsSeparator: '.'
     });
+
+     $('#penerima').multiselect();
     
 });
   

@@ -21,6 +21,9 @@
   <link rel="stylesheet" href="<?php echo base_url('asset/dist/css/skins/_all-skins.min.css')?>">
   <!-- DataTables -->
   <link rel="stylesheet" href="<?php echo base_url('asset/plugins/datatables/dataTables.bootstrap.css')?>">
+  <!--multiselect -->
+  <link rel="stylesheet" href="<?php echo base_url('asset/dist/css/bootstrap-multiselect.css')?>">
+  
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -53,18 +56,31 @@
       <!-- Navbar Right Menu -->
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
+          <li>
+            <a href="<?php echo site_url('pesan');?>">
+              <i class="fa fa-envelope-o"></i>
+              <span class="label label-danger" id="load_pesan"></span>
+            </a>
+          </li>
           <!-- Messages: style can be found in dropdown.less-->
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="<?php echo base_url('asset/dist/img/user.png')?>" class="user-image" alt="User Image">
+              <?php if($this->session->userdata('foto') != ""){?>
+                <img src="<?php echo base_url('uploads/foto profil/')."/".$this->session->userdata('foto');?>" class="user-image" alt="User Image">
+              <?php } else{?>
+                <img src="<?php echo base_url('asset/dist/img/user.png')?>" class="user-image" alt="User Image">
+              <?php } ?>
               <span class="hidden-xs"><?php echo $this->session->userdata('username')?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
+                <?php if($this->session->userdata('foto') != ""){?>
+                <img src="<?php echo base_url('uploads/foto profil/')."/".$this->session->userdata('foto');?>" class="user-image" alt="User Image">
+                <?php } else{?>
                 <img src="<?php echo base_url('asset/dist/img/user.png')?>" class="img-circle" alt="User Image">
-
+                <?php } ?>
                 <p>
                   <?php echo $this->session->userdata('username')?>
                   
@@ -112,7 +128,11 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
+          <?php if($this->session->userdata('foto') != ""){?>
+                <img src="<?php echo base_url('uploads/foto profil/')."/".$this->session->userdata('foto');?>" class="user-image" alt="User Image">
+          <?php }else{ ?>
           <img src="<?php echo base_url('asset/dist/img/user.png')?>" class="img-circle" alt="User Image">
+          <?php } ?>
         </div>
         <div class="pull-left info">
           <p><?php echo $this->session->userdata('username')?></p>
@@ -167,9 +187,13 @@
         
         <?php if(isset($menu['selisih'])){ ?>
         <li <?php if($menuaktif == "selisih"): ?>class="active" <?php endif;?>>
-          <a href="<?php echo site_url('selisih');?>">
+          <a href="#">
             <i class="fa fa-files-o"></i> <span>Rekap Selisih</span>
           </a>
+          <ul class="treeview-menu">
+            <li><a href="<?php echo site_url('selisih');?>"><i class="fa fa-circle-o"></i> Detail</a></li>
+            <li><a href="<?php echo site_url('selisih/tahunan');?>"><i class="fa fa-circle-o"></i> Resume Tahunan</a></li>
+          </ul>
         </li>
         <?php } ?>
         

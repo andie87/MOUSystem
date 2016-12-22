@@ -75,6 +75,19 @@ class User extends CI_Controller{
 		$email = $this->input->post('email');
 		$id_role = $this->input->post('id_role');
 
+		$this->load->library('upload');
+        $nmfile = "foto_".$nama_user.time(); //nama file saya beri nama langsung dan diikuti fungsi time
+        $config['upload_path'] = './uploads/foto profil'; //path folder
+        $config['allowed_types'] = 'gif|jpg|png|jpeg|bmp'; //type yang dapat diakses bisa anda sesuaikan
+        $config['max_size'] = '2048'; //maksimum besar file 2M
+        //$config['max_width']  = '1288'; //lebar maksimum 1288 px
+        //$config['max_height']  = '768'; //tinggi maksimu 768 px
+        $config['file_name'] = $nmfile; //nama yang terupload nantinya
+ 
+        $this->upload->initialize($config);
+         
+        
+
 		if($id_role == ""){
 			$data = $this->page_view("Tambah User", "create");
 			$data['roles'] = $this->m_role->getAll();
@@ -96,8 +109,28 @@ class User extends CI_Controller{
 								'id_role' => $id_role);
 				$result = $this->m_user->input_role($arr);
 
+				$pesan_foto = "";
+
 				if($result == 1){
-					$this->session->set_flashdata('message', 'User baru berhasil ditambahkan...');
+					if($_FILES['foto']['name'])
+        			{
+			            if ($this->upload->do_upload('foto'))
+			            {
+			                $id_user = $this->m_user->get_iduser($nama_user,$user_login);
+			                $gbr = $this->upload->data();
+			                $data = array(
+			                  'nama_file' =>$gbr['file_name'],
+			                  'jenis_foto' =>$gbr['file_type'],
+			                  'id_user' =>$id_user                   
+			                );
+			 
+			                $this->m_user->insert_foto($data); //akses model untuk menyimpan ke database
+			                $pesan_foto = "foto berhasil di upload";
+			            }else{
+			                $pesan_foto = "foto gagal di upload";
+			            }
+			        }
+					$this->session->set_flashdata('message', 'User baru berhasil ditambahkan...,'.$pesan_foto);
 			  		redirect(site_url().'/user');
 				} else {
 					$data = $this->page_view("Tambah User", "create");
@@ -128,6 +161,17 @@ class User extends CI_Controller{
 		$id_user = $this->input->post('id_user');
 		$id_role = $this->input->post('id_role');
 
+		$this->load->library('upload');
+        $nmfile = "foto_".$nama_user.time(); //nama file saya beri nama langsung dan diikuti fungsi time
+        $config['upload_path'] = './uploads/foto profil'; //path folder
+        $config['allowed_types'] = 'gif|jpg|png|jpeg|bmp'; //type yang dapat diakses bisa anda sesuaikan
+        $config['max_size'] = '2048'; //maksimum besar file 2M
+       //$config['max_width']  = '1288'; //lebar maksimum 1288 px
+        //$config['max_height']  = '768'; //tinggi maksimu 768 px
+        $config['file_name'] = $nmfile; //nama yang terupload nantinya
+ 
+        $this->upload->initialize($config);
+
 		$arr = array( 'nama_user' => $nama_user, 
 						'user_login' => $user_login, 
 						'no_kontak' => $no_kontak, 
@@ -144,7 +188,29 @@ class User extends CI_Controller{
 			$result = $this->m_user->update_role($arr, $id_user);
 		}
 		if($result == 1){
-			$this->session->set_flashdata('message', 'User berhasil diperbarui...');
+			if($_FILES['foto']['name'])
+			{
+	            if ($this->upload->do_upload('foto'))
+	            {
+	                $gbr = $this->upload->data();
+	                $data = array(
+	                  'nama_file' =>$gbr['file_name'],
+	                  'jenis_foto' =>$gbr['file_type']      
+	                );
+	 				if($this->session->userdata('foto')){
+		                $this->m_user->update_foto($data, $id_user); //akses model untuk menyimpan ke database
+		            }else{
+		            	$data['id_user'] = $id_user;             
+		            	$this->m_user->insert_foto($data); 
+		            }
+	                $pesan_foto = "dan foto berhasil di upload";
+	                $this->session->unset_userdata('foto');
+	                $this->session->set_userdata('foto', $gbr['file_name']);
+	            }else{
+	                $pesan_foto = "dan foto gagal di upload";
+	            }
+	        }
+			$this->session->set_flashdata('message', 'User berhasil diperbarui...'.$pesan_foto);
 	  		redirect(site_url().'/user');
 		} else {
 			$page_title = "Edit User";
